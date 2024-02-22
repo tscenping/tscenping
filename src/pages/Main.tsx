@@ -1,7 +1,12 @@
+import { Link } from "react-router-dom";
+import Container from "../components/Util/Container";
+import MatchBtn from "../components/Main/Game/MatchBtn";
+
 export default function Main() {
   return (
-    <>
-      <h1 className="text-5xl font-bold underline">Hello world!</h1>
-    </>
+    <Container>
+      <MatchBtn/>
+      <Link to={'/login'}> 로그인 </Link>
+    </Container>
   );
 }
