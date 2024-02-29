@@ -1,0 +1,11 @@
+import RankingTitle from './RankingTitle';
+import RankingList from './RankingList';
+
+export default function Ranking() {
+  return (
+    <div className="w-full h-1/3 max-w-[720px] min-w-[240px] flex flex-col justify-center mt-10">
+      <RankingTitle />
+      <RankingList />
+    </div>
+  );
+}
