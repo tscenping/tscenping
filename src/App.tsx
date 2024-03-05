@@ -5,6 +5,7 @@ import NotFound from "./pages/NotFound";
 import Error from "./pages/Error";
 import Login from "./pages/Login";
 import Rank from "./pages/Rank";
+import FriendsPage from "./pages/Friends";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/error" element={<Error />}></Route>
           <Route path="/rank" element={<Rank />}></Route>
+          <Route path="/friends" element={<FriendsPage />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
