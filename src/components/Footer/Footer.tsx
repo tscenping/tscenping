@@ -11,14 +11,15 @@ import inChatting2 from "../../img/Footer/inChatting2.svg";
 
 const Footer = (): JSX.Element => {
   //   const iconHoverStyle = "duration-300 hover:scale-150";
-
+  const svgWidth = 40;
+  const svgHeight = 40;
   const location = useLocation();
   const pathName = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
   );
 
   return (
-    <footer className="absolute bottom-0 p-6 w-full bg-[#3F3F3F]">
+    <footer className=" z-20 absolute bottom-0 p-6 w-full bg-[#3F3F3F] ">
       <nav>
         <ul className="flex justify-around ">
           <li>
@@ -26,6 +27,8 @@ const Footer = (): JSX.Element => {
               <img
                 src={pathName === "" ? inMain : main}
                 alt="home page router"
+                width={svgWidth}
+                height={svgHeight}
                 // className={iconHoverStyle}
               />
             </NavLink>
@@ -35,6 +38,8 @@ const Footer = (): JSX.Element => {
               <img
                 src={pathName === "friends" ? inFriends : friends}
                 alt="friends page router"
+                width={svgWidth}
+                height={svgHeight}
                 // className={iconHoverStyle}
               />
             </NavLink>
@@ -44,6 +49,8 @@ const Footer = (): JSX.Element => {
               <img
                 src={pathName === "chatting" ? inChatting : chatting}
                 alt="chatting page router"
+                width={svgWidth}
+                height={svgHeight}
               />
             </NavLink>
           </li>
@@ -52,6 +59,8 @@ const Footer = (): JSX.Element => {
               <img
                 src={pathName === "entered" ? inChatting2 : chatting2}
                 alt=""
+                width={svgWidth}
+                height={svgHeight}
                 // className={iconHoverStyle}
               />
             </NavLink>
@@ -60,6 +69,8 @@ const Footer = (): JSX.Element => {
             <img
               src={notice}
               alt=""
+              width={svgWidth}
+              height={svgHeight}
               // className={iconHoverStyle}
             />
           </li>

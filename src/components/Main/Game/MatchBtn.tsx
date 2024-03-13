@@ -13,7 +13,7 @@ export default function MatchBtn() {
   };
 
   return (
-    <div className="flex w-full flex-col h-1/6 justify-center relative items-center gap-1 max-w-5xl max-h-40 ">
+    <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-1 h-1/6 max-h-40 ">
       <GameTypeSelector gameType={gameType} setGameType={setGameType} />
       <GameStartBtn gameType={gameType} />
       <div className="h-1/5">
@@ -34,7 +34,7 @@ export default function MatchBtn() {
           />
           <img
             src={isSpecial ? SpecialCheck : SpecialUncheck}
-            className="scale-110 transition-transform duration-500 ease-in-out  cursor-pointer"
+            className="transition-transform duration-500 ease-in-out scale-110 cursor-pointer"
             alt={"체크박스"}
           />
           Special Mode

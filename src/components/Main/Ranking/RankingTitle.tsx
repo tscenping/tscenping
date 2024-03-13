@@ -1,9 +1,13 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+
+
 
 export default function RankingTitle() {
-    return (
-        <>
-            <Link to={'/rank'} className="flex justify-around w-full font-bold"> <p>User Ranking</p>  <p> {`>`}</p></Link>
-        </>
-    )
+  return (
+    <div className="w-full">
+      <Link to={"/rank"} className="flex justify-between w-full font-bold">
+        <p>User Ranking</p> <p> {`>`}</p>
+      </Link>
+    </div>
+  );
 }
