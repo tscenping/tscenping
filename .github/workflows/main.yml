@@ -34,4 +34,8 @@ jobs:
         working-directory:  ./
         
       - name: CloudFront Invalidate Cache
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+          AWS_EC2_METADATA_DISABLED: true
         run: aws cloudfront --region ap-northeast-2 create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
