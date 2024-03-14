@@ -25,7 +25,7 @@ const FriendsPage = (): JSX.Element => {
         <section className="flex justify-between">
           <strong>전체친구</strong>
           <strong className="flex">
-            <img src={blockUsers} />
+            <img src={blockUsers} alt="img" />
             차단친구
           </strong>
         </section>
@@ -34,10 +34,10 @@ const FriendsPage = (): JSX.Element => {
             {dummyData.map((el) => (
               <li key={nanoid()} className="flex justify-between w-full">
                 <section className="flex items-center">
-                  <img src={defaultProfile} className="p-3" />
+                  <img src={defaultProfile} className="p-3" alt="img" />
                   <strong>{el.nickname}</strong>
                 </section>
-                <img src={userSetting} />
+                <img src={userSetting} alt="img" />
               </li>
             ))}
           </ul>

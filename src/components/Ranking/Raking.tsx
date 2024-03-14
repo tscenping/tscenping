@@ -3,8 +3,8 @@ import { chunkArray } from "../Main/Ranking/RankingList";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Pagination,
-  Navigation,
-  Scrollbar,
+  // Navigation,
+  // Scrollbar,
   EffectCoverflow,
   Mousewheel,
   Autoplay,

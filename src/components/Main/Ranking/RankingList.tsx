@@ -7,8 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import RankingContentItem from "./RankingContentItem";
 import {
   Pagination,
-  Navigation,
-  Scrollbar,
+  // Navigation,
+  // Scrollbar,
   EffectCoverflow,
   Mousewheel,
   Autoplay,
