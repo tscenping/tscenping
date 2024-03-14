@@ -34,4 +34,4 @@ jobs:
             --region ap-northeast-2 \
             build s3://tscenping-fe \
             --delete
-        working-directory: ./build
+        working-directory: ./
