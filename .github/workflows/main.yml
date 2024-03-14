@@ -31,7 +31,7 @@ jobs:
           AWS_EC2_METADATA_DISABLED: true
         run: |
           aws s3 sync \
-            --region ap-northeast-2 \
-            build s3://tscenping-fe \
-            --delete
-        working-directory: ./
+            --region ap-northeast-2 build s3://tscenping-fe --delete
+        working-directory:  ./
+      - name: CloudFront Invalidate Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
