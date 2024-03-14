@@ -24,18 +24,16 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: SHOW AWS CLI VERSION
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-          AWS_EC2_METADATA_DISABLED: true
-        run: |
-          aws s3 sync --region ap-northeast-2 build s3://tscenping-fe --delete
+      - name:  Aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to S3
+        run: aws s3 sync --region ap-northeast-2 build s3://tscenping-fe --delete
         working-directory:  ./
         
       - name: CloudFront Invalidate Cache
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-          AWS_EC2_METADATA_DISABLED: true
         run: aws cloudfront --region ap-northeast-2 create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
