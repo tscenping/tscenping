@@ -19,7 +19,7 @@ const Footer = (): JSX.Element => {
   );
 
   return (
-    <footer className=" z-20 absolute bottom-0 p-6 w-full bg-[#3F3F3F] ">
+    <footer className=" z-20 absolute bottom-0 p-6 w-full bg-[#3F3F3F]">
       <nav>
         <ul className="flex justify-around ">
           <li>

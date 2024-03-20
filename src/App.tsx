@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Rank from "./pages/Rank";
 import FriendsPage from "./pages/Friends";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/profile" element={<Profile/>}></Route>
           <Route path="/error" element={<Error />}></Route>
           <Route path="/rank" element={<Rank />}></Route>
           <Route path="/friends" element={<FriendsPage />}></Route>

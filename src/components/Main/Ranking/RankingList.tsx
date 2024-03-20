@@ -1,27 +1,11 @@
-// import { useQuery } from "@tanstack/react-query";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import SwiperCore, { Pagination } from "swiper/core";
-// import "swiper/swiper.min.css";
-// import "swiper/components/pagination/pagination.min.css";
-
 import RankingContentItem from "./RankingContentItem";
 import {
   Pagination,
-  // Navigation,
-  // Scrollbar,
   EffectCoverflow,
   Mousewheel,
   Autoplay,
 } from "swiper/modules";
-
-// import "swiper/css";
-// import "swiper/scss/pagination";
-// import "swiper/scss/navigation";
-// import "swiper/scss/pagination";
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-// import "swiper/css/scrollbar";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -160,27 +144,13 @@ export default function RankingList() {
             "--swiper-pagination-color": "#6DFCAF",
             "--swiper-pagination-bullet-inactive-color": "#D9D9D9",
           }}
-          // spaceBetween={50}
           className="relative flex h-full"
           slidesPerView={1}
-          // navigation
-          // pagination={true}
           modules={[Mousewheel, Autoplay, Pagination, EffectCoverflow]}
           loop={true}
           pagination={{ clickable: true }}
-          // pagination={customPagination}
-          // pagination={{
-
-          //   clickable: true,
-          //   bulletClass:
-          //     "w-2.5 h-2.5 !bg-green-500 block rounded-full cursor-pointer absolute",
-          //   bulletActiveClass: "!bg-green-500",
-          //   // bulletInActiveClass: "!bg-yellow-500",
-          //   el: "#pagination",
-          // }}
           centeredSlides={true}
           grabCursor={true}
-          // scrollbar={{ draggable: true }}
           mousewheel={{
             invert: false,
           }}
@@ -190,68 +160,22 @@ export default function RankingList() {
             disableOnInteraction: false,
           }}
           effect={"coverflow"}
-          // breakpoints={{
-          //   0: {
-          //     spaceBetween: 10,
-          //     slidesPerView: 1,
-          //   },
-          // 468: {
-          //   spaceBetween: 10,
-          //   slidesPerView: 2,
-          // },
-          // 768: {
-          //   spaceBetween: 15,
-          //   slidesPerView: 3,
-          // },
-          // 1024: {
-          //   spaceBetween: 15,
-          //   slidesPerView: 4,
-          // },
-          // 1280: {
-          //   spaceBetween: 30,
-          //   slidesPerView: 5,
-          // },
-          // }}
-          // scrollbar={{ draggable: true }}
-          // slidesPerView={1}
-          // pagination={{ clickable: true }}
         >
           {paginatedItems.map((user, i) => (
-            <SwiperSlide key={i} className="relative w-full mb-10">
-              <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col">
+              <SwiperSlide key={i} className="relative w-full mb-10">
                 {user.map((user, index) => (
-                  <li
-                    className="flex items-center justify-center w-full gap-3"
+                  <RankingContentItem
+                    ranking={user.ranking}
+                    avatar={user.avatar}
+                    ladderScore={user.ladderScore}
+                    nickname={user.nickname}
                     key={index}
-                  >
-                    <RankingContentItem
-                      ranking={user.ranking}
-                      avatar={user.avatar}
-                      ladderScore={user.ladderScore}
-                      nickname={user.nickname}
-                    />
-                  </li>
+                  />
                 ))}
-              </ul>
-            </SwiperSlide>
+              </SwiperSlide>
+            </ul>
           ))}
-          {/* {dummyData.map((user, index) => (
-        <li
-          key={index}
-          className="relative flex flex-row items-center w-full py-3 mx-2 mt-3 duration-200 ease-in-out bg-white shadow-md cursor-pointer justify-items-start hover:scale-105 transform:scale rounded-xl hover:shadow-custom-white bg-opacity-10 hover:bg-opacity-20"
-        >
-          {index >= 4 && (
-            
-          <RankingContentItem
-            ranking={user.ranking}
-            avatar={user.avatar}
-            ladderScore={user.ladderScore}
-            nickname={user.nickname}
-          />  
-          )}
-          
-        </li>
-      ))} */}
         </Swiper>
       </div>
     </ul>
