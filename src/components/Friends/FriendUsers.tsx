@@ -40,7 +40,11 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
                 props.setPageSection("block");
               }}
             >
-              <img src={blockUsers} className="mr-[8px] w-[16px]" />
+              <img
+                src={blockUsers}
+                className="mr-[8px] w-[16px]"
+                alt="block users icon"
+              />
               차단친구
             </strong>
           </section>
@@ -49,10 +53,14 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
               {dummyData.map((el) => (
                 <li key={nanoid()} className="flex justify-between w-full">
                   <section className="flex items-center">
-                    <img src={defaultProfile} className="py-3" />
+                    <img
+                      src={defaultProfile}
+                      className="py-3"
+                      alt="default user profile"
+                    />
                     <strong className="ml-[16px]">{el.nickname}</strong>
                   </section>
-                  <img src={userSetting} />
+                  <img src={userSetting} alt="user setting icon" />
                 </li>
               ))}
             </ul>

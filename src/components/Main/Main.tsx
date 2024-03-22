@@ -1,4 +1,3 @@
-import path from "path";
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
