@@ -11,21 +11,29 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  SSH:
-    runs-on: ubuntu-latest
-
+  build:
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Run scripts in server
-        uses: appleboy/ssh-action@master
+      - name: Checkout source code.
+        uses: actions/checkout@v2
+        
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./
+        
+      - name: Build
+        run: npm run build
+        
+      - name:  Aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          key: ${{ secrets.ACCESS_KEY }}
-          host: ${{ secrets.HOSY }}
-          username: ${{ secrets.USERNAME }}
-          script: |
-            cd tscenping
-            git reset --hard
-            git fetch
-            git pull
-            npm i
-            npm run build
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to S3
+        run: aws s3 sync --region ap-northeast-2 build s3://tscenping-fe --delete
+        working-directory:  ./
+        
+      - name: CloudFront Invalidate Cache
+        run: aws cloudfront --region ap-northeast-2 create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
