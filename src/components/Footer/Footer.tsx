@@ -10,9 +10,8 @@ import inChatting from "../../img/Footer/inChatting.svg";
 import inChatting2 from "../../img/Footer/inChatting2.svg";
 
 const Footer = (): JSX.Element => {
-  //   const iconHoverStyle = "duration-300 hover:scale-150";
-  const svgWidth = 40;
-  const svgHeight = 40;
+  const footerIconStyle =
+    "w-[28px] sm:w-[28px] md:w-[32px] lg:w-[36px] xl:w-[40px] 2xl:w-[44px]";
   const location = useLocation();
   const pathName = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
@@ -21,15 +20,13 @@ const Footer = (): JSX.Element => {
   return (
     <footer className=" z-20 absolute bottom-0 p-6 w-full bg-[#3F3F3F] ">
       <nav>
-        <ul className="flex justify-around ">
+        <ul className="flex justify-around">
           <li>
             <NavLink to="/">
               <img
                 src={pathName === "" ? inMain : main}
                 alt="home page router"
-                width={svgWidth}
-                height={svgHeight}
-                // className={iconHoverStyle}
+                className={footerIconStyle}
               />
             </NavLink>
           </li>
@@ -38,41 +35,30 @@ const Footer = (): JSX.Element => {
               <img
                 src={pathName === "friends" ? inFriends : friends}
                 alt="friends page router"
-                width={svgWidth}
-                height={svgHeight}
-                // className={iconHoverStyle}
+                className={footerIconStyle}
+              />
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/inchatting">
+              <img
+                src={pathName === "inchatting" ? inChatting : chatting}
+                alt="chatting page router"
+                className={footerIconStyle}
               />
             </NavLink>
           </li>
           <li>
             <NavLink to="/chatting">
               <img
-                src={pathName === "chatting" ? inChatting : chatting}
-                alt="chatting page router"
-                width={svgWidth}
-                height={svgHeight}
-              />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/entered">
-              <img
-                src={pathName === "entered" ? inChatting2 : chatting2}
+                src={pathName === "chatting" ? inChatting2 : chatting2}
                 alt=""
-                width={svgWidth}
-                height={svgHeight}
-                // className={iconHoverStyle}
+                className={footerIconStyle}
               />
             </NavLink>
           </li>
           <li>
-            <img
-              src={notice}
-              alt=""
-              width={svgWidth}
-              height={svgHeight}
-              // className={iconHoverStyle}
-            />
+            <img src={notice} alt="" className={footerIconStyle} />
           </li>
         </ul>
       </nav>
