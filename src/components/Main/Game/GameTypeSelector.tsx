@@ -36,7 +36,7 @@ export default function GameTypeSelector(props: GameTypeSelectorProps) {
         checked={props.gameType === GameType.NORMAL}
         onChange={() => props.setGameType(GameType.NORMAL)}
       />
-      <div className="relative flex flex-1 bg-[##424242] h-3/5 rounded-lg flex-basis max-w-sm min-w-[200px] items-center ">
+      <div className="relative flex flex-1 bg-[#424242] h-3/5 rounded-lg flex-basis max-w-sm min-w-[200px] items-center ">
         <div className={selectedRadio}></div>
         <label
           htmlFor="LADDER"
