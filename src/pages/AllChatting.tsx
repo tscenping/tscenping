@@ -26,7 +26,7 @@ const AllChattingPage = (): JSX.Element => {
           />
         </ul>
       </nav>
-      <section className="p-3 max-h-[852px] overflow-y-scroll">
+      <section className="p-3 max-h-[852px]">
         <AllChattingLists tabState={tabState} />
       </section>
     </Container>

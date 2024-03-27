@@ -13,7 +13,7 @@ const ChattingListHeader = (): JSX.Element => {
     <section className="px-4 py-7">
       <section className="flex w-full justify-between items-center">
         <span className="text-[20px] font-bold md:text-[24px]">
-          {pathName === "inchatting" ? "전체 채팅방" : "오픈 채팅방"}
+          {pathName === "inchatting" ? "참여중인 전체 채팅방" : "오픈 채팅방"}
         </span>
         <img
           src={createChatting}

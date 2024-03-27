@@ -24,7 +24,7 @@ const ModalContent = (): JSX.Element => {
   const modalStyle =
     modalName === null
       ? "hidden"
-      : "flex flex-col jusfify-content center fixed top-1/2 left-1/2 min-w-[353px] text-white px-4 py-5 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-[#404040] rounded-[20px] text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-['Pretendard-SemiBold']";
+      : "flex flex-col jusfify-content center fixed top-1/2 left-1/2 min-w-[353px] text-white px-4 py-5 transform -translate-x-1/2 -translate-y-1/2 z-20 bg-[#404040] rounded-[20px] text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl font-['Pretendard-SemiBold']";
 
   return (
     <>
