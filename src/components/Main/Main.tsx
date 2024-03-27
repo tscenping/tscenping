@@ -1,4 +1,3 @@
-import path from "path";
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -7,11 +6,11 @@ const Main = ({ children }: { children: ReactNode }): JSX.Element => {
   const pathName = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
   );
-
   const headerImportStyle =
     pathName === "friends" ||
     pathName === "inchatting" ||
-    pathName === "chatting"
+    pathName === "chatting" ||
+    pathName === "userinfo"
       ? "absolute top-0"
       : "";
 

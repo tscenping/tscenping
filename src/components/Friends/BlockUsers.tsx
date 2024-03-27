@@ -37,7 +37,11 @@ const BlockUsers = (props: BlockUsersProps): JSX.Element => {
                   className="flex justify-between items-center w-full py-4"
                 >
                   <section className="flex items-center">
-                    <img src={defaultProfile} className="" />
+                    <img
+                      src={defaultProfile}
+                      className=""
+                      alt="default user profile"
+                    />
                     <strong className="ml-[16px]">{el.nickname}</strong>
                   </section>
                   <button className="bg-[#e2e2e2] text-black text-[12px] px-3 py-1 rounded-[30px] font-['Pretendard-SemiBold']">
