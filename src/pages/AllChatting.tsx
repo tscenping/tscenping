@@ -2,10 +2,10 @@ import { useState } from "react";
 import Container from "../components/Util/Container";
 import ChattingListHeader from "../components/Chatting/ChattingListHeader";
 import InChattingNaviList from "../components/Chatting/ChattingNaviList";
-import InChattingLists from "../components/Chatting/InChatting/InChattingLists";
+import AllChattingLists from "../components/Chatting/AllChatting/AllChattingLists";
 
-const InChattingPage = (): JSX.Element => {
-  const [tabState, setTabState] = useState("GROUP");
+const AllChattingPage = (): JSX.Element => {
+  const [tabState, setTabState] = useState("ALL");
 
   return (
     <Container>
@@ -15,22 +15,22 @@ const InChattingPage = (): JSX.Element => {
           <InChattingNaviList
             tabState={tabState}
             setTabState={setTabState}
-            tabName="참여중인 그룹 채팅"
-            tabTitle="GROUP"
+            tabName="전체 오픈 채팅방"
+            tabTitle="ALL"
           />
           <InChattingNaviList
             tabState={tabState}
             setTabState={setTabState}
-            tabName="참여중인 1:1 채팅"
-            tabTitle="ONETOONE"
+            tabName="참여중인 오픈 채팅방"
+            tabTitle="PARTICIPATED"
           />
         </ul>
       </nav>
-      <section className="px-3 py-3 max-h-[852px] overflow-y-scroll">
-        <InChattingLists tabState={tabState} />
+      <section className="p-3 max-h-[852px] overflow-y-scroll">
+        <AllChattingLists tabState={tabState} />
       </section>
     </Container>
   );
 };
 
-export default InChattingPage;
+export default AllChattingPage;
