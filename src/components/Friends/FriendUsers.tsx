@@ -2,7 +2,10 @@ import blockUsers from "../../img/Friends/blockUsers.svg";
 import defaultProfile from "../../img/Friends/defaultProfile.svg";
 import userSetting from "../../img/Friends/user3dot.svg";
 import search from "../../img/Friends/searchIcon.svg";
+import DropDown from "../DropDown/DropDown";
 import { nanoid } from "nanoid";
+import { DropDownTypes } from "../../types/DropDownTypes";
+import { useState } from "react";
 
 const dummyData = [
   { img: "dfsdf", nickname: "nickname" },
@@ -15,6 +18,8 @@ interface FriendUsersProps {
 }
 
 const FriendUsers = (props: FriendUsersProps): JSX.Element => {
+  const [dropDownType, setDropDownType] = useState<DropDownTypes>("NONE");
+
   return (
     <>
       <section className="p-5">
@@ -61,6 +66,24 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
                     <strong className="ml-[16px]">{el.nickname}</strong>
                   </section>
                   <img src={userSetting} alt="user setting icon" />
+                  {dropDownType === "NONE" ? (
+                    <img
+                      src={userSetting}
+                      onClick={() => setDropDownType("NORMAL")}
+                    />
+                  ) : (
+                    <DropDown
+                      dropDonwType={dropDownType}
+                      setDropDownType={setDropDownType}
+                      normalProp={{
+                        id: 1,
+                        nickname: "nickname",
+                        isFriend: true,
+                        isBlocked: false,
+                        setDropDownType: setDropDownType,
+                      }}
+                    />
+                  )}
                 </li>
               ))}
             </ul>
