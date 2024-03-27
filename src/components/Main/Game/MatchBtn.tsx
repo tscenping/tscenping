@@ -13,28 +13,30 @@ export default function MatchBtn() {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-1 h-1/6 max-h-40 ">
+    <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-4 mb-14 h-1/6 max-h-40">
       <GameTypeSelector gameType={gameType} setGameType={setGameType} />
       <GameStartBtn gameType={gameType} />
-      <div className="h-1/5">
+      <div
+        className={`absolute -bottom-8 h-1/5 ${
+          gameType === GameType.NORMAL ? "visible" : "invisible"
+        } `}
+      >
         <label
           htmlFor="SpecialMode"
-          className={`flex gap-3 hover:scale-130 cursor-pointer ${
-            gameType === GameType.NORMAL ? "opacity-100" : "opacity-0 hidden"
-          } transition-opacity duration-500 ease-in-out`}
+          className={`flex gap-3 hover:scale-130 cursor-pointer min-h-5 items-center justify-center transition-all duration-300 ease-in-out ${
+            gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
+          } `}
         >
           <input
             type={"checkbox"}
             id="SpecialMode"
-            className={`scale-150 mr-3 ${
-              gameType === "NORMAL" ? "opacity-100" : "opacity-0"
-            } transition-opacity duration-500 ease-in-out hidden`}
+            className={`hidden`}
             checked={isSpecial}
             onChange={changeSpecial}
           />
           <img
             src={isSpecial ? SpecialCheck : SpecialUncheck}
-            className="transition-transform duration-500 ease-in-out scale-110 cursor-pointer"
+            className="scale-110 cursor-pointer "
             alt={"체크박스"}
           />
           Special Mode
