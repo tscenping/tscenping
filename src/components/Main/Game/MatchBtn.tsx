@@ -13,7 +13,7 @@ export default function MatchBtn() {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-4 mb-14 h-1/6 max-h-40">
+    <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-4 mb-12 h-1/4 max-h-40">
       <GameTypeSelector gameType={gameType} setGameType={setGameType} />
       <GameStartBtn gameType={gameType} />
       <div

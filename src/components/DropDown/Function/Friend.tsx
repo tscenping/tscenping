@@ -13,8 +13,8 @@ export default function Friend({ isFriend, isBlocked }: FriendProps) {
     : isFriend
     ? "친구 삭제"
     : "친구 추가";
-  return <li className="flex gap-3 p-3 cursor-pointer"> 
+  return <> 
     {friendString === "친구 추가" ? addFriendIcon : deleteFriendIcon}
     {friendString}
-    </li>;
+    </>;
 }

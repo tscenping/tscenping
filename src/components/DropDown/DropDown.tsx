@@ -10,11 +10,11 @@ export default function DropDown(props: Dropdown) {
   const content: { [key: string]: JSX.Element } = {
     NORMAL: <NormalDropDown prop={props.normalProp} />,
     CHAAT: <DropDownChat />,
-    NONE: <div className="hidden ">zxc</div>,
+    NONE: <div className="hidden">zxc</div>,
   };
   return (
     <ul className="bg-[#EAEAEA] text-[#6C6C6C] rounded-md">
-      {content[props.dropDonwType]}{" "}
+      {content[props.dropDonwType]}
     </ul>
   );
 }

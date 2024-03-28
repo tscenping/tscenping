@@ -12,7 +12,7 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
         } `}
       >
         <button
-          className={`relative  rounded-[12px] w-2/3 h-full bg-customGreen  text-black min-w-[220px] font-bold hover:scale-105 ${
+          className={`relative  rounded-[12px] w-2/3 h-12 bg-customGreen  text-black min-w-[220px] font-bold hover:scale-105 ${
             props.gameType === GameType.LADDER ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
         >
@@ -20,19 +20,19 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
         </button>
       </div>
       <div
-        className={` absolute h-full w-3/4 gap-3 flex items-center justify-center ${
+        className={` absolute h-12 w-3/4 gap-3 flex items-center justify-center ${
           props.gameType === GameType.NORMAL ? "visible" : "invisible"
         } `}
       >
         <button
-          className={`rounded-[12px] w-1/3 h-full bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105 ${
+          className={`rounded-[12px] w-1/2 h-full bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105 ${
             props.gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
         >
           Matching
         </button>
         <button
-          className={`rounded-[12px] w-1/3 h-full bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105 ${
+          className={`rounded-[12px] w-1/2 h-full bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105 ${
             props.gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
         >
