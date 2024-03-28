@@ -136,7 +136,7 @@ export default function RankingList() {
   const paginatedItems = chunkArray(dummyData, 5);
 
   return (
-    <ul className="items-center w-full overflow-x-hidden">
+    <ul className="items-center w-full h-full overflow-x-hidden">
       <div className="overflow-x-hidden">
         <Swiper
           style={{
