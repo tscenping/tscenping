@@ -21,7 +21,7 @@ const useDorpDownIcon = ({ types }: DropDownIconProps) => {
     D_BLOCK: dmIcon,
   };
 
-  return <img src={returnIcon[types]} alt={altString} className="" />;
+  return <img src={returnIcon[types]} alt={altString} className="w-4" />;
 };
 
 export default useDorpDownIcon;

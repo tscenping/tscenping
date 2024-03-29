@@ -24,7 +24,7 @@ export default function NormalDropDown({ prop }: DropDownNormalProps) {
   return (
     <>
       {dropdownArray.map((item) => (
-        <li className="flex gap-2 px-3 py-1 cursor-pointer" key={item.key}>
+        <li className="flex items-center justify-strat gap-3 px-3 py-0.5 cursor-pointer hover:scale-x-105 hover:bg-[#C6C6C6] rounded-[5px]"  key={item.key}>
           {item.component}
         </li>
       ))}

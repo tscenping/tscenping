@@ -20,7 +20,9 @@ const Main = ({ children }: { children: ReactNode }): JSX.Element => {
     <main
       className={`min-w-[280px] h-full max-w-[720px] w-full min-h-[591px] overflow-hidden scrollbar-hide ${headerImportStyle} p-4 flex items-center justify-center`}
     >
-      <div className="items-center justify-center w-full ">{children}</div>
+      <div className="items-center justify-center w-full h-full ">
+        {children}
+      </div>
     </main>
   );
 };
