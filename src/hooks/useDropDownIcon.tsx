@@ -5,15 +5,6 @@ interface DropDownIconProps {
   types: DropDownIcons;
 }
 
-// <img
-//           src={crossBtn}
-//           alt=""
-//           className="self-end cursor-pointer"
-//           onClick={() => {
-//             setModalName(null);
-//           }}
-//         />
-
 const useDorpDownIcon = ({ types }: DropDownIconProps) => {
   const altString = "dropdown icon";
   const returnIcon: { [key in DropDownIcons]: string } = {
@@ -29,6 +20,7 @@ const useDorpDownIcon = ({ types }: DropDownIconProps) => {
     A_BLOCK: dmIcon,
     D_BLOCK: dmIcon,
   };
+
   return <img src={returnIcon[types]} alt={altString} className="" />;
 };
 

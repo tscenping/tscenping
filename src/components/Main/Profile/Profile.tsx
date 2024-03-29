@@ -7,7 +7,7 @@ const svgHeight = 60;
 export default function MainProfile() {
   return (
     <Link
-      className="relative inline-flex flex-col items-center justify-center w-full max-w-5xl mt-10 gap-1.5 max-h-40 min-h-20"
+      className="relative inline-flex flex-col items-center justify-center w-full gap-1.5 h-1/4"
       to="/profile"
     >
       <img
@@ -15,6 +15,7 @@ export default function MainProfile() {
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
+        className="object-cover w-1/6 rounded-full h-1/6"
       />
       <strong>Hyeongwoo</strong>
     </Link>
