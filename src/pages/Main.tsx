@@ -7,11 +7,10 @@ import MainProfile from "../components/Main/Profile/Profile";
 export default function Main() {
   return (
     <Container>
-      <div className="relative flex flex-col justify-around h-full gap-4">
+      <div className="relative flex flex-col justify-around gap-4">
         <MainProfile />
         <MatchBtn />
         <Ranking />
-        {/* <Link to={'/login'}> 로그인 </Link> */}
       </div>
     </Container>
   );

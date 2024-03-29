@@ -56,7 +56,7 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
           <section>
             <ul className="flex flex-col w-full">
               {dummyData.map((el) => (
-                <li key={nanoid()} className="flex justify-between w-full">
+                <li key={nanoid()} className="relative flex justify-between w-full">
                   <section className="flex items-center">
                     <img
                       src={defaultProfile}
