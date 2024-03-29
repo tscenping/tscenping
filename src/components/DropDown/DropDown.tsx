@@ -13,7 +13,7 @@ export default function DropDown(props: Dropdown) {
     NONE: <div className="hidden">zxc</div>,
   };
   return (
-    <ul className="bg-[#EAEAEA] text-[#6C6C6C] rounded-md">
+    <ul className="bg-[#EAEAEA] text-[#6D6D6D] rounded-[10px] flex-row items-center justify-center p-1 absolute right-0">
       {content[props.dropDonwType]}
     </ul>
   );

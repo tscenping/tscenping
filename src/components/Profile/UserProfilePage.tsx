@@ -13,7 +13,7 @@ interface UserProps {
 
 export default function UserProfilePage({ username }: UserProps) {
   return (
-    <section className="flex flex-col justify-start h-full py-5">
+    <section className="flex flex-col justify-start h-full mt-1 gap-y-4">
       <ProfileUser />
       <ProfileMatchData />
       <MatchHistory />
