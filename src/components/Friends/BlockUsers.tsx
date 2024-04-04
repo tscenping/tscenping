@@ -20,12 +20,14 @@ const BlockUsers = (props: BlockUsersProps): JSX.Element => {
           <img
             src={backFriends}
             alt="go back friend users icon"
-            className="absolute left-0"
+            className="absolute left-0 cursor-pointer w-2 md:w-3"
             onClick={() => {
               props.setPageSection("friend");
             }}
           />
-          <h1 className="font-[16px]">차단한 친구</h1>
+          <h1 className="p-[8px] font-[Pretendard-Bold] md:text-2xl text-base">
+            차단한 친구
+          </h1>
         </section>
         <section className="flex flex-col">
           <section className="flex justify-between py-[16px]"></section>

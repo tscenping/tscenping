@@ -12,6 +12,16 @@
   src: url("/src/fonts/Pretendard/Pretendard-SemiBold.ttf");
 }
 
+@font-face {
+  font-family: "Pretendard-Bold";
+  src: url("/src/fonts/Pretendard/Pretendard-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("/src/fonts/Pretendard/Pretendard-Regular.ttf");
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

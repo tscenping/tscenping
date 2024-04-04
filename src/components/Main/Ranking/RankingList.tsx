@@ -162,7 +162,7 @@ export default function RankingList() {
           effect={"coverflow"}
         >
           {paginatedItems.map((user, i) => (
-            <ul className="flex flex-col">
+            <ul className="flex flex-col" key={i}>
               <SwiperSlide key={i} className="relative w-full mb-10">
                 {user.map((user, index) => (
                   <RankingContentItem

@@ -4,8 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        customGreen: "#6DFCAF",      
-        defaultBg: "#2D2D2D",  
+        customGreen: "#6DFCAF",
+        defaultBg: "#2D2D2D",
+      },
+      screens: {
+        xs: { min: "360px", max: "400px" },
       },
     },
   },

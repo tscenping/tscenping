@@ -26,7 +26,7 @@ const InChattingPage = (): JSX.Element => {
           />
         </ul>
       </nav>
-      <section className="px-3 py-3 max-h-[852px] overflow-y-scroll">
+      <section className="px-3 py-3 max-h-[852px]">
         <InChattingLists tabState={tabState} />
       </section>
     </Container>
