@@ -18,7 +18,9 @@ const ModalHeader = (props: ModalHeaderProps): JSX.Element => {
             setModalName(null);
           }}
         />
-        <strong className="font-[Pretendard-SemiBold]">{props.title}</strong>
+        <strong className="font-[Pretendard-Bold] text-base md:text-lg lg:text-xl">
+          {props.title}
+        </strong>
       </header>
     </>
   );

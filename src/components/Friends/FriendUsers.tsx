@@ -24,39 +24,44 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
     <>
       <section className="p-5">
         <section className="relative flex flex-col items-center">
-          <label className="p-[8px]">친구검색</label>
-          <input
-            type="text"
-            className="text-white bg-[#ffffff1a] w-full rounded-[16px] p-[8px] outline-none focus:placeholder-transparent"
-            placeholder="닉네임을 입력해주세요"
-          />
-          <img
-            src={search}
-            alt="search users"
-            className="absolute left-2 bottom-2"
-          />
+          <label className="p-[8px] font-[Pretendard-Bold] md:text-2xl text-base">
+            친구검색
+          </label>
+          <section className="w-full flex items-center">
+            <input
+              type="text"
+              className="text-white bg-[#ffffff1a] w-full rounded-[16px] p-[8px] outline-none focus:placeholder-transparent my-4 pl-[40px]"
+              placeholder="닉네임을 입력해주세요"
+            />
+            <img src={search} alt="search users" className="absolute left-4" />
+          </section>
         </section>
         <section className="flex flex-col">
-          <section className="flex justify-between py-[16px]">
-            <strong>전체친구</strong>
-            <strong
-              className="flex text-[12px] text-[#939393]"
-              onClick={() => {
-                props.setPageSection("block");
-              }}
-            >
-              <img
-                src={blockUsers}
-                className="mr-[8px] w-[16px]"
-                alt="block users icon"
-              />
-              차단친구
-            </strong>
+          <section className="flex justify-between pt-4 pb-3 items-center">
+            <strong className="md:text-2xl text-base">전체친구</strong>
+            <section className="cursor-pointer">
+              <strong
+                className="flex  md:text-xl text-sm text-[#939393]"
+                onClick={() => {
+                  props.setPageSection("block");
+                }}
+              >
+                <img
+                  src={blockUsers}
+                  className="mr-[8px] w-[12px] md:w-[20px]"
+                  alt="block users icon"
+                />
+                차단친구
+              </strong>
+            </section>
           </section>
           <section>
             <ul className="flex flex-col w-full">
               {dummyData.map((el) => (
-                <li key={nanoid()} className="relative flex justify-between w-full">
+                <li
+                  key={nanoid()}
+                  className="relative flex justify-between w-full"
+                >
                   <section className="flex items-center">
                     <img
                       src={defaultProfile}
@@ -65,7 +70,6 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
                     />
                     <strong className="ml-[16px]">{el.nickname}</strong>
                   </section>
-                  <img src={userSetting} alt="user setting icon" />
                   {dropDownType === "NONE" ? (
                     <img
                       src={userSetting}

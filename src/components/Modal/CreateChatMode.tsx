@@ -8,11 +8,15 @@ import checkedOpen from "../../img/Chatting/checkedOpen.svg";
 
 type chatType = "PASSWORD" | "OPEN" | null;
 
-const CreateChat = (): JSX.Element => {
+const CreateChatMode = (): JSX.Element => {
   const [createChatType, setCreateChatType] = useState<chatType>(null);
   const { setModalName } = useModalState();
   const buttonStyle =
-    "flex py-3 px-5 items-center border-solid border-[1px] rounded-[20px] font-[Pretendard-SemiBold]";
+    "flex py-3 px-5 items-center border-solid border-[1px] rounded-[20px] font-[Pretendard-SemiBold] text-base";
+
+  const createChatInfo = () => {
+    if (createChatType) setModalName("createChatInfo");
+  };
 
   return (
     <>
@@ -63,9 +67,12 @@ const CreateChat = (): JSX.Element => {
       </section>
       <section className="flex justify-center py-1">
         <button
-          className={`w-full rounded-[20px] text-black font-[Pretendard-SemiBold] py-3 ${
+          className={`w-full rounded-[20px] text-black font-[Pretendard-SemiBold] py-3 text-base ${
             createChatType ? "bg-customGreen" : "bg-white"
           }`}
+          onClick={() => {
+            createChatInfo();
+          }}
         >
           확인
         </button>
@@ -74,4 +81,4 @@ const CreateChat = (): JSX.Element => {
   );
 };
 
-export default CreateChat;
+export default CreateChatMode;

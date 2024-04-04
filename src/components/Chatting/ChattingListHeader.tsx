@@ -19,7 +19,7 @@ const ChattingListHeader = (): JSX.Element => {
           src={createChatting}
           alt="create chatting room"
           className="w-[40px] cursor-pointer"
-          onClick={() => setModalName("createChat")}
+          onClick={() => setModalName("createChatMode")}
         />
       </section>
     </section>
