@@ -11,8 +11,10 @@ import FriendsPage from "./pages/Friends";
 import InChattingPage from "./pages/InChatting";
 import AllChattingPage from "./pages/AllChatting";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import Profile from "./pages/Profile";
 import Game from "./pages/Game";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,13 +30,14 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />}></Route>
           <Route path="/login" element={<Login />} />
           <Route path="/login/userinfo" element={<UserInfoPage />} />
           <Route path="/logincallback" element={<LoginCallbackPage />} />
-          <Route path="/profile" element={<Profile />}></Route>
+          {/* <Route path="/profile" element={<Profile />}></Route> */}
           <Route path="/error" element={<Error />}></Route>
           <Route path="/rank" element={<Rank />}></Route>
           <Route path="/game" element={<Game />}></Route>

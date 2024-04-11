@@ -1,9 +1,15 @@
+import { useModalState } from "../../../store/modal";
 import { GameType } from "./GameTypeSelector";
+
 
 interface GameTypeSelectorProps {
   gameType: "NORMAL" | "LADDER";
 }
 export default function GameStartBtn(props: GameTypeSelectorProps) {
+  const { setModalName } = useModalState();
+  const startGame = () => {
+    setModalName("loding");
+  }
   return (
     <div className="flex gap-2 w-full relative max-w-[520px] min-h-10 items-center justify-center">
       <div
@@ -15,6 +21,7 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
           className={`relative  rounded-[12px] w-2/3 h-12 bg-customGreen  text-black min-w-[220px] font-bold hover:scale-105 ${
             props.gameType === GameType.LADDER ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
+          onClick={startGame}
         >
           Game Start
         </button>
@@ -25,16 +32,18 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
         } `}
       >
         <button
-          className={`rounded-[12px] w-1/2 h-full bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105 ${
+          className={`rounded-[12px] w-1/2 h-full bg-customGreen cursor-pointer text-black min-w-[100px] font-bold hover:scale-105 ${
             props.gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
+          onClick={startGame}
         >
           Matching
         </button>
         <button
-          className={`rounded-[12px] w-1/2 h-full bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105 ${
+          className={`rounded-[12px] w-1/2 h-full bg-customGreen cursor-pointer text-black min-w-[100px] font-bold hover:scale-105 ${
             props.gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
+          onClick={startGame}
         >
           Inviting
         </button>

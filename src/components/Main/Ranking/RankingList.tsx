@@ -1,18 +1,12 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import RankingContentItem from "./RankingContentItem";
-import {
-  Pagination,
-  EffectCoverflow,
-  Mousewheel,
-  Autoplay,
-} from "swiper/modules";
+import { Pagination, EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/thumbs";
 import "swiper/css/effect-coverflow";
-import "swiper/css/mousewheel";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
 import "swiper/css/grid";
@@ -146,14 +140,11 @@ export default function RankingList() {
           }}
           className="relative flex h-full"
           slidesPerView={1}
-          modules={[Mousewheel, Autoplay, Pagination, EffectCoverflow]}
+          modules={[Autoplay, Pagination, EffectCoverflow]}
           loop={true}
           pagination={{ clickable: true }}
           centeredSlides={true}
           grabCursor={true}
-          mousewheel={{
-            invert: false,
-          }}
           autoplay={{
             delay: 3000,
             stopOnLastSlide: false,

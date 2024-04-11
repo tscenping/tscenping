@@ -9,7 +9,7 @@ const ModalHeader = (props: ModalHeaderProps): JSX.Element => {
 
   return (
     <>
-      <header className="w-full flex flex-col justify-center items-center">
+      <header className="flex flex-col items-center justify-center w-full">
         <img
           src={crossBtn}
           alt=""
