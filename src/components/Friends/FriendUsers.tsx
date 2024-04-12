@@ -1,5 +1,5 @@
 import blockUsers from "../../img/Friends/blockUsers.svg";
-import defaultProfile from "../../img/Friends/defaultProfile.svg";
+import defaultImage from "../../img/Login/defaultProfileImage.svg";
 import userSetting from "../../img/Friends/user3dot.svg";
 import search from "../../img/Friends/searchIcon.svg";
 import DropDown from "../DropDown/DropDown";
@@ -8,8 +8,8 @@ import { DropDownTypes } from "../../types/DropDownTypes";
 import { useState } from "react";
 
 const dummyData = [
-  { img: "dfsdf", nickname: "nickname" },
-  { img: "dfsdf", nickname: "nickname" },
+  { img: "dfsdf", nickname: "Sooyang" },
+  { img: "dfsdf", nickname: "KOTA" },
   { img: "dfsdf", nickname: "nickname" },
 ];
 
@@ -22,22 +22,22 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
 
   return (
     <>
-      <section className="p-5">
+      <section className="p-5 py-7 w-full h-full">
         <section className="relative flex flex-col items-center">
-          <label className="p-[8px] font-[Pretendard-Bold] md:text-2xl text-base">
+          <label className="p-2 font-[Pretendard-Bold] md:text-2xl text-base">
             친구검색
           </label>
           <section className="w-full flex items-center">
             <input
               type="text"
-              className="text-white bg-[#ffffff1a] w-full rounded-[16px] p-[8px] outline-none focus:placeholder-transparent my-4 pl-[40px]"
+              className="text-white bg-[#ffffff1a] w-full rounded-[16px] py-3 outline-none focus:placeholder-transparent my-4 pl-10"
               placeholder="닉네임을 입력해주세요"
             />
             <img src={search} alt="search users" className="absolute left-4" />
           </section>
         </section>
         <section className="flex flex-col">
-          <section className="flex justify-between pt-4 pb-3 items-center">
+          <section className="flex justify-between pt-3 pb-2 items-center">
             <strong className="md:text-2xl text-base">전체친구</strong>
             <section className="cursor-pointer">
               <strong
@@ -56,19 +56,21 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
             </section>
           </section>
           <section>
-            <ul className="flex flex-col w-full">
+            <ul className="flex flex-col w-full mt-4">
               {dummyData.map((el) => (
                 <li
                   key={nanoid()}
-                  className="relative flex justify-between w-full"
+                  className="relative flex justify-between w-full mb-7"
                 >
                   <section className="flex items-center">
                     <img
-                      src={defaultProfile}
-                      className="py-3"
+                      src={defaultImage}
+                      className="rounded-full w-10"
                       alt="default user profile"
                     />
-                    <strong className="ml-[16px]">{el.nickname}</strong>
+                    <span className="ml-[16px] text-base font-[Pretendard]">
+                      {el.nickname}
+                    </span>
                   </section>
                   {dropDownType === "NONE" ? (
                     <img

@@ -14,8 +14,8 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
-        240 /* width */,
-        240 /* height */,
+        200 /* width */,
+        200 /* height */,
         "SVG" /* 파일형식 */,
         100 /* quality */,
         0 /* rotation */,
