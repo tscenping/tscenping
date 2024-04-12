@@ -15,7 +15,7 @@ interface BlockUsersProps {
 const BlockUsers = (props: BlockUsersProps): JSX.Element => {
   return (
     <>
-      <section className="p-5">
+      <section className="p-5 w-full h-full">
         <section className="relative flex justify-center items-center">
           <img
             src={backFriends}
@@ -44,10 +44,12 @@ const BlockUsers = (props: BlockUsersProps): JSX.Element => {
                       className=""
                       alt="default user profile"
                     />
-                    <strong className="ml-[16px]">{el.nickname}</strong>
+                    <strong className="ml-[16px] font-[Pretendard] text-base">
+                      {el.nickname}
+                    </strong>
                   </section>
-                  <button className="bg-[#e2e2e2] text-black text-[12px] px-3 py-1 rounded-[30px] font-['Pretendard-SemiBold']">
-                    차단해제
+                  <button className="bg-[#e2e2e2] text-black text-[12px] px-3 py-1 rounded-[30px] font-[Pretendard-SemiBold]">
+                    차단 해제
                   </button>
                 </li>
               ))}

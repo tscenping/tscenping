@@ -8,7 +8,7 @@ const Main = ({ children }: { children: ReactNode }): JSX.Element => {
       className={`min-w-[280px] h-full max-w-[720px] w-full min-h-[591px] overflow-hidden scrollbar-hide p-4 flex items-center justify-center`}
     >
       <div className="flex items-center justify-center w-full h-full">
-        {/* <LoginCheck /> */}
+        <LoginCheck />
         {children}
       </div>
     </main>

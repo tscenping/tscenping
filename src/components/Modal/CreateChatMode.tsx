@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { useModalState } from "../../store/modal";
+import { useModalState, useCreateChatModeState } from "../../store/modal";
 import ModalHeader from "./ModalHeader";
 import passwordChat from "../../img/Chatting/passwordChattingW.svg";
 import openChat from "../../img/Footer/chatting2.svg";
 import checkedPassword from "../../img/Chatting/checkedPassword.svg";
 import checkedOpen from "../../img/Chatting/checkedOpen.svg";
 
-type chatType = "PASSWORD" | "OPEN" | null;
-
 const CreateChatMode = (): JSX.Element => {
-  const [createChatType, setCreateChatType] = useState<chatType>(null);
   const { setModalName } = useModalState();
+  const { setCreateChatType, createChatType } = useCreateChatModeState();
   const buttonStyle =
     "flex py-3 px-5 items-center border-solid border-[1px] rounded-[20px] font-[Pretendard-SemiBold] text-base";
 
@@ -24,13 +22,13 @@ const CreateChatMode = (): JSX.Element => {
       <section className="w-full flex justify-evenly pb-8 pt-6">
         <button
           className={`${buttonStyle} ${
-            createChatType === "PASSWORD" ? "text-[#404040] bg-white" : ""
+            createChatType === "PROTECTED" ? "text-[#404040] bg-white" : ""
           }`}
           onClick={() => {
-            setCreateChatType("PASSWORD");
+            setCreateChatType("PROTECTED");
           }}
         >
-          {createChatType === "PASSWORD" ? (
+          {createChatType === "PROTECTED" ? (
             <img
               src={checkedPassword}
               alt="checked password chat"
@@ -47,13 +45,13 @@ const CreateChatMode = (): JSX.Element => {
         </button>
         <button
           className={`${buttonStyle} ${
-            createChatType === "OPEN" ? "text-[#404040] bg-white" : ""
+            createChatType === "PUBLIC" ? "text-[#404040] bg-white" : ""
           }`}
           onClick={() => {
-            setCreateChatType("OPEN");
+            setCreateChatType("PUBLIC");
           }}
         >
-          {createChatType === "OPEN" ? (
+          {createChatType === "PUBLIC" ? (
             <img
               src={checkedOpen}
               alt="checked open chat"

@@ -1,6 +1,6 @@
-import { useModalState } from "../../store/modal";
+import { useModalState } from "../../../store/modal";
 import { useLocation } from "react-router-dom";
-import createChatting from "../../img/InChatting/createChatting.svg";
+import createChatting from "../../../img/InChatting/createChatting.svg";
 
 const ChattingListHeader = (): JSX.Element => {
   const location = useLocation();

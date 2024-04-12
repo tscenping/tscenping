@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import NickNameInput from "./NicknameInput";
 import ProfileImageInput from "./ProfileImageInput";
+import useAxios from "../../../hooks/useAxios";
 
 const defaultImage = process.env.REACT_APP_DEFAULT_PROFILE;
 
 const LoginUserInfo = (): JSX.Element => {
+  const instance = useAxios();
   const [uploadImage, setUploadImage] = useState<string>(String(defaultImage));
   const navigate = useNavigate();
   const nicknameRef = useRef<HTMLInputElement>(null);
@@ -16,30 +18,19 @@ const LoginUserInfo = (): JSX.Element => {
       nickname: nicknameRef.current?.value,
       avatar: uploadImage,
     };
-    console.log(data);
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      };
-
-      const response = await axios.patch(
-        "https://localhost:3000/auth/signup",
-        JSON.stringify(data),
-        config
+      const response = await instance.patch(
+        "/auth/signup",
+        JSON.stringify(data)
       );
-      if (response.status === 200) {
-        navigate("/");
-      }
+      if (response.status === 200) navigate("/");
     } catch (error) {
       console.error("Error occurred during login authentication:", error);
     }
   };
 
   return (
-    <section className="h-screen flex flex-col justify-between ">
+    <section className="h-screen flex flex-col justify-between w-full">
       <section>
         <header className="w-full pt-10 flex justify-center text-[18px] font-bold md:text-[24px]">
           <h1>프로필 설정</h1>

@@ -12,7 +12,11 @@ const LoginCheck = (): JSX.Element => {
   );
 
   useEffect(() => {
-    if (!cookies.get("accessToken") && pathName !== "logincallback")
+    if (
+      !cookies.get("accessToken") &&
+      pathName !== "logincallback" &&
+      pathName !== "googlecallback"
+    )
       navigate("/login");
   }, [navigate]);
 
