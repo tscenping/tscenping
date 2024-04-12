@@ -8,7 +8,7 @@ const username = "hyeongwoo";
 
 export default function ProfileUser() {
   const { setModalName, setModalProps, modalProps } = useModalState();
-  const {userProfileState} = useUserProfileState();
+  const { userProfileState } = useUserProfileState();
 
   return (
     <section className="flex flex-row items-center gap-4 justify-normal">
@@ -31,7 +31,9 @@ export default function ProfileUser() {
             친구 추가
           </button>
         </div>
-        <p className="text-[#A9A9A9] mb-3 ">{userProfileState?.statusMessage}</p>
+        <p className="text-[#A9A9A9] mb-3 ">
+          {userProfileState?.statusMessage}
+        </p>
         <div className="flex justify-end gap-3 h-2/3">
           <button
             className="w-2/5 h-full text-black bg-[#F7F7F7] rounded-[10px]"

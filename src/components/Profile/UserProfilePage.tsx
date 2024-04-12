@@ -5,22 +5,23 @@ import MatchHistory from "./MatchHistory/MatchHistory";
 import Setting from "./Setting/Setting";
 import ProfileUser from "./UserProfile/ProfileUser";
 import { useEffect, useState } from "react";
-import { useUserProfileState } from "../../store/profile";
+import { useMyData, useUserProfileState } from "../../store/profile";
+import ProfileMe from "./UserProfile/ProfileMe";
 
 const svgWidth = 60;
 const svgHeight = 60;
-const username = "hyeongwoo";
 
 interface UserProps {
-  username: string | undefined;
+  nickname: string | undefined;
 }
 
-export default function UserProfilePage({ username }: UserProps) {
+export default function UserProfilePage({ nickname }: UserProps) {
+  const { myData } = useMyData();
   const { setUserProfile } = useUserProfileState();
 
   const getProfileData = async () => {
     try {
-      const response = await instance.get(`users/profile/${username}`);
+      const response = await instance.get(`users/profile/${nickname}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -28,20 +29,29 @@ export default function UserProfilePage({ username }: UserProps) {
   };
 
   const { isPending, error, data } = useQuery({
-    queryKey: ["profileData", { username }],
+    queryKey: ["profileData", { nickname }],
     queryFn: getProfileData,
   });
 
   useEffect(() => {
     if (!data) return;
     setUserProfile(data);
+    console.log(data);
   }, [data]);
 
   return (
     <section className="flex flex-col justify-start h-full mt-1 gap-y-4">
-      <ProfileUser />
-      <ProfileMatchData />
+      {nickname === myData.nickname ? <ProfileMe /> : <ProfileUser />}
+      <ProfileMatchData
+        ladderRank={data?.ladderRank}
+        ladderScore={data?.ladderScore}
+        ladderMaxScore={data?.ladderMaxScore}
+        totalCount={data?.totalCount}
+        winCount={data?.winCount}
+        loseCount={data?.loseCount}
+      />
       <MatchHistory />
+      {nickname === myData.nickname && <Setting />}
     </section>
   );
 }

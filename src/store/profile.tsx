@@ -1,37 +1,19 @@
 import { create } from "zustand";
 
-interface MyProfileState {
+interface ProfileState {
   id: number;
   nickname: string;
-  avatar: string;
-  statusMessage: string;
-  loseCount: number;
-  winCount: number;
-  totalCount: number;
-  ladderRank: number;
-  ladderScore: number;
-  ladderMaxScore: number;
 }
-
-interface MyProfile {
-  myProfileState?: MyProfileState;
-  setMyProfile: (myState: MyProfileState) => void;
+interface MyData {
+  myData: ProfileState;
+  setMyData: (myData: ProfileState) => void;
 }
-
-export const useMyProfileState = create<MyProfile>((set) => ({
-  myProfileState: {
-    nickname: "",
+export const useMyData = create<MyData>((set) => ({
+  myData: {
     id: -1,
-    avatar: "",
-    statusMessage: "",
-    loseCount: 0,
-    winCount: 0,
-    totalCount: 0,
-    ladderRank: 0,
-    ladderScore: 0,
-    ladderMaxScore: 0,
+    nickname: "",
   },
-  setMyProfile: (myProfileState: MyProfileState) => set({ myProfileState }),
+  setMyData: (myData: ProfileState) => set({ myData }),
 }));
 
 interface UserProfileState {

@@ -1,10 +1,11 @@
 import RecentMatchContent from "./RecentMatchContent";
 import winIcon from "../../../img/Profile/Win.svg";
 import loseIcon from "../../../img/Profile/Lose.svg";
-import { useUserProfileState } from "../../../store/profile";
+import { useMyData, useUserProfileState } from "../../../store/profile";
 import React, { useEffect, useState } from "react";
 import { instance } from "../../Util/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useModalState } from "../../../store/modal";
 
 interface GameHistory {
   rivalname: string;
@@ -30,7 +31,6 @@ export default function RecentMatch() {
     const response = await instance.get(
       `users/games/${nickname}/?page=${page}`
     );
-    // console.log(response);
     return response.data;
   };
 
@@ -54,32 +54,31 @@ export default function RecentMatch() {
   useEffect(() => {
     if (!data?.pages) return;
     setMatchData(data?.pages);
-    console.log(data);
   }, [data]);
-
-  useEffect(() => {
-    console.log(matchData, "matchData");
-  }, [matchData]);
 
   return (
     <>
       <ul className="flex flex-col items-center h-2/3 w-full overflow-y-auto scrollbar-hide justify-start gap-3 p-5 rounded-2xl bg-[#3A3A3A] max-h-[500px]">
         <div className="flex flex-col items-center h-full w-full overflow-y-auto scrollbar-hide justify-start gap-3  rounded-2xl bg-[#3B3B3B]">
           {matchData !== undefined &&
-            matchData.map((dataChunk, index) => (
-              <React.Fragment key={index}>
-                {dataChunk !== undefined &&
-                  dataChunk.gameHistories.map((data, i) => (
-                    <RecentMatchContent
-                      leftname={data.rivalname}
-                      leftscore={data.myscore}
-                      rightname={data.rivalname}
-                      rightscore={data.rivalscore}
-                      // isWinner={data.isWinner}
-                      key={`${data.rivalname}${i} `}
-                    />
-                  ))}
-              </React.Fragment>
+            (matchData[0]?.totalItemCount > 0 ? (
+              matchData.map((dataChunk, index) => (
+                <React.Fragment key={index}>
+                  {dataChunk !== undefined &&
+                    dataChunk.gameHistories.map((data, i) => (
+                      <RecentMatchContent
+                        leftname={nickname}
+                        leftscore={data.myscore}
+                        rightname={data.rivalname}
+                        rightscore={data.rivalscore}
+                        // isWinner={data.isWinner}
+                        key={`${data.rivalname}${i} `}
+                      />
+                    ))}
+                </React.Fragment>
+              ))
+            ) : (
+              <p>전적이 없습니다.</p>
             ))}
           {hasNextPage && (
             <button

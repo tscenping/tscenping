@@ -16,7 +16,6 @@ const LoginUserInfo = (): JSX.Element => {
       nickname: nicknameRef.current?.value,
       avatar: uploadImage,
     };
-    console.log(data);
     try {
       const config = {
         headers: {
@@ -39,7 +38,7 @@ const LoginUserInfo = (): JSX.Element => {
   };
 
   return (
-    <section className="h-screen flex flex-col justify-between ">
+    <section className="flex flex-col justify-between h-screen ">
       <section>
         <header className="w-full pt-10 flex justify-center text-[18px] font-bold md:text-[24px]">
           <h1>프로필 설정</h1>
