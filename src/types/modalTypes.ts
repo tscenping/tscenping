@@ -5,6 +5,7 @@ export type ModalTypes =
   | "profile"
   | "loding"
   | "confirm"
+  | "chatUserList"
   | null;
 export type confirmTypes = "friend" | "block" | "chat" | "game" | "";
 export interface ModalProps {
@@ -23,4 +24,9 @@ export interface useModalStateProps {
 export interface useNoticeModalStateProps {
   content: string;
   setContent: (v: string) => void;
+}
+
+export interface useCreateChatModeProps {
+  createChatType?: "PROTECTED" | "PUBLIC" | null;
+  setCreateChatType: (createChatType: "PROTECTED" | "PUBLIC" | null) => void;
 }

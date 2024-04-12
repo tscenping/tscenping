@@ -6,7 +6,7 @@ interface InChattingListProps {
 
 const InChattingList = (props: InChattingListProps): JSX.Element => {
   const inChattingListStyle =
-    "bg-[#424242] p-3 px-4 rounded-[20px] my-[24px] cursor-pointer font-[Pretendard-SemiBold]";
+    "bg-[#424242] p-3 px-4 rounded-[20px] mt-6 cursor-pointer font-[Pretendard-SemiBold]";
 
   return (
     <li className={inChattingListStyle}>

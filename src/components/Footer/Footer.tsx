@@ -20,13 +20,13 @@ const Footer = (): JSX.Element => {
   const footerStyle =
     pathName === "login" ||
     pathName === "userinfo" ||
-    pathName === "logincallback"
+    pathName === "logincallback" ||
+    pathName === "googlecallback"
       ? "hidden"
       : "z-5 bottom-0 p-6 w-full bg-[#3F3F3F]";
 
   return (
     <footer className={footerStyle}>
-      {/*<footer className=" z-20 absolute bottom-0 p-6 w-full bg-[#3F3F3F]">*/}
       <nav>
         <ul className="flex justify-around">
           <li>
