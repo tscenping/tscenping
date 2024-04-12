@@ -1,22 +1,19 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import RankingContentItem from "./RankingContentItem";
-import {
-  Pagination,
-  EffectCoverflow,
-  Mousewheel,
-  Autoplay,
-} from "swiper/modules";
+import { Pagination, EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/thumbs";
 import "swiper/css/effect-coverflow";
-import "swiper/css/mousewheel";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
 import "swiper/css/grid";
 import "swiper/swiper-bundle.css";
+import { instance } from "../../Util/axios";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 interface RankingUserList {
   nickname: string;
@@ -25,13 +22,16 @@ interface RankingUserList {
   ranking: number;
 }
 
-// const query = useQuery({
-//   queryKey: ['ranking'],
-//   queryFn: async () => {
-//     const response = await fetch('http://localhost:4000/ranking');
-//     return response.json();
-//   }
-// })
+interface RankingDataChunk {
+  avatar: string;
+  ladderScore: number;
+  nickname: string;
+  ranking: number;
+}
+interface RankingDataType {
+  rankUsers: RankingDataChunk[];
+  totalItemCount: number;
+}
 
 export const chunkArray = <T extends any>(array: T[], size: number): T[][] => {
   return Array.from({ length: Math.ceil(array.length / size) }, (_, index) =>
@@ -40,100 +40,39 @@ export const chunkArray = <T extends any>(array: T[], size: number): T[][] => {
 };
 
 export default function RankingList() {
-  const dummyData: RankingUserList[] = [
-    {
-      nickname: "닉네임1",
-      avatar: "아바타1",
-      ladderScore: 1000,
-      ranking: 1,
-    },
-    {
-      nickname: "닉네임2",
-      avatar: "아바타2",
-      ladderScore: 900,
-      ranking: 2,
-    },
-    {
-      nickname: "닉네임3",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 3,
-    },
-    {
-      nickname: "닉네임4",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 4,
-    },
-    {
-      nickname: "닉네임5",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 5,
-    },
-    {
-      nickname: "닉네임1",
-      avatar: "아바타1",
-      ladderScore: 1000,
-      ranking: 6,
-    },
-    {
-      nickname: "닉네임2",
-      avatar: "아바타2",
-      ladderScore: 900,
-      ranking: 7,
-    },
-    {
-      nickname: "닉네임3",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 8,
-    },
-    {
-      nickname: "닉네임4",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 9,
-    },
-    {
-      nickname: "닉네임5",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 10,
-    },
-    {
-      nickname: "닉네임1",
-      avatar: "아바타1",
-      ladderScore: 1000,
-      ranking: 11,
-    },
-    {
-      nickname: "닉네임2",
-      avatar: "아바타2",
-      ladderScore: 900,
-      ranking: 12,
-    },
-    {
-      nickname: "닉네임3",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 13,
-    },
-    {
-      nickname: "닉네임4",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 14,
-    },
-    {
-      nickname: "닉네임5",
-      avatar: "아바타3",
-      ladderScore: 800,
-      ranking: 15,
-    },
-  ];
+  const [rankingData, setRankingData] = useState<RankingDataType>();
+  const [rankingDataChunks, setRankingDataChunks] = useState<
+    RankingDataChunk[][] | null
+  >();
 
-  const paginatedItems = chunkArray(dummyData, 5);
+  const getRanking = async () => {
+    try {
+      const response = await instance.get(`users/rank`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["rankingData"],
+    queryFn: getRanking,
+  });
+  useEffect(() => {
+    setRankingData(data);
+    if (!rankingData?.rankUsers) return;
+    const paginatedItems = chunkArray(rankingData?.rankUsers, 5);
+    if (!paginatedItems) return;
+    setRankingDataChunks(paginatedItems);
+  }, [data]);
+
+  useEffect(() => {
+    if (!rankingData?.rankUsers) return;
+    const paginatedItems = chunkArray(rankingData?.rankUsers, 5);
+    setRankingDataChunks(paginatedItems);
+  }, [rankingData]);
+
+  // const paginatedItems = chunkArray(rankingData, 5);
 
   return (
     <ul className="items-center w-full h-full overflow-x-hidden">
@@ -146,14 +85,11 @@ export default function RankingList() {
           }}
           className="relative flex h-full"
           slidesPerView={1}
-          modules={[Mousewheel, Autoplay, Pagination, EffectCoverflow]}
+          modules={[Autoplay, Pagination, EffectCoverflow]}
           loop={true}
           pagination={{ clickable: true }}
           centeredSlides={true}
           grabCursor={true}
-          mousewheel={{
-            invert: false,
-          }}
           autoplay={{
             delay: 3000,
             stopOnLastSlide: false,
@@ -161,7 +97,7 @@ export default function RankingList() {
           }}
           effect={"coverflow"}
         >
-          {paginatedItems.map((user, i) => (
+          {rankingDataChunks?.slice(0, 5).map((user, i) => (
             <ul className="flex flex-col" key={i}>
               <SwiperSlide key={i} className="relative w-full mb-10">
                 {user.map((user, index) => (

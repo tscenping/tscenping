@@ -3,11 +3,20 @@ import {
   useModalStateProps,
   useNoticeModalStateProps,
   useCreateChatModeProps,
-} from "../types/modalTypes";
+} from "../types/ModalTypes";
 
-export const useModalState = create<useModalStateProps>((set) => ({
+export const useModalState = create<useModalStateProps>((set, get) => ({
   modalName: null,
-  setModalName: (modalName) => set({ modalName }),
+  prevName: null,
+  modalProps: null,
+  setModalName: (modalName) => {
+    const prevModalName = get().modalName;
+    set(() => ({
+      modalName,
+      prevName: prevModalName,
+    }));
+  },
+  setModalProps: (modalProps) => set({ modalProps }),
 }));
 
 export const useNoticeModalState = create<useNoticeModalStateProps>((set) => ({

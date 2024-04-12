@@ -1,7 +1,18 @@
 import { ChatUserTypes } from "./ChatUserTypes";
 
 export type DropDownTypes = "NORMAL" | "CHAT" | "NONE";
-export type DropDownIcons = "MUTE" | "KICK" | "BAN" | "A_FRIEND" | "D_FRIEND" | "A_ADMIN" | "D_ADMIN" | "GAME" | "CHAT" | "A_BLOCK" | "D_BLOCK";
+export type DropDownIcons =
+  | "MUTE"
+  | "KICK"
+  | "BAN"
+  | "A_FRIEND"
+  | "D_FRIEND"
+  | "A_ADMIN"
+  | "D_ADMIN"
+  | "GAME"
+  | "CHAT"
+  | "A_BLOCK"
+  | "D_BLOCK";
 
 export interface Dropdown {
   dropDonwType: DropDownTypes;

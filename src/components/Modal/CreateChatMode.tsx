@@ -19,7 +19,7 @@ const CreateChatMode = (): JSX.Element => {
   return (
     <>
       <ModalHeader title="새로운 채팅방" />
-      <section className="w-full flex justify-evenly pb-8 pt-6">
+      <section className="flex w-full pt-6 pb-8 justify-evenly">
         <button
           className={`${buttonStyle} ${
             createChatType === "PROTECTED" ? "text-[#404040] bg-white" : ""

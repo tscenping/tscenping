@@ -8,8 +8,8 @@ interface DrawProps {
   height: number;
 }
 
-const myRaketColor = "#6DFCAF";
-const rivalRaketColor = "#FFFFFF";
+const myRacketColor = "#6DFCAF";
+const rivalRacketColor = "#FFFFFF";
 // const canvasColor = "#71A1FF";
 const canvasColor = "#2D2D2D";
 const ballColor = "#FFFFFF";
@@ -36,9 +36,9 @@ export default function GameFrame() {
   };
   const x = myRacket.x + 10;
   const y = canvasHeight - canvasHeight * 0.05;
-  const width = racketWidth;
-  const height = racketHeight;
-  const radius = 5;
+  // const width = racketWidth;
+  // const height = racketHeight;
+  const radius = 13;
   // ctx.fillRect(
   //   canvasWidth * 0.05,
   //   canvasHeight - canvasHeight * 0.05,
@@ -61,7 +61,7 @@ export default function GameFrame() {
     const { x, y, width, height } = props;
     ctx.shadowColor = color;
     ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = -4;
+    ctx.shadowOffsetY = color === myRacketColor ? -4 : 4;
     ctx.shadowBlur = 10;
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
@@ -81,13 +81,13 @@ export default function GameFrame() {
     const newMyRacket = {
       x: canvasWidth * 0.05,
       y: canvasHeight - canvasHeight * 0.05,
-      width: canvasWidth * 0.25,
+      width: canvasWidth * 0.3,
       height: canvasHeight * 0.025,
     };
     const newRivalRacket = {
       x: canvasWidth - canvasWidth * 0.3,
       y: canvasHeight * 0.025,
-      width: canvasWidth * 0.25,
+      width: canvasWidth * 0.3,
       height: canvasHeight * 0.025,
     };
     return { newMyRacket, newRivalRacket };
@@ -137,8 +137,8 @@ export default function GameFrame() {
       if (ctx) {
         ctx.fillStyle = canvasColor;
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        drawRacket(ctx, myRacket, myRaketColor);
-        drawRacket(ctx, rivalRacket, rivalRaketColor);
+        drawRacket(ctx, myRacket, myRacketColor);
+        drawRacket(ctx, rivalRacket, rivalRacketColor);
       }
     }
     const rackets = changeRacketPosition();

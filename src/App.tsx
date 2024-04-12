@@ -12,7 +12,6 @@ import InChattingPage from "./pages/InChatting";
 import AllChattingPage from "./pages/AllChatting";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Profile from "./pages/Profile";
 import Game from "./pages/Game";
 import GoogleCallbackPage from "./pages/GoogleCallback";
 
@@ -37,7 +36,6 @@ function App() {
           <Route path="/login/userinfo" element={<UserInfoPage />} />
           <Route path="/logincallback" element={<LoginCallbackPage />} />
           <Route path="/googlecallback" element={<GoogleCallbackPage />} />
-          <Route path="/profile" element={<Profile />}></Route>
           <Route path="/error" element={<Error />}></Route>
           <Route path="/rank" element={<Rank />}></Route>
           <Route path="/game" element={<Game />}></Route>
