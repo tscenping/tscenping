@@ -1,106 +1,76 @@
 import InChattingList from "./InChattingList";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import useAxios from "../../../../hooks/useAxios";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface InChattingListsProps {
   tabState: string;
 }
 
-const dummyDataEntire = [
-  {
-    channelId: 1,
-    name: "아무나 들어오지 마세요!",
-    channelType: "PRIVATE",
-  },
-  {
-    channelId: 2,
-    name: "HIM",
-    channelType: "DM",
-  },
-  {
-    channelId: 3,
-    name: "YUBCHOI",
-    channelType: "DM",
-  },
-  {
-    channelId: 4,
-    name: "JANG-CHO",
-    channelType: "DM",
-  },
-  {
-    channelId: 5,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 6,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 7,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 8,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 9,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 10,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 11,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 12,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 13,
-    name: "JIYUN",
-    channelType: "DM",
-  },
-  {
-    channelId: 14,
-    name: "end",
-    channelType: "DM",
-  },
-  {
-    channelId: 15,
-    name: "end",
-    channelType: "DM",
-  },
-  {
-    channelId: 6,
-    name: "사적인 방입니다!",
-    channelType: "PRIVATE",
-  },
-];
+interface ChatData {
+  name: string;
+  channelType: string;
+  channelId: number;
+}
 
 const InChattingLists = (props: InChattingListsProps): JSX.Element => {
+  const instance = useAxios();
+
+  const fetchUrl = async (url: string) => {
+    const response = await instance.get(url);
+    return response.data;
+  };
+
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["group-dm", props.tabState],
+    queryFn: async ({ pageParam }) => {
+      const urlParam = `/channels/${
+        props.tabState === "GROUP" ? "me" : "dm"
+      }/?page=${pageParam}`;
+      const result = await fetchUrl(urlParam);
+      return result;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage[props.tabState === "GROUP" ? "channels" : "dmChannels"]
+        .length < 10
+        ? undefined
+        : allPages.length + 1;
+    },
+  });
+
   return (
-    <ul className="px-3 py-3 h-5/6 overflow-y-auto flex flex-col scrollbar-hide">
-      {dummyDataEntire.map((el) =>
-        (props.tabState === "GROUP" && el.channelType === "PRIVATE") ||
-        (props.tabState === "ONETOONE" && el.channelType === "DM") ? (
-          <InChattingList
-            key={el.channelId}
-            channelId={el.channelId}
-            channelName={el.name}
-            channelType={el.channelType}
-          />
-        ) : null
-      )}
+    <ul
+      className="px-3 py-3 h-5/6 overflow-y-auto flex flex-col scrollbar-hide"
+      id="groupDM"
+    >
+      <InfiniteScroll
+        next={fetchNextPage}
+        hasMore={hasNextPage}
+        dataLength={
+          data?.pages.reduce(
+            (total, page) =>
+              total +
+              page[props.tabState === "GROUP" ? "channels" : "dmChannels"]
+                .length,
+            0
+          ) || 0
+        }
+        loader={<></>}
+        scrollableTarget="groupDM"
+      >
+        {data?.pages.map((el: ChatData) =>
+          (props.tabState === "GROUP" && el.channelType === "PRIVATE") ||
+          (props.tabState === "ONETOONE" && el.channelType === "DM") ? (
+            <InChattingList
+              key={el.channelId}
+              channelId={el.channelId}
+              channelName={el.name}
+              channelType={el.channelType}
+            />
+          ) : null
+        )}
+      </InfiniteScroll>
     </ul>
   );
 };

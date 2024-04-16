@@ -15,7 +15,6 @@ const GoogleCallbackPage = (): JSX.Element => {
     const urlParams = new URLSearchParams(window.location.search);
     const codeValue = { code: urlParams.get("code") };
 
-    console.log(window.location);
     const loginAuthHandler = async () => {
       try {
         const config = {
