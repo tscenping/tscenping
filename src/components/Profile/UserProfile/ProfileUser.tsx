@@ -17,6 +17,7 @@ export default function ProfileUser() {
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
+        className="rounded-[30px] md:rounded-[40px] object-cover"
       />
       <div className="flex flex-col w-full h-full text-white strong">
         <div className="flex justify-between">

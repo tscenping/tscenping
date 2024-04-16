@@ -7,6 +7,8 @@ import { useModalState } from "../store/modal";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
+import LoginUserInfo from "../components/Login/LoginUserInfo/LoginUserInfo";
+
 export default function Main() {
   const queryClient = useQueryClient();
   const fetchData = async () => {

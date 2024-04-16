@@ -1,37 +1,32 @@
 import profileImageBtn from "../../../img/Login/profileImageBtn.svg";
 import Resizer from "react-image-file-resizer";
+import defaultImg from "../../../img/Login/defaultProfileImage.svg";
+import { useState } from "react";
 
 interface ProfileImageInputProps {
-  setUploadImage: (v: string) => void;
-  uploadImage: string;
+  setUploadImage: (v: File) => void;
+  uploadImage?: File;
 }
 
+const maxFileSize = 3 * 1024 * 1024;
+
 const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
+  const [imgString, setImgString] = useState<string | null>(null);
+
   const profileImageStyle =
     "w-[69px] h-[69px] mb-2 md:w-[88px] md:h-[88px] cursor-pointer rounded-[30px] md:rounded-[40px] object-cover";
-
-  const resizeFile = (file: File) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,
-        200 /* width */,
-        200 /* height */,
-        "SVG" /* 파일형식 */,
-        100 /* quality */,
-        0 /* rotation */,
-        (uri) => {
-          /* resize new image with url*/
-          resolve(uri);
-        },
-        "base64" /* output Type */
-      );
-    });
 
   const profileImageHandler = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.files !== null) {
       const file = e.target?.files[0];
+      const fileSize = file?.size;
+      if (fileSize && fileSize > maxFileSize) {
+        alert("3MB 이하의 이미지만 업로드 가능합니다.");
+        e.target.value = "";
+        return;
+      }
       const supportedFormats = ["image/jpeg", "image/png", "image/svg+xml"];
       if (!file) return;
       if (!supportedFormats.includes(file.type)) {
@@ -40,9 +35,15 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
         );
         return;
       }
+
       try {
-        const compressedFile = await resizeFile(file);
-        props.setUploadImage(String(compressedFile));
+        props.setUploadImage(file);
+        const reader = new FileReader();
+        reader.onload = () => {
+          const url = reader.result as string;
+          setImgString(url);
+        };
+        reader.readAsDataURL(file);
       } catch (error) {
         console.log("file resizing failed");
       }
@@ -50,11 +51,11 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
   };
 
   return (
-    <section className="rounded-[30px] mb-5 flex flex-col items-center">
+    <section className="rounded-[30px] mb-5 flex flex-col items-center ">
       <label htmlFor="profileImage">
         <div className="relative flex cursor-pointer">
           <img
-            src={props.uploadImage}
+            src={imgString ? imgString : defaultImg}
             alt="default profile"
             className={profileImageStyle}
           />
@@ -68,7 +69,7 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
       <input
         type="file"
         id="profileImage"
-        accept="image/*"
+        accept="image/jpeg, image/png"
         className="hidden"
         onChange={profileImageHandler}
       />
