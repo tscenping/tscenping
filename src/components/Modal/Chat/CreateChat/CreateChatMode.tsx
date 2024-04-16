@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { useModalState, useCreateChatModeState } from "../../store/modal";
-import ModalHeader from "./ModalHeader";
-import passwordChat from "../../img/Chatting/passwordChattingW.svg";
-import openChat from "../../img/Footer/chatting2.svg";
-import checkedPassword from "../../img/Chatting/checkedPassword.svg";
-import checkedOpen from "../../img/Chatting/checkedOpen.svg";
+import { useModalState, useCreateChatModeState } from "../../../../store/modal";
+import ModalHeader from "../../ModalHeader";
+import passwordChat from "../../../../img/Chatting/passwordChattingW.svg";
+import openChat from "../../../../img/Footer/chatting2.svg";
+import checkedPassword from "../../../../img/Chatting/checkedPassword.svg";
+import checkedOpen from "../../../../img/Chatting/checkedOpen.svg";
 
 const CreateChatMode = (): JSX.Element => {
   const { setModalName } = useModalState();

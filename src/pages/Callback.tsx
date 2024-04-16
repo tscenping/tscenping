@@ -5,11 +5,13 @@ import Container from "../components/Util/Container";
 import axios from "axios";
 import Loading from "../img/Login/Loading.svg";
 import { useModalState, useNoticeModalState } from "../store/modal";
+import useAxios from "../hooks/useAxios";
 
 const LoginCallbackPage = (): JSX.Element => {
   const navigate = useNavigate();
   const { setModalName } = useModalState();
   const { setContent } = useNoticeModalState();
+  const instance = useAxios();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -17,17 +19,17 @@ const LoginCallbackPage = (): JSX.Element => {
 
     const loginAuthHandler = async () => {
       try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        };
+        // const config = {
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   withCredentials: true,
+        // };
 
-        const response = await axios.post(
+        const response = await instance.post(
           "https://localhost:3000/auth/signin",
-          JSON.stringify(codeValue),
-          config
+          JSON.stringify(codeValue)
+          // config
         );
         if (response.status === 201) {
           if (response.data.isFirstLogin) navigate("/login/userinfo");

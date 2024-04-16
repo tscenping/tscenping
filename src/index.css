@@ -23,6 +23,11 @@
 }
 
 @font-face {
+  font-family: "Pretendard-ExtraBold";
+  src: url("/src/fonts/Pretendard/Pretendard-ExtraBold.ttf");
+}
+
+@font-face {
   font-family: "Pretendard-Regular";
   src: url("/src/fonts/Pretendard/Pretendard-Regular.ttf");
 }

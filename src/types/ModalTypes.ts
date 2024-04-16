@@ -6,6 +6,9 @@ export type ModalTypes =
   | "loding"
   | "confirm"
   | "chatUserList"
+  | "chatSetting"
+  | "passwordChatJoin"
+  | "channelJoin"
   | null;
 export type confirmTypes = "friend" | "block" | "chat" | "game" | "";
 export interface ModalProps {

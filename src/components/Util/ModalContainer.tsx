@@ -1,23 +1,32 @@
 import { createPortal } from "react-dom";
 import { useModalState } from "../../store/modal";
-import CreateChatMode from "../Modal/CreateChatMode";
-import CreateChatInfo from "../Modal/CreateChatInfo/CreateChatInfo";
+import CreateChatMode from "../Modal/Chat/CreateChat/CreateChatMode";
+import CreateChatInfo from "../Modal/Chat/CreateChat/CreateChatInfo/CreateChatInfo";
 import Notice from "../Modal/Notice";
-import ChatUserList from "../Modal/ChatUserList";
+import ChatUserLists from "../Modal/Chat/ChatUser/ChatUserLists";
 import ModalProfile from "../Modal/Profile/ModalProfile";
 import ModalLoding from "../Modal/ModalLoding";
 import ModalConfirm from "../Modal/ModalConfirm";
+import ChatSetting from "../Modal/Chat/ChatSetting";
+import PasswordChatJoin from "../Modal/Chat/PasswordChatJoin";
 import { useEffect } from "react";
+import { useChat } from "../../store/chat";
 
 const ModalLayout = (): JSX.Element => {
-  const { setModalName } = useModalState();
+  const { inChatInfo } = useChat();
+  const { setModalName, modalName } = useModalState();
+
+  const modalLayoutHandler = () => {
+    if (modalName === "chatSetting" && inChatInfo.inChat)
+      setModalName("chatUserList");
+    else setModalName(null);
+  };
+
   return (
     <>
       <div
         className="fixed w-full h-full top-0 bg-[#0000008f] z-10"
-        onClick={() => {
-          setModalName(null);
-        }}
+        onClick={modalLayoutHandler}
       ></div>
     </>
   );
@@ -27,19 +36,22 @@ const ModalContent = (): JSX.Element => {
   const { modalName } = useModalState();
   useEffect(() => {
     if (modalName !== null) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto'
+      document.body.style.overflow = "auto";
     }
-  }, [modalName])
+  }, [modalName]);
   const modalContent: { [key: string]: JSX.Element | null } = {
     createChatMode: <CreateChatMode />,
     createChatInfo: <CreateChatInfo />,
     profile: <ModalProfile />,
     loding: <ModalLoding />,
-    confirm:<ModalConfirm/>,
+    confirm: <ModalConfirm />,
     notice: <Notice />,
-    chatUserList: <ChatUserList />,
+    chatUserList: <ChatUserLists />,
+    chatSetting: <ChatSetting />,
+    channelJoin: <ChatSetting />,
+    passwordChatJoin: <PasswordChatJoin />,
   };
   const modalStyle =
     modalName === null
