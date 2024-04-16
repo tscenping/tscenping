@@ -1,22 +1,33 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import NickNameInput from "./NicknameInput";
 import ProfileImageInput from "./ProfileImageInput";
 import useAxios from "../../../hooks/useAxios";
+import useImage from "../../../hooks/useImage";
 
 const defaultImage = process.env.REACT_APP_DEFAULT_PROFILE;
 
 const LoginUserInfo = (): JSX.Element => {
   const instance = useAxios();
-  const [uploadImage, setUploadImage] = useState<string>(String(defaultImage));
+  const [uploadImage, setUploadImage] = useState<File>();
   const navigate = useNavigate();
   const nicknameRef = useRef<HTMLInputElement>(null);
+  const { handleUploadImage, imageUrl } = useImage();
+
+  useEffect(() => {
+    if (uploadImage === undefined) return;
+    handleUploadImage(uploadImage);
+  }, [uploadImage]);
+
+  useEffect(() => {
+    console.log(imageUrl, "imageUrl");
+  }, [imageUrl]);
 
   const userinfoHandler = async () => {
     const data = {
       nickname: nicknameRef.current?.value,
-      avatar: uploadImage,
+      avatar: imageUrl,
     };
     try {
       const response = await instance.patch(
@@ -30,7 +41,7 @@ const LoginUserInfo = (): JSX.Element => {
   };
 
   return (
-    <section className="h-screen flex flex-col justify-between w-full">
+    <section className="flex flex-col justify-between w-full h-screen">
       <section>
         <header className="w-full pt-10 flex justify-center text-[18px] font-bold md:text-[24px]">
           <h1>프로필 설정</h1>
@@ -43,10 +54,10 @@ const LoginUserInfo = (): JSX.Element => {
             </section>
           </section>
           <section className="flex flex-col items-center justify-center w-full mt-16">
-            <ProfileImageInput
+            {/* <ProfileImageInput
               setUploadImage={setUploadImage}
               uploadImage={uploadImage}
-            />
+            /> */}
             <NickNameInput nicknameRef={nicknameRef} />
           </section>
         </section>
