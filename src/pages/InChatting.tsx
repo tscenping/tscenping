@@ -4,12 +4,15 @@ import ChattingListHeader from "../components/Chatting/ChattingList/ChattingList
 import InChattingNaviList from "../components/Chatting/ChattingList/ChattingNaviList";
 import InChattingLists from "../components/Chatting/ChattingList/InChattingList/InChattingLists";
 import { useModalState } from "../store/modal";
+import { useChat } from "../store/chat";
 import InChatting from "../components/Chatting/ChattingList/InChatting/InChatting";
-import InviteChat from "../components/Chatting/ChattingList/InviteChat";
+import InviteChat from "../components/Chatting/InviteChat";
 
 const InChattingPage = (): JSX.Element => {
   const [tabState, setTabState] = useState("GROUP");
   const { modalName } = useModalState();
+  // const { createChat, setCreateChat } = useChat();
+
   return (
     <Container>
       <section className="h-full w-full">
@@ -33,7 +36,6 @@ const InChattingPage = (): JSX.Element => {
             />
           </ul>
         </nav>
-
         <InChattingLists tabState={tabState} />
       </section>
     </Container>

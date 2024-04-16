@@ -2,13 +2,17 @@ import { RefObject, useState } from "react";
 
 interface CreateChatInfoTitleProps {
   titleRef: RefObject<HTMLInputElement>;
+  titleError: boolean;
 }
 
 const CreateChatInfoTitle = (props: CreateChatInfoTitleProps): JSX.Element => {
   const [title, setTitle] = useState<string>("");
-  const [test, setTest] = useState<boolean>();
 
   const titleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const truncatedValue = e.target.value.slice(0, 10);
+    if (props.titleRef.current) {
+      props.titleRef.current.value = truncatedValue;
+    }
     setTitle(e.target.value);
   };
 
@@ -27,14 +31,14 @@ const CreateChatInfoTitle = (props: CreateChatInfoTitleProps): JSX.Element => {
           id="chatTitle"
           ref={props.titleRef}
           onChange={titleHandler}
-          maxLength={20}
+          maxLength={10}
         />
         <span className="absolute right-5 text-[#919191] font-[Pretendard-Regular] text-base">
-          {title.length}/20
+          {title.length}/10
         </span>
       </section>
       <p className="text-sm sm:text-base text-start w-full mt-2 text-customGreen h-4">
-        {test ? "* 이미 존재하는 이름이에요." : ""}
+        {props.titleError ? "* 채팅방을 입력해주세요." : ""}
       </p>
     </section>
   );

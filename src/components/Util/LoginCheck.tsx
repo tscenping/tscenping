@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate, useLocation } from "react-router-dom";
 import { instance } from "./axios";
-import { useMyData} from "../../store/profile";
+import { useMyData } from "../../store/profile";
 
 const LoginCheck = (): JSX.Element => {
-  const { myData, setMyData} = useMyData();
+  const { myData, setMyData } = useMyData();
   const navigate = useNavigate();
   const cookies = new Cookies();
 
@@ -15,12 +15,12 @@ const LoginCheck = (): JSX.Element => {
   );
 
   const getMyData = async () => {
-    try {
-      const response = await instance.get(`users/me`);
-      setMyData(response.data);
-    } catch (e) {
-      console.log(e);
-    }
+    // try {
+    //   const response = await instance.get(`users/me`);
+    //   setMyData(response.data);
+    // } catch (e) {
+    //   console.log(e);
+    // }
   };
 
   useEffect(() => {

@@ -1,19 +1,21 @@
 import { RefObject, useState } from "react";
+import { ChatPasswordErrorTypes } from "../../../../../types/ChatTypes";
 
 interface CreateChatInfoPasswordProps {
   passwordRef: RefObject<HTMLInputElement>;
+  passwordError: ChatPasswordErrorTypes;
 }
 
 const CreateChatInfoPassword = (
   props: CreateChatInfoPasswordProps
 ): JSX.Element => {
   const [password, setPassword] = useState<string>("");
-  const [test, setTest] = useState<boolean>();
 
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
+  console.log(props.passwordRef.current?.value);
   return (
     <section className="flex flex-col my-5">
       <label
@@ -32,7 +34,7 @@ const CreateChatInfoPassword = (
           maxLength={16}
         />
         <span className="absolute right-5 text-[#919191] font-[Pretendard-Regular] text-base">
-          {password.length}/16
+          {props.passwordRef.current?.value.length}/16
         </span>
       </section>
       <p
@@ -40,7 +42,11 @@ const CreateChatInfoPassword = (
           "text-sm sm:text-base text-start w-full mt-2 text-customGreen h-4"
         }
       >
-        {test ? "* 채팅방 비밀번호를 설정해주세요." : ""}
+        {props.passwordError === "NOPASSWORD" &&
+          "* 채팅방 비밀번호를 설정해주세요."}
+        {props.passwordError === "" && ""}
+        {props.passwordError === "LESSPASSWORD" &&
+          "* 채팅방 비밀번호는 8 ~ 16자 사이로 작성해주세요."}
       </p>
     </section>
   );

@@ -8,7 +8,8 @@ module.exports = {
         defaultBg: "#2D2D2D",
       },
       screens: {
-        xs: { min: "360px", max: "400px" },
+        xxs: { min: "320px", max: "360px" },
+        xs: { min: "360px", max: "432px" },
       },
       height: {
         "screen-80": "80vh",
@@ -17,6 +18,8 @@ module.exports = {
         "screen-95": "95vh",
         "screen-75": "75vh",
         "5/6": "85%",
+        "9/10": "90%",
+        "4/5": "80%",
       },
       width: {
         "screen-50": "50vw",
@@ -26,6 +29,9 @@ module.exports = {
         "screen-95": "95vw",
         "screen-75": "75vw",
         "1/10": "10%",
+      },
+      maxWidth: {
+        "3/5": "60%",
       },
     },
   },

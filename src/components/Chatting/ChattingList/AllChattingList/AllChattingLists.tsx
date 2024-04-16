@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import AllChattingList from "./AllChattingList";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -20,13 +20,12 @@ const AllChattingLists = (props: AllChattingListsProps): JSX.Element => {
   const instance = useAxios();
 
   const fetchUrl = async (url: string) => {
-    console.log("active...");
     const response = await instance.get(url);
     return response.data;
   };
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["createdchat"],
+    queryKey: ["open-password", props.tabState],
     queryFn: async ({ pageParam }) => {
       const result = await fetchUrl(
         `/channels/${
@@ -37,14 +36,9 @@ const AllChattingLists = (props: AllChattingListsProps): JSX.Element => {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      const nextPage = allPages.length + 1;
-      return lastPage.channels.length === 0 || lastPage.channels.length < 10
-        ? undefined
-        : nextPage;
+      return lastPage.channels.length < 10 ? undefined : allPages.length + 1;
     },
   });
-
-  // console.log(data);
 
   return (
     <ul
@@ -77,18 +71,16 @@ const AllChattingLists = (props: AllChattingListsProps): JSX.Element => {
                 />
               ))}
             {props.tabState === "PARTICIPATED" &&
-              page.channels
-                .filter((el: ChatData) => el.isJoined)
-                .map((el: ChatData) => (
-                  <AllChattingList
-                    key={el.channelId}
-                    channelId={el.channelId}
-                    channelName={el.name}
-                    channelType={el.channelType}
-                    userCount={el.userCount}
-                    isJoined={el.isJoined}
-                  />
-                ))}
+              page.channels.map((el: ChatData) => (
+                <AllChattingList
+                  key={el.channelId}
+                  channelId={el.channelId}
+                  channelName={el.name}
+                  channelType={el.channelType}
+                  userCount={el.userCount}
+                  isJoined={el.isJoined}
+                />
+              ))}
           </React.Fragment>
         ))}
       </InfiniteScroll>
