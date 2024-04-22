@@ -62,7 +62,6 @@ export default function ProfileMe(props: MyProfileProps) {
     }
   };
 
-
   const handleEditProfileImg = () => {
     if (isImgEdit) {
       submitImg();
@@ -115,19 +114,21 @@ export default function ProfileMe(props: MyProfileProps) {
       </div>
       <div className="text-white strong">{userProfileState?.nickname}</div>
       {!isMsgEdit ? (
-        <>
+        <section className="flex items-center justify-center w-full gap-3">
           {userProfileState?.statusMessage ? (
-            <p className="text-[#A9A9A9] ">{userProfileState?.statusMessage}</p>
+            <p className="text-[#A9A9A9] w-auto">
+              {userProfileState?.statusMessage}
+            </p>
           ) : (
             <p className="text-[#A9A9A9] ">작성된 메세지가 없습니다.</p>
           )}
-
-          <img
-            src={textEditBtn}
-            alt="textEditBtn"
+          <button
             onClick={handleEditProfileMsg}
-          />
-        </>
+            className="w-auto px-3 py-1 bg-customGreen rounded-[10px] text-black font-extrabold hover:scale-105 transition-transform duration200 ease-in-out"
+          >
+            수정
+          </button>
+        </section>
       ) : (
         <div className="bg-[#2D2D2D] flex justify-between rounded-[10px] p-4">
           <textarea

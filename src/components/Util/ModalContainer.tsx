@@ -12,6 +12,7 @@ import PasswordChatJoin from "../Modal/Chat/PasswordChatJoin";
 import ChangeChatPassword from "../Modal/Chat/ChangeChatPassword/ChangeChatPassword";
 import { useEffect } from "react";
 import { useChat } from "store/chat";
+import ModalSetting from "components/Modal/Setting/ModalSetting";
 
 const ModalLayout = (): JSX.Element => {
   const { inChatInfo } = useChat();
@@ -54,6 +55,7 @@ const ModalContent = (): JSX.Element => {
     channelJoin: <ChatSetting />,
     passwordChatJoin: <PasswordChatJoin />,
     changeChatPassword: <ChangeChatPassword />,
+    setting: <ModalSetting/>
   };
   const modalStyle =
     modalName === null

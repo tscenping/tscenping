@@ -30,12 +30,10 @@ export default function Toast({
     return () => clearTimeout(timeout);
   }, []);
 
-  
-
   return (
     <div
-      className={` absolute mt-3 text-center bg-green-50 opacity-0 transition-all duration-500 transform w-1/2 rounded-[10px] ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full"
+      className={` absolute mt-3 text-center bg-green-50 opacity-0 transition-all text-black duration-500 transform w-1/2 rounded-[10px] ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full "
       }`}
     >
       <p className="text-black text-Body">{message}</p>

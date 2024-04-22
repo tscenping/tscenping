@@ -17,27 +17,18 @@ export type DropDownIcons =
 export interface Dropdown {
   dropDonwType: DropDownTypes;
   setDropDownType: (dropDownType: DropDownTypes) => void;
-  normalProp?: DropDownNormal;
-  chatProp?: DropDownChat;
+  dropDownProp?: DropDownProps;
   avatar?: string;
 }
 
-export interface DropDownNormal {
+export interface DropDownProps {
   id: number;
   nickname: string;
   isFriend: boolean;
+  channelUserId?: number;
   isBlocked: boolean;
+  myChannelUserType?: ChatUserTypes;
+  channelUserType?: ChatUserTypes;
   setDropDownType: (dropDownType: DropDownTypes) => void;
-}
-
-interface DropDownChat {
-  id: number;
-  nickname: string;
-  isFriend: boolean;
-  channelUserId: number;
-  isBlocked: boolean;
-  myChannelUserType: ChatUserTypes;
-  channelUserType: ChatUserTypes;
-  setDropDownType: (dropDownType: DropDownTypes) => void;
-  setChannelUserType: (v: ChatUserTypes) => void;
+  setChannelUserType?: (v: ChatUserTypes) => void;
 }

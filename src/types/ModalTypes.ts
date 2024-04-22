@@ -12,11 +12,18 @@ export type ModalTypes =
   | "passwordChatJoin"
   | "channelJoin"
   | "changeChatPassword"
+  | "setting"
   | null;
 export type confirmTypes = "friend" | "block" | "chat" | "game" | "";
 export interface ModalProps {
   confirmType?: confirmTypes;
   nickname?: string;
+  isFriend?: boolean;
+  isBlocked?: boolean;
+  id?: number;
+  acceptFunction?: () => void;
+  declineFunction?: () => void;
+  mutate?: () => void;
 }
 
 export interface useModalStateProps {

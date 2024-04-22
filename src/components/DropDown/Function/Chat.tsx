@@ -4,13 +4,14 @@ import { useChatSetting } from "store/chat";
 import { useChat } from "store/chat";
 
 import useAxios from "hooks/useAxios";
+import { dropDownStyle } from "../Normal/NormalDropDown";
+import { DropDownProps, DropDownTypes } from "types/DropDownTypes";
 
-interface ChatProps {
-  nickname?: string;
-  userId?: number;
+interface Props {
+  props: DropDownProps
 }
 
-export default function Chat(props: ChatProps) {
+export default function Chat({props}:Props) {
   const instance = useAxios();
   const { setInChatInfo, inChatInfo } = useChat();
   const { setChatSetting } = useChatSetting();
@@ -22,7 +23,7 @@ export default function Chat(props: ChatProps) {
         name: props.nickname,
         channelType: "DM",
         password: null,
-        userId: props.userId,
+        userId: props.id,
       });
       if (response.status === 201) {
         setInChatInfo({
@@ -43,8 +44,8 @@ export default function Chat(props: ChatProps) {
 
   const chatIcon = useDorpDownIcon({ types: "CHAT" });
   return (
-    <section
-      className="flex justify-between w-full"
+    <li
+    className={dropDownStyle}
       onClick={() => {
         setChatSetting(
           "",
@@ -53,9 +54,10 @@ export default function Chat(props: ChatProps) {
           createOneOnOneApiHandler
         );
         setModalName("chatSetting");
+        props.setDropDownType!("NONE");
       }}
     >
       {chatIcon} 1:1대화
-    </section>
+    </li>
   );
 }
