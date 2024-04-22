@@ -1,5 +1,5 @@
 import { RefObject, useState } from "react";
-import { ChatPasswordErrorTypes } from "../../../../../types/ChatTypes";
+import { ChatPasswordErrorTypes } from "types/ChatTypes";
 
 interface CreateChatInfoPasswordProps {
   passwordRef: RefObject<HTMLInputElement>;
@@ -15,7 +15,6 @@ const CreateChatInfoPassword = (
     setPassword(e.target.value);
   };
 
-  console.log(props.passwordRef.current?.value);
   return (
     <section className="flex flex-col my-5">
       <label
@@ -34,7 +33,7 @@ const CreateChatInfoPassword = (
           maxLength={16}
         />
         <span className="absolute right-5 text-[#919191] font-[Pretendard-Regular] text-base">
-          {props.passwordRef.current?.value.length}/16
+          {password.length}/16
         </span>
       </section>
       <p
