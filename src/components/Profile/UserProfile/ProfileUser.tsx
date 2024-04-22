@@ -1,4 +1,4 @@
-import defailtImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
+import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
 import { useModalState } from "../../../store/modal";
 import { useUserProfileState } from "../../../store/profile";
 
@@ -13,7 +13,11 @@ export default function ProfileUser() {
   return (
     <section className="flex flex-row items-center gap-4 justify-normal">
       <img
-        src={userProfileState?.avatar}
+        src={
+          userProfileState?.avatar === null
+            ? defaultImg
+            : userProfileState?.avatar
+        }
         alt="profile img"
         width={svgWidth}
         height={svgHeight}

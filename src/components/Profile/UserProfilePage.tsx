@@ -28,7 +28,7 @@ export default function UserProfilePage({ nickname }: UserProps) {
     }
   };
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, error, data, refetch } = useQuery({
     queryKey: ["profileData", { nickname }],
     queryFn: getProfileData,
   });
@@ -41,7 +41,7 @@ export default function UserProfilePage({ nickname }: UserProps) {
 
   return (
     <section className="flex flex-col justify-start h-full mt-1 gap-y-4">
-      {nickname === myData.nickname ? <ProfileMe /> : <ProfileUser />}
+      {nickname === myData.nickname ? <ProfileMe refetch={refetch}/> : <ProfileUser />}
       <ProfileMatchData
         ladderRank={data?.ladderRank}
         ladderScore={data?.ladderScore}

@@ -38,7 +38,7 @@ export default function GameFrame() {
   const y = canvasHeight - canvasHeight * 0.05;
   // const width = racketWidth;
   // const height = racketHeight;
-  const radius = 13;
+  const radius = 5;
   // ctx.fillRect(
   //   canvasWidth * 0.05,
   //   canvasHeight - canvasHeight * 0.05,
@@ -76,6 +76,7 @@ export default function GameFrame() {
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
+    // 공
   };
   const changeRacketPosition = () => {
     const newMyRacket = {
@@ -139,6 +140,18 @@ export default function GameFrame() {
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
         drawRacket(ctx, myRacket, myRacketColor);
         drawRacket(ctx, rivalRacket, rivalRacketColor);
+        ctx.shadowColor = ballColor;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = ballColor;
+        // context.fillRect(ball.x, ball.y, ball.width, ball.height)
+
+        ctx.beginPath(); // 경로 그리기 시작
+        ctx.arc(canvasWidth / 2, canvasHeight / 2, 10, 0, Math.PI * 2); // 원 그리기
+        ctx.fillStyle = ballColor; // 공의 색상 지정
+        ctx.fill(); // 채우기
+        ctx.closePath(); // 경로 그리기 종료
       }
     }
     const rackets = changeRacketPosition();
