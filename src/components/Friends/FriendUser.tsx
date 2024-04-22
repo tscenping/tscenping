@@ -52,13 +52,13 @@ const FriendUser = (props: FriendUserProps): JSX.Element => {
   return (
     <li
       key={props.id}
-      className="relative flex justify-between w-full mb-7 overflow-visible"
+      className="relative flex justify-between w-full overflow-visible mb-7"
     >
       <section className="flex items-center">
         <section className="relative">
           <img
             src={props.avatar}
-            className="rounded-full w-10"
+            className="w-10 rounded-full"
             alt="friend user profile"
           />
           <section
@@ -70,7 +70,7 @@ const FriendUser = (props: FriendUserProps): JSX.Element => {
         </span>
       </section>
       <img
-        className="cursor-pointer w-1"
+        className="w-1 cursor-pointer"
         src={userSetting}
         onClick={() => {
           if (dropDownType === "NONE") setDropDownType("NORMAL");
@@ -81,7 +81,7 @@ const FriendUser = (props: FriendUserProps): JSX.Element => {
         <DropDown
           dropDonwType={dropDownType}
           setDropDownType={setDropDownType}
-          normalProp={{
+          dropDownProp={{
             id: props.id,
             nickname: props.nickname,
             isFriend: props.isFriend,

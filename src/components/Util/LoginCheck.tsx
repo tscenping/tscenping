@@ -42,7 +42,7 @@ const LoginCheck = (): JSX.Element => {
     // 2. 액세스 토큰 유효하지 않음
     // 3. 액세스 토큰 유효하지만, 정보가 없음
     // 4. 액세스 토큰 유효하고 정보가 있음
-  }, [navigate]);
+  }, [navigate, myData]);
 
   return <></>;
 };

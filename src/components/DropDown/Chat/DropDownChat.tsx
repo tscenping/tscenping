@@ -1,17 +1,20 @@
+export type UserTypes = "OWNER" | "ADMIN" | "MEMBER";
+export type ChannelTypes = "NORMAL" | "CHAT" | "NONE";
+
 interface DropDownChatProps {
   id: number;
   nickname: string;
   isFriend: boolean;
   channelUserId: number;
   isBlocked: boolean;
-  myChannelUserType: "OWNER" | "ADMIN" | "MEMBER";
-  channelUserType: "OWNER" | "ADMIN" | "MEMBER";
-  setDropDownType: (dropDownType: "NORMAL" | "CHAT" | "NONE") => void;
-  setChannelUserType: (v: "OWNER" | "ADMIN" | "MEMBER") => void;
+  myChannelUserType: UserTypes;
+  channelUserType: UserTypes;
+  setDropDownType: (dropDownType: ChannelTypes) => void;
+  setChannelUserType: (v: UserTypes) => void;
 }
 
-interface Prop{
-  prop: DropDownChatProps  ;
+interface Prop {
+  prop: DropDownChatProps;
 }
 
 export default function DropDownChat() {

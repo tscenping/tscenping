@@ -1,53 +1,36 @@
 import Block from "../Function/Block";
 import Friend from "../Function/Friend";
-import { DropDownNormal } from "../../../types/DropDownTypes";
+import { DropDownProps } from "../../../types/DropDownTypes";
 import Game from "../Function/Game";
 import Chat from "../Function/Chat";
+import React from "react";
 
 interface DropDownNormalProps {
-  prop?: DropDownNormal | null;
+  prop?: DropDownProps | null;
 }
+export const dropDownStyle =
+  "flex items-center justify-strat gap-3 px-3 py-0.5 cursor-pointer hover:scale-x-105 hover:bg-[#C6C6C6] rounded-[5px]";
 
 export default function NormalDropDown({ prop }: DropDownNormalProps) {
   const dropdownArray = [
     {
-      component: (
-        <Friend
-          isFriend={prop?.isFriend}
-          isBlocked={prop?.isBlocked}
-          nickname={prop?.nickname}
-          userId={prop?.id}
-          setDropDownType={prop?.setDropDownType}
-        />
-      ),
+      component: <Friend props={prop!} />,
       key: "dropDownFriend",
     },
     {
-      component: (
-        <Block
-          isBlocked={prop?.isBlocked}
-          nickname={prop?.nickname}
-          userId={prop?.id}
-          setDropDownType={prop?.setDropDownType}
-        />
-      ),
+      component: <Block props={prop!} />,
       key: "dropDownBlock",
     },
-    { component: <Game />, key: "dropDownProfile" },
+    { component: <Game props={prop!} />, key: "dropDownProfile" },
     {
-      component: <Chat nickname={prop?.nickname} userId={prop?.id} />,
+      component: <Chat props={prop!} />,
       key: "dropDownChat",
     },
   ];
   return (
     <>
       {dropdownArray.map((item) => (
-        <li
-          className="flex items-center justify-strat gap-3 px-3 py-0.5 cursor-pointer hover:scale-x-105 hover:bg-[#C6C6C6] rounded-[5px]"
-          key={item.key}
-        >
-          {item.component}
-        </li>
+        <React.Fragment key={item.key}>{item.component}</React.Fragment>
       ))}
     </>
   );
