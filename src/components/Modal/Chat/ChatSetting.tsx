@@ -1,10 +1,9 @@
-import { useModalState } from "../../../store/modal";
-import { useChatSetting, useChat } from "../../../store/chat";
+import { useModalState } from "store/modal";
+import { useChatSetting, useChat } from "store/chat";
 
 const ChatSetting = (): JSX.Element => {
   const { title, content, confirmComment, onConfirm } = useChatSetting();
   const { setModalName } = useModalState();
-  const { inChatInfo } = useChat();
 
   return (
     <>
@@ -16,16 +15,15 @@ const ChatSetting = (): JSX.Element => {
       </span>
       <section className="pt-7 pb-1 flex ">
         <button
-          className="bg-customGreen text-black w-1/2 rounded-[20px] py-2 text-base mr-5"
+          className="bg-customGreen text-[#404040] w-1/2 rounded-[20px] py-2 text-base mr-5"
           onClick={onConfirm}
         >
           {confirmComment}
         </button>
         <button
-          className="bg-white w-1/2 text-black rounded-[20px] py-2 text-base"
+          className="bg-white w-1/2 text-[#404040] rounded-[20px] py-2 text-base"
           onClick={() => {
-            if (inChatInfo.inChat) setModalName("chatUserList");
-            else setModalName(null);
+            setModalName(null);
           }}
         >
           취소

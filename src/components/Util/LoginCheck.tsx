@@ -15,12 +15,12 @@ const LoginCheck = (): JSX.Element => {
   );
 
   const getMyData = async () => {
-    // try {
-    //   const response = await instance.get(`users/me`);
-    //   setMyData(response.data);
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    try {
+      const response = await instance.get(`users/me`);
+      setMyData(response.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {

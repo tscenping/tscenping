@@ -9,6 +9,7 @@ const ChattingListHeader = (): JSX.Element => {
   );
 
   const { setModalName } = useModalState();
+
   return (
     <section className="px-4 py-7">
       <section className="flex w-full justify-between items-center">

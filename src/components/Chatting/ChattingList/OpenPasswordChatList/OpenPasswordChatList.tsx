@@ -1,20 +1,20 @@
-import useAxios from "../../../../hooks/useAxios";
-import publicChatting from "../../../../img/Chatting/publicChatting.svg";
-import passwordChatting from "../../../../img/Chatting/passwordChatting.svg";
-import { useChat, useChatSetting } from "../../../../store/chat";
+import useAxios from "hooks/useAxios";
+import publicChatting from "img/Chatting/publicChatting.svg";
+import passwordChatting from "img/Chatting/passwordChatting.svg";
+import { useChat, useChatSetting } from "store/chat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useModalState } from "../../../../store/modal";
-import { ChatUsersInfoTypes } from "../../../../store/chat";
+import { useModalState } from "store/modal";
+import { ChatType, ChatUsersInfoTypes } from "types/ChatTypes";
 
 interface AllChattingListProps {
   channelId: number;
   channelName: string;
-  channelType: string;
+  channelType: ChatType;
   userCount: number;
   isJoined: boolean;
 }
 
-const AllChattingList = (props: AllChattingListProps): JSX.Element => {
+const OpenPasswordChatList = (props: AllChattingListProps): JSX.Element => {
   const instance = useAxios();
   const { setInChatInfo, inChatInfo } = useChat();
   const { setChatSetting } = useChatSetting();
@@ -52,13 +52,13 @@ const AllChattingList = (props: AllChattingListProps): JSX.Element => {
             ...el,
           })
         );
-
         setInChatInfo({
           ...inChatInfo,
           chatTitle: props.channelName,
           inChat: props.channelId,
           chatUsersCount: response.data.channelUsers.length,
           chatUsers: chatUsers,
+          channelType: props.channelType,
           myChannelUserType: response.data.myChannelUserType,
         });
 
@@ -111,4 +111,4 @@ const AllChattingList = (props: AllChattingListProps): JSX.Element => {
   );
 };
 
-export default AllChattingList;
+export default OpenPasswordChatList;

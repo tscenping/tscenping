@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import { useModalState } from "../../store/modal";
+import { useModalState } from "store/modal";
 import CreateChatMode from "../Modal/Chat/CreateChat/CreateChatMode";
 import CreateChatInfo from "../Modal/Chat/CreateChat/CreateChatInfo/CreateChatInfo";
 import Notice from "../Modal/Notice";
@@ -9,8 +9,9 @@ import ModalLoding from "../Modal/ModalLoding";
 import ModalConfirm from "../Modal/ModalConfirm";
 import ChatSetting from "../Modal/Chat/ChatSetting";
 import PasswordChatJoin from "../Modal/Chat/PasswordChatJoin";
+import ChangeChatPassword from "../Modal/Chat/ChangeChatPassword/ChangeChatPassword";
 import { useEffect } from "react";
-import { useChat } from "../../store/chat";
+import { useChat } from "store/chat";
 
 const ModalLayout = (): JSX.Element => {
   const { inChatInfo } = useChat();
@@ -52,6 +53,7 @@ const ModalContent = (): JSX.Element => {
     chatSetting: <ChatSetting />,
     channelJoin: <ChatSetting />,
     passwordChatJoin: <PasswordChatJoin />,
+    changeChatPassword: <ChangeChatPassword />,
   };
   const modalStyle =
     modalName === null

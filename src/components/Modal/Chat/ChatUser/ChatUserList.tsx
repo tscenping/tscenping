@@ -1,5 +1,5 @@
-import { ChatUsersInfoTypes } from "../../../../store/chat";
-import userSetting from "../../../../img/Chatting/setting.svg";
+import userSetting from "img/Chatting/setting.svg";
+import { ChatUsersInfoTypes } from "types/ChatTypes";
 
 const ChatUserList = (props: ChatUsersInfoTypes): JSX.Element => {
   return (
