@@ -1,11 +1,14 @@
-import lock from "../../../../img/Chatting/lock.svg";
-import toggle from "../../../../img/Chatting/toggle.svg";
-import { useChat, useChatSetting } from "../../../../store/chat";
-import { useModalState } from "../../../../store/modal";
-import useAxios from "../../../../hooks/useAxios";
+import lock from "img/Chatting/lock.svg";
+import unlock from "img/Chatting/unlock.svg";
+import password from "img/Chatting/toggle.svg";
+import open from "img/Chatting/open.svg";
+import exitChat from "img/Chatting/out.svg";
+import { useChat, useChatSetting } from "store/chat";
+import { useModalState, useNoticeModalState } from "store/modal";
+import useAxios from "hooks/useAxios";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import ChatUserList from "./ChatUserList";
-import exitChat from "../../../../img/Chatting/out.svg";
+import { useInviteMode } from "store/chat";
 
 const ChatUserLists = (): JSX.Element => {
   const instance = useAxios();
@@ -13,7 +16,8 @@ const ChatUserLists = (): JSX.Element => {
   const { setModalName } = useModalState();
   const { setChatSetting } = useChatSetting();
   const queryClient = useQueryClient();
-
+  const { setContent } = useNoticeModalState();
+  const { setMode } = useInviteMode();
   const exitChatHandler = async () => {
     try {
       const response = await instance.patch("/channels/exit", {
@@ -31,10 +35,40 @@ const ChatUserLists = (): JSX.Element => {
   const { mutate } = useMutation({
     mutationFn: exitChatHandler,
     onSuccess: () => {
+      if (
+        inChatInfo.channelType === "PUBLIC" ||
+        inChatInfo.channelType === "PROTECTED"
+      )
+        queryClient.invalidateQueries({ queryKey: ["open-password"] });
+      else queryClient.invalidateQueries({ queryKey: ["group-dm"] });
+    },
+  });
+
+  //비밀번호 채팅방 일반 채팅으로 바꾸는 api
+  const changeOpenChatApiHandler = async () => {
+    try {
+      const response = await instance.patch("/channels/password", {
+        channelId: inChatInfo.inChat,
+        password: null,
+      });
+      if (response.status === 200) {
+        setInChatInfo({ ...inChatInfo, channelType: "PUBLIC" });
+        setContent("일반 채팅으로 변경되었어요.");
+        setModalName("notice");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //비밀번호 채팅방 일반 채팅으로 바꾸는 api
+
+  const changeMutate = useMutation({
+    mutationFn: changeOpenChatApiHandler,
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["open-password"] });
     },
   });
-  console.log(inChatInfo.myChannelUserType);
+
   return (
     <section className="pl-6 pt-14 pb-10 text-base md:font-lg font-[Pretendard-SemiBold] flex flex-col justify-between h-full">
       <section>
@@ -43,6 +77,7 @@ const ChatUserLists = (): JSX.Element => {
           {inChatInfo.chatUsers &&
             inChatInfo.chatUsers.map((el) => (
               <ChatUserList
+                key={el.channelUserId}
                 channelUserId={el.channelUserId}
                 userId={el.userId}
                 nickname={el.nickname}
@@ -62,30 +97,76 @@ const ChatUserLists = (): JSX.Element => {
           </h1>
         )}
         <ul>
-          {inChatInfo.myChannelUserType === "OWNER" && (
-            <li className="cursor-pointer mb-5 sm:mb-7 lg:mb-9 xl:mb-11 flex justify-between ">
-              <span className="text-sm  sm:text-base lg:text-lg xl:text-2xl">
-                채팅 모드 변경
-              </span>
-              <section className="flex items-end">
-                <img
-                  src={lock}
-                  className="cursor-pointer w-6"
-                  alt="Change chat mode password"
-                />
-                <img
-                  src={toggle}
-                  className="ml-4 cursor-pointer w-6 sm:w-7 md:w-8 lg:w-9"
-                  alt="Change chat mode"
-                />
-              </section>
-            </li>
-          )}
-          {inChatInfo.myChannelUserType === "OWNER" && (
-            <li className="cursor-pointer text-sm mb-5 sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl">
-              비밀번호 변경
-            </li>
-          )}
+          {inChatInfo.myChannelUserType === "OWNER" &&
+            inChatInfo.channelType !== "DM" &&
+            inChatInfo.channelType !== "PRIVATE" && (
+              <li
+                className="cursor-pointer mb-5 sm:mb-7 lg:mb-9 xl:mb-11 flex justify-between "
+                onClick={() => {
+                  if (inChatInfo.channelType === "PROTECTED") {
+                    setModalName("chatSetting");
+                    setChatSetting(
+                      inChatInfo.chatTitle,
+                      "채팅방을 일반 채팅으로 변경하시겠어요?",
+                      "변경하기",
+                      () => {
+                        changeMutate.mutate();
+                      }
+                    );
+                  }
+                  if (inChatInfo.channelType === "PUBLIC") {
+                    setModalName("chatSetting");
+                    setChatSetting(
+                      inChatInfo.chatTitle,
+                      "채팅방을 비밀 채팅으로 변경하시겠어요?",
+                      "변경하기",
+                      () => setModalName("changeChatPassword")
+                    );
+                  }
+                }}
+              >
+                <span className="text-sm  sm:text-base lg:text-lg xl:text-2xl">
+                  채팅 모드 변경
+                </span>
+                <section className="flex items-end">
+                  <img
+                    src={inChatInfo.channelType === "PROTECTED" ? lock : unlock}
+                    className="cursor-pointer w-4"
+                    alt="Change chat mode password"
+                  />
+                  <img
+                    src={
+                      inChatInfo.channelType === "PROTECTED" ? password : open
+                    }
+                    className="ml-4 cursor-pointer w-6"
+                    alt="Change chat mode"
+                  />
+                </section>
+              </li>
+            )}
+          {inChatInfo.myChannelUserType === "OWNER" &&
+            inChatInfo.channelType === "PROTECTED" && (
+              <li
+                className="cursor-pointer text-sm mb-5 sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
+                onClick={() => {
+                  setModalName("changeChatPassword");
+                }}
+              >
+                비밀번호 변경
+              </li>
+            )}
+          {inChatInfo.myChannelUserType === "OWNER" &&
+            inChatInfo.channelType === "PRIVATE" && (
+              <li
+                className="cursor-pointer text-sm mb-5 sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
+                onClick={() => {
+                  setMode(true);
+                  setModalName(null);
+                }}
+              >
+                채팅방 초대하기
+              </li>
+            )}
           <li
             className="flex justify-between items-center cursor-pointer"
             onClick={() => {

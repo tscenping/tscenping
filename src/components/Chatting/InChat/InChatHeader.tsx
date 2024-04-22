@@ -1,9 +1,9 @@
-import back from "../../../../img/Friends/backUsers.svg";
-import setting from "../../../../img/Chatting/setting.svg";
-import { useModalState } from "../../../../store/modal";
-import { useChat } from "../../../../store/chat";
+import back from "img/Friends/backUsers.svg";
+import setting from "img/Chatting/setting.svg";
+import { useModalState } from "store/modal";
+import { useChat } from "store/chat";
 
-const InChattingHeader = (): JSX.Element => {
+const InChatHeader = (): JSX.Element => {
   const { setModalName } = useModalState();
   const { inChatInfo, setInChatInfo } = useChat();
 
@@ -20,7 +20,11 @@ const InChattingHeader = (): JSX.Element => {
         />
         <section className="font-[Pretendard-SemiBold] text-lg sm:text-xl md:text-2xl">
           <strong className="mr-4">{inChatInfo.chatTitle}</strong>
-          <span className="text-[#9e9e9e]">{inChatInfo.chatUsersCount}/10</span>
+          {inChatInfo.channelType !== "DM" && (
+            <span className="text-[#9e9e9e]">
+              {inChatInfo.chatUsersCount}/10
+            </span>
+          )}
         </section>
         <img
           src={setting}
@@ -35,4 +39,4 @@ const InChattingHeader = (): JSX.Element => {
   );
 };
 
-export default InChattingHeader;
+export default InChatHeader;

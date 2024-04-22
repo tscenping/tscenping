@@ -1,11 +1,24 @@
-import { useModalState, useCreateChatModeState } from "../../../../store/modal";
+import { useModalState, useCreateChatModeState } from "store/modal";
+import { useLocation } from "react-router-dom";
 import ModalHeader from "../../ModalHeader";
-import passwordChat from "../../../../img/Chatting/passwordChattingW.svg";
-import openChat from "../../../../img/Footer/chatting2.svg";
-import checkedPassword from "../../../../img/Chatting/checkedPassword.svg";
-import checkedOpen from "../../../../img/Chatting/checkedOpen.svg";
+import passwordChat from "img/Chatting/passwordChattingW.svg";
+import openChat from "img/Footer/chatting2.svg";
+import checkedPassword from "img/Chatting/checkedPassword.svg";
+import checkedOpen from "img/Chatting/checkedOpen.svg";
+import oneOnOne from "img/Chatting/oneonone.svg";
+import group from "img/Chatting/group.svg";
+import checkedOneOnOne from "img/Chatting/checkedoneonone.svg";
+import checkedGroup from "img/Chatting/checkedGroup.svg";
+import { useInviteMode } from "store/chat";
+import { useEffect } from "react";
 
 const CreateChatMode = (): JSX.Element => {
+  const location = useLocation();
+  const pathName = location.pathname.substring(
+    location.pathname.lastIndexOf("/") + 1
+  );
+
+  const { setMode } = useInviteMode();
   const { setModalName } = useModalState();
   const { setCreateChatType, createChatType } = useCreateChatModeState();
   const buttonStyle =
@@ -15,51 +28,67 @@ const CreateChatMode = (): JSX.Element => {
     if (createChatType) setModalName("createChatInfo");
   };
 
+  useEffect(() => {
+    setCreateChatType("");
+  }, []);
+
   return (
     <>
       <ModalHeader title="새로운 채팅방" />
       <section className="flex w-full pt-6 pb-8 justify-evenly">
         <button
           className={`${buttonStyle} ${
-            createChatType === "PROTECTED" ? "text-[#404040] bg-white" : ""
-          }`}
+            createChatType === "PROTECTED" || createChatType === "DM"
+              ? "text-[#404040] bg-white"
+              : ""
+          } `}
           onClick={() => {
-            setCreateChatType("PROTECTED");
+            if (pathName === "inchatting") setCreateChatType("DM");
+            else setCreateChatType("PROTECTED");
           }}
         >
-          {createChatType === "PROTECTED" ? (
+          {createChatType === "PROTECTED" || createChatType === "DM" ? (
             <img
-              src={checkedPassword}
+              src={
+                pathName === "inchatting" ? checkedOneOnOne : checkedPassword
+              }
               alt="checked password chat"
               className="mr-[16px]"
             />
           ) : (
             <img
-              src={passwordChat}
+              src={pathName === "inchatting" ? oneOnOne : passwordChat}
               alt="create password chat"
               className="mr-[16px]"
             />
           )}
-          비밀채팅
+          {pathName === "inchatting" ? "1:1 채팅" : "비밀채팅"}
         </button>
         <button
           className={`${buttonStyle} ${
-            createChatType === "PUBLIC" ? "text-[#404040] bg-white" : ""
-          }`}
+            createChatType === "PUBLIC" || createChatType === "PRIVATE"
+              ? "text-[#404040] bg-white"
+              : ""
+          } `}
           onClick={() => {
-            setCreateChatType("PUBLIC");
+            if (pathName === "inchatting") setCreateChatType("PRIVATE");
+            else setCreateChatType("PUBLIC");
           }}
         >
-          {createChatType === "PUBLIC" ? (
+          {createChatType === "PUBLIC" || createChatType === "PRIVATE" ? (
             <img
-              src={checkedOpen}
+              src={pathName === "inchatting" ? checkedGroup : checkedOpen}
               alt="checked open chat"
               className="mr-[16px]"
             />
           ) : (
-            <img src={openChat} alt="create open chat" className="mr-[16px]" />
+            <img
+              src={pathName === "inchatting" ? group : openChat}
+              alt="create open chat"
+              className="mr-[16px]"
+            />
           )}
-          오픈채팅
+          {pathName === "inchatting" ? "그룹채팅" : "오픈채팅"}
         </button>
       </section>
       <section className="flex justify-center py-1">
@@ -68,7 +97,10 @@ const CreateChatMode = (): JSX.Element => {
             createChatType ? "bg-customGreen" : "bg-white"
           }`}
           onClick={() => {
-            createChatInfo();
+            if (createChatType === "DM") {
+              setMode(true);
+              setModalName(null);
+            } else createChatInfo();
           }}
         >
           확인

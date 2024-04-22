@@ -1,8 +1,10 @@
+import { ChatTabStateType } from "types/ChatTypes";
+
 interface ChattingNaviListProps {
   tabState: string;
-  setTabState: (v: string) => void;
+  setTabState: (v: ChatTabStateType) => void;
   tabName: string;
-  tabTitle: string;
+  tabTitle: ChatTabStateType;
 }
 
 const ChattingNaviList = (props: ChattingNaviListProps): JSX.Element => {

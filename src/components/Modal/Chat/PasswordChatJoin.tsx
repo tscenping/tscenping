@@ -1,10 +1,10 @@
 import React, { useState, useRef } from "react";
-import { useChat } from "../../../store/chat";
-import useAxios from "../../../hooks/useAxios";
-import { useModalState } from "../../../store/modal";
-import { ChatPasswordErrorTypes } from "../../../types/ChatTypes";
+import { useChat } from "store/chat";
+import useAxios from "hooks/useAxios";
+import { useModalState } from "store/modal";
+import { ChatPasswordErrorTypes } from "types/ChatTypes";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { ChatUsersInfoTypes } from "../../../store/chat";
+import { ChatUsersInfoTypes } from "types/ChatTypes";
 
 const PasswordChatJoin = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
@@ -44,6 +44,8 @@ const PasswordChatJoin = (): JSX.Element => {
           chatTitle: inChatInfo.readyToChatTitle,
           inChat: inChatInfo.readyToChat,
           chatUsers: chatUsers,
+          channelType: "PROTECTED",
+          chatUsersCount: response.data.channelUsers.length,
           myChannelUserType: response.data.myChannelUserType,
         });
       }
@@ -66,7 +68,7 @@ const PasswordChatJoin = (): JSX.Element => {
   return (
     <>
       <h1 className="text-base font-[Pretendard-ExtraBold] pt-5">
-        {inChatInfo.chatTitle}
+        {inChatInfo.readyToChatTitle}
       </h1>
       <span className="text-base font-[Pretendard-SemiBold]">
         채팅에 참여하려면 비밀번호를 입력해주세요.

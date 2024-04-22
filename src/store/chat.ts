@@ -1,27 +1,9 @@
 import { create } from "zustand";
-
-type channelUserTypes = "OWNER" | "ADMIN" | "MEMBER" | "";
-
-export interface ChatUsersInfoTypes {
-  channelUserId: number;
-  userId: number;
-  nickname: string;
-  avatar: string;
-  isFriend: boolean;
-  isBlocked: boolean;
-  myChannelUserType: channelUserTypes;
-  channelUserType: channelUserTypes;
-}
-
-interface useChatProps {
-  inChat: number;
-  chatTitle: string;
-  readyToChat: number;
-  readyToChatTitle: string;
-  chatUsersCount: number;
-  myChannelUserType: channelUserTypes;
-  chatUsers: ChatUsersInfoTypes[];
-}
+import {
+  MessageType,
+  useChatProps,
+  useChatSettingProps,
+} from "../types/ChatTypes";
 
 interface useChatInfoProps {
   inChatInfo: useChatProps;
@@ -35,24 +17,12 @@ export const useChat = create<useChatInfoProps>((set) => ({
     readyToChat: 0,
     readyToChatTitle: "",
     chatUsers: [],
+    channelType: "",
     myChannelUserType: "",
     chatUsersCount: 1,
   },
   setInChatInfo: (inChatInfo: useChatProps) => set({ inChatInfo }),
 }));
-
-interface useChatSettingProps {
-  title: string;
-  content: string;
-  confirmComment: string;
-  onConfirm: () => void;
-  setChatSetting: (
-    title: string,
-    content: string,
-    confirmComment: string,
-    onConfirm: () => Promise<void> | void
-  ) => void;
-}
 
 export const useChatSetting = create<useChatSettingProps>((set) => ({
   title: "",
@@ -65,4 +35,33 @@ export const useChatSetting = create<useChatSettingProps>((set) => ({
     confirmComment: string,
     onConfirm: () => void
   ) => set({ title, content, confirmComment, onConfirm }),
+}));
+
+interface useInviteModeProps {
+  mode: boolean;
+  setMode: (v: boolean) => void;
+}
+
+export const useInviteMode = create<useInviteModeProps>((set) => ({
+  mode: false,
+  setMode: (mode: boolean) => set({ mode }),
+}));
+
+interface useMessageProps {
+  chatLog: MessageType[];
+  setChatLog: (v: MessageType) => void;
+}
+
+export const useMessage = create<useMessageProps>((set) => ({
+  chatLog: [],
+  // setChatLog: (newMessage) =>
+  //   set((state) => ({ chatLog: [...state.chatLog, newMessage] })),
+  setChatLog: (newMessage) =>
+    set((state) => {
+      const updatedChatLog = [...state.chatLog, newMessage];
+      if (updatedChatLog.length > 1000) {
+        updatedChatLog.shift();
+      }
+      return { chatLog: updatedChatLog };
+    }),
 }));

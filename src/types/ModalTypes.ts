@@ -1,3 +1,5 @@
+import { ChatType } from "./ChatTypes";
+
 export type ModalTypes =
   | "createChatMode"
   | "createChatInfo"
@@ -9,6 +11,7 @@ export type ModalTypes =
   | "chatSetting"
   | "passwordChatJoin"
   | "channelJoin"
+  | "changeChatPassword"
   | null;
 export type confirmTypes = "friend" | "block" | "chat" | "game" | "";
 export interface ModalProps {
@@ -30,6 +33,6 @@ export interface useNoticeModalStateProps {
 }
 
 export interface useCreateChatModeProps {
-  createChatType?: "PROTECTED" | "PUBLIC" | null;
-  setCreateChatType: (createChatType: "PROTECTED" | "PUBLIC" | null) => void;
+  createChatType: ChatType;
+  setCreateChatType: (createChatType: ChatType) => void;
 }

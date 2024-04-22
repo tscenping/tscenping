@@ -1,15 +1,12 @@
 import { useRef, useState } from "react";
 import ModalHeader from "../../../ModalHeader";
-import {
-  useModalState,
-  useCreateChatModeState,
-} from "../../../../../store/modal";
+import { useModalState, useCreateChatModeState } from "store/modal";
 import CreateChatInfoTitle from "./CreateChatInfoTitle";
 import CreateChatInfoPassword from "./CreateChatInfoPassword";
-import useAxios from "../../../../../hooks/useAxios";
-import { useChat } from "../../../../../store/chat";
+import useAxios from "hooks/useAxios";
+import { useChat } from "store/chat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ChatPasswordErrorTypes } from "../../../../../types/ChatTypes";
+import { ChatPasswordErrorTypes } from "types/ChatTypes";
 
 const CreateChatInfo = (): JSX.Element => {
   const queryClient = useQueryClient();
@@ -61,7 +58,11 @@ const CreateChatInfo = (): JSX.Element => {
         setInChatInfo({
           ...inChatInfo,
           inChat: response.data.channelId,
+          chatUsers: response.data.channelUsers,
+          chatUsersCount: response.data.channelUsers.length,
+          myChannelUserType: response.data.myChannelUserType,
           chatTitle: titleRef.current?.value,
+          channelType: createChatType,
         });
       }
     } catch (error) {
@@ -72,7 +73,15 @@ const CreateChatInfo = (): JSX.Element => {
   const createChatMutation = useMutation({
     mutationFn: createChatApiHandler,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["open-password"] });
+      queryClient.invalidateQueries({
+        queryKey: [
+          `${
+            createChatType === "DM" || createChatType === "PRIVATE"
+              ? "group-dm"
+              : "open-password"
+          }`,
+        ],
+      });
     },
   });
 

@@ -25,6 +25,6 @@ export const useNoticeModalState = create<useNoticeModalStateProps>((set) => ({
 }));
 
 export const useCreateChatModeState = create<useCreateChatModeProps>((set) => ({
-  createChatType: null,
+  createChatType: "",
   setCreateChatType: (createChatType) => set({ createChatType }),
 }));
