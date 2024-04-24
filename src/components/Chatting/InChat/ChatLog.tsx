@@ -33,11 +33,11 @@ const ChatLog = (): JSX.Element => {
   }, [chatLog]);
 
   return (
-    <section className="flex flex-col justify-between h-full w-full">
-      <section className="h-9/10 xs:h-5/6 xxs:h-4/5 md:h-5/6 lg:h-9/10 relative">
+    <section className="flex flex-col justify-between w-full h-full">
+      <section className="relative h-9/10 xs:h-5/6 xxs:h-4/5 md:h-5/6 lg:h-9/10">
         <InChatHeader />
-        <section className="p-3 h-full">
-          <ul className="flex flex-col overflow-y-auto h-full scrollbar-hide ">
+        <section className="h-full p-3">
+          <ul className="flex flex-col h-full overflow-y-auto scrollbar-hide ">
             {chatLog.map((el) => {
               if (el.eventType && el.channelId === inChatInfo.inChat) {
                 return (

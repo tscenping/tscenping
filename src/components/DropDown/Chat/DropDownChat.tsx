@@ -10,7 +10,6 @@ interface DropDownChatProps {
   myChannelUserType: UserTypes;
   channelUserType: UserTypes;
   setDropDownType: (dropDownType: ChannelTypes) => void;
-  setChannelUserType: (v: UserTypes) => void;
 }
 
 interface Prop {

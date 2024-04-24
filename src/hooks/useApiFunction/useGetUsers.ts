@@ -41,6 +41,7 @@ const useGetUsers = (userType: useGetUsersType) => {
         ? undefined
         : allPages.length + 1;
     },
+    staleTime: 1000 * 1
   });
 
   return { data, hasNextPage, fetchNextPage };

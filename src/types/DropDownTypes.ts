@@ -30,5 +30,4 @@ export interface DropDownProps {
   myChannelUserType?: ChatUserTypes;
   channelUserType?: ChatUserTypes;
   setDropDownType: (dropDownType: DropDownTypes) => void;
-  setChannelUserType?: (v: ChatUserTypes) => void;
 }

@@ -1,7 +1,8 @@
 import profileImageBtn from "../../../img/Login/profileImageBtn.svg";
 import Resizer from "react-image-file-resizer";
 import defaultImg from "../../../img/Login/defaultProfileImage.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { instance } from "components/Util/axios";
 
 interface ProfileImageInputProps {
   setUploadImage: (v: File) => void;
@@ -12,6 +13,7 @@ const maxFileSize = 3 * 1024 * 1024;
 
 const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
   const [imgString, setImgString] = useState<string | null>(null);
+  
 
   const profileImageStyle =
     "w-[69px] h-[69px] mb-2 md:w-[88px] md:h-[88px] cursor-pointer rounded-[30px] md:rounded-[40px] object-cover";

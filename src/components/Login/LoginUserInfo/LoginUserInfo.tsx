@@ -15,19 +15,41 @@ const LoginUserInfo = (): JSX.Element => {
   const nicknameRef = useRef<HTMLInputElement>(null);
   const { handleUploadImage, imageUrl } = useImage();
 
-  useEffect(() => {
-    if (uploadImage === undefined) return;
-    handleUploadImage(uploadImage);
-  }, [uploadImage]);
+  const [presignedUrl, setPreSignedUrl] = useState<string>("");
+  const [s3Url, setS3Url] = useState<string>("");
+  const getPresignedUrl = async () => {
+    try {
+      await instance.get("/users/s3image").then((res) => {
+        console.log(res.data);
+        setPreSignedUrl(res.data);
+      });
+    } catch (e) {}
+  };
 
   useEffect(() => {
-    console.log(imageUrl, "imageUrl");
-  }, [imageUrl]);
+    getPresignedUrl();
+  });
+
+  // useEffect(() => {
+  //   if (uploadImage === undefined) return;
+  //   handleUploadImage(uploadImage);
+  // }, [uploadImage]);
+
+  // useEffect(() => {
+  //   console.log(imageUrl, "imageUrl");
+  // }, [imageUrl]);
 
   const userinfoHandler = async () => {
+    try{
+    await axios
+      .put(presignedUrl, uploadImage)
+      .then((res) => console.log(res.data, "upload image"));
+    }catch(e){
+      console.log(e)
+    }
     const data = {
       nickname: nicknameRef.current?.value,
-      avatar: imageUrl,
+      avatar: "zxc",
     };
     try {
       const response = await instance.patch(
@@ -54,10 +76,10 @@ const LoginUserInfo = (): JSX.Element => {
             </section>
           </section>
           <section className="flex flex-col items-center justify-center w-full mt-16">
-            {/* <ProfileImageInput
+            <ProfileImageInput
               setUploadImage={setUploadImage}
               uploadImage={uploadImage}
-            /> */}
+            />
             <NickNameInput nicknameRef={nicknameRef} />
           </section>
         </section>

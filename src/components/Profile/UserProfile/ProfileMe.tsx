@@ -6,6 +6,7 @@ import textEditBtn from "../../../img/Profile/editTextBtn.svg";
 import { useEffect, useRef, useState } from "react";
 import { instance } from "../../Util/axios";
 import { useQueryClient } from "@tanstack/react-query";
+import ProfileImgEdit from "./ProfileImgEdit";
 
 const svgWidth = 60;
 const svgHeight = 60;
@@ -62,19 +63,19 @@ export default function ProfileMe(props: MyProfileProps) {
     }
   };
 
-  const handleEditProfileImg = () => {
-    if (isImgEdit) {
-      submitImg();
-      setIsImgEdit(!isImgEdit);
-      const updatedUserProfileState = {
-        ...userProfileState, // 이전 상태 복사
-        avatar: imgUrl, // 변경된 상태 메시지 할당
-      };
-      setUserProfile(updatedUserProfileState);
-    } else {
-      setIsImgEdit(!isImgEdit);
-    }
-  };
+  // const handleEditProfileImg = () => {
+  //   if (isImgEdit) {
+  //     submitImg();
+  //     setIsImgEdit(!isImgEdit);
+  //     const updatedUserProfileState = {
+  //       ...userProfileState, // 이전 상태 복사
+  //       avatar: imgUrl, // 변경된 상태 메시지 할당
+  //     };
+  //     setUserProfile(updatedUserProfileState);
+  //   } else {
+  //     setIsImgEdit(!isImgEdit);
+  //   }
+  // };
 
   const submitStatusMessage = async () => {
     await instance
@@ -84,34 +85,33 @@ export default function ProfileMe(props: MyProfileProps) {
       });
   };
 
-  const submitImg = async () => {
-    await instance
-      .patch("/users//me/avatar", { avatar: imgUrl })
-      .then(function (res) {
-        props.refetch();
-      });
-  };
-  // /me/avatar
   return (
     <section className="flex flex-col items-center gap-3 justify-normal">
-      <div className="relative ">
-        <img
-          src={
-            userProfileState?.avatar === null
-              ? defaultImg
-              : userProfileState?.avatar
-          }
-          alt="profile img"
-          width={svgWidth}
-          height={svgHeight}
-          className="rounded-[30px] md:rounded-[40px] object-cover"
-        />
-        <img
-          src={imgEditBtn}
-          alt="editBtn"
-          className="absolute bottom-0 w-1/5 right-1"
-        />
-      </div>
+      {/* <div className="relative "> */}
+        {isImgEdit ? (
+          <ProfileImgEdit refetch={props.refetch} setIsImgEdit={setIsImgEdit} />
+        ) : (
+          <div className="relative ">
+            <img
+              src={
+                userProfileState?.avatar === null
+                  ? defaultImg
+                  : userProfileState?.avatar
+              }
+              alt="profileImg"
+              width={svgWidth}
+              height={svgHeight}
+              className="rounded-[30px] md:rounded-[40px] object-cover"
+            />
+            <img
+              src={imgEditBtn}
+              alt="editBtn"
+              className="absolute w-1/3 cusor-pointer -bottom-1 right-1"
+              onClick={() => setIsImgEdit(!isImgEdit)}
+            />
+          </div>
+        )}
+      {/* </div> */}
       <div className="text-white strong">{userProfileState?.nickname}</div>
       {!isMsgEdit ? (
         <section className="flex items-center justify-center w-full gap-3">
@@ -130,7 +130,7 @@ export default function ProfileMe(props: MyProfileProps) {
           </button>
         </section>
       ) : (
-        <div className="bg-[#2D2D2D] flex justify-between rounded-[10px] p-4">
+        <div className="bg-[#2D2D2D] flex justify-between rounded-[10px] p-4 gap-2">
           <textarea
             rows={4}
             cols={50}

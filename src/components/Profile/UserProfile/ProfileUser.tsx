@@ -3,63 +3,45 @@ import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
 import { useModalState } from "../../../store/modal";
 import { useUserProfileState } from "../../../store/profile";
 import { instance } from "components/Util/axios";
+import { useEffect, useState } from "react";
 
 const svgWidth = 100;
 const svgHeight = 100;
-const username = "hyeongwoo";
 
-export default function ProfileUser() {
-  const { setModalName, setModalProps, modalProps } = useModalState();
+export default function ProfileUser({ refetch }: { refetch: Function }) {
+  const { setModalName, setModalProps } = useModalState();
   const { userProfileState } = useUserProfileState();
-  const queryClient = useQueryClient();
 
   // 친구면
   // 친구삭제, 차단하기
   // 차단이면
   // 친구추가, 차단해제
 
-  const friendApiHandler = async () => {
-    if (modalProps?.isFriend) {
-      try {
-        const response = await instance.delete("/users/friends", {
-          data: {
-            friendId: modalProps.id,
-          },
+  const friendHandler = async () => {
+    try {
+      if (userProfileState.isFriend) {
+        await instance.delete(`/users/friends`, {
+          data: { friendId: userProfileState.id },
         });
-        if (response.status === 200) setModalName(null);
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      try {
-        const response = await instance.post("/users/friends", {
-          friendId: modalProps!.id,
+      } else {
+        await instance.post(`/users/friends`, {
+          friendId: userProfileState.id,
         });
-        if (response.status === 201) {
-          setModalName(null);
-        }
-      } catch (error) {
-        console.log(error);
       }
+      refetch();
+    } catch (e) {
+      console.log(e);
     }
   };
-
-  const { mutate } = useMutation({
-    mutationFn: friendApiHandler,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["friend-users"] });
-      // queryClient.invalidateQueries({ queryKey: ["search-user"] });
-      queryClient.refetchQueries({ queryKey: ["search-user"] });
-    },
-  });
 
   return (
     <section className="flex flex-row items-center gap-4 justify-normal">
       <img
         src={
-          userProfileState?.avatar === null
-            ? defaultImg
-            : userProfileState?.avatar
+          "https://d5xph0h5q8hbn.cloudfront.net/images/2.jpeg"
+          // userProfileState?.avatar === null
+          //   ? defaultImg
+          //   : userProfileState?.avatar
         }
         alt="profile img"
         width={svgWidth}
@@ -74,13 +56,17 @@ export default function ProfileUser() {
             onClick={() => {
               setModalName("confirm");
               setModalProps({
+                nickname: userProfileState?.nickname,
                 confirmType: "friend",
-                acceptFunction: mutate,
+                acceptFunction: friendHandler,
+                confirmMsg: `${userProfileState?.nickname}님을 ${
+                  userProfileState?.isFriend ? "친구 삭제" : "친구 추가"
+                } 하시겠습니까?`,
                 declineFunction: () => setModalName(null),
               });
             }}
           >
-            친구 추가
+            {userProfileState?.isFriend ? "친구 삭제" : "친구 추가"}
           </button>
         </div>
         <p className="text-[#A9A9A9] mb-3 ">
@@ -91,7 +77,10 @@ export default function ProfileUser() {
             className="w-2/5 h-full text-black bg-[#F7F7F7] rounded-[10px]"
             onClick={() => {
               setModalName("confirm");
-              setModalProps({ confirmType: "chat" });
+              setModalProps({
+                confirmType: "chat",
+                confirmMsg: "1:1 채팅을 시작하시겠습니까?",
+              });
             }}
           >
             1:1 메세지
@@ -99,8 +88,12 @@ export default function ProfileUser() {
           <button
             className="w-2/5 h-full bg-[#F7F7F7] text-black rounded-[10px]"
             onClick={() => {
-              setModalName("confirm");
-              setModalProps({ confirmType: "game" });
+              setModalName("gameInvite");
+              setModalProps({
+                nickname: userProfileState?.nickname,
+                confirmType: "game",
+                confirmMsg: `${userProfileState?.nickname}님과 게임을 진행하시겠습니까?`,
+              });
             }}
           >
             게임 초대
