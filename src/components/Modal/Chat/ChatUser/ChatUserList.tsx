@@ -21,7 +21,7 @@ const ChatUserList = (props: ChatUsersInfoTypes): JSX.Element => {
       <section className="flex items-center">
         <img
           src={props.avatar}
-          className="rounded-full w-10 sm:w-12 lg:w-14 xl:w-16 mr-3"
+          className="w-10 mr-3 rounded-full sm:w-12 lg:w-14 xl:w-16"
         />
         <span className="font-[Pretendard] text-sm sm:text-base lg:text-lg xl:text-2xl">
           {props.nickname}
@@ -50,7 +50,6 @@ const ChatUserList = (props: ChatUsersInfoTypes): JSX.Element => {
             myChannelUserType: props.myChannelUserType,
             channelUserType: props.channelUserType,
             setDropDownType: setDropDownType,
-            setChannelUserType: setChannelUserType,
           }}
         />
       )}

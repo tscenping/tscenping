@@ -5,6 +5,7 @@ interface ProfileState {
   nickname: string | undefined;
   isMfaEnabled?: boolean;
   mfaCode?: string;
+  avatar: string;
 }
 interface MyData {
   myData: ProfileState;
@@ -14,6 +15,7 @@ export const useMyData = create<MyData>((set) => ({
   myData: {
     id: -1,
     nickname: "",
+    avatar: "",
   },
   setMyData: (myData: ProfileState) => set({ myData }),
 }));

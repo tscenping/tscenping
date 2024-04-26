@@ -13,10 +13,10 @@ const defaultImage = process.env.REACT_APP_DEFAULT_PROFILE;
 
 const LoginUserInfo = (): JSX.Element => {
   const instance = useAxios();
-  const [uploadImage, setUploadImage] = useState<File>();
+  const [uploadImage, setUploadImage] = useState<File | null>(null);
   const navigate = useNavigate();
   const nicknameRef = useRef<HTMLInputElement>(null);
-  const { handleUploadImage, imageUrl } = useImage();
+  // const { handleUploadImage, imageUrl } = useImage();
   const { setMyData, myData } = useMyData();
 
   const firebaseConfig = {
@@ -35,37 +35,69 @@ const LoginUserInfo = (): JSX.Element => {
     }
   };
 
-  useEffect(() => {
-    if (uploadImage === undefined) return;
-    handleUploadImage(uploadImage);
-  }, [uploadImage]);
+  const [preSignedUrl, setPreSignedUrl] = useState<string | null>(null);
+  // useEffect(() => {
+  // getPresignedUrl();
+  // });
 
-  useEffect(() => {
-    console.log(imageUrl, "imageUrl");
-  }, [imageUrl]);
+  // useEffect(() => {
+  //   if (uploadImage === undefined) return;
+  //   handleUploadImage(uploadImage);
+  // }, [uploadImage]);
+
+  // useEffect(() => {
+  //   console.log(imageUrl, "imageUrl");
+  // }, [imageUrl]);
+  // 다음
 
   const userinfoHandler = async () => {
     const data = {
       nickname: nicknameRef.current?.value,
-      avatar:
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEUAAABFCAYAAAAcjSspAAAAAXNSR0IArs4c6QAAAkFJREFUeF7tmL+KwkAQh08haCN2KW3EJ8g9kz6TPtNZW4iNpV2wUQSRORgYufXut5v9k8OfVdA12f32m9nJDHa7XfPBzxOBAaH8NIJQHFFCKISCJU+aQlNoCkaApmCcmFNoCk3BCNAUjBNzCk2hKRgBmoJxKp5TTqdTc7lcmtvt1lRVtZVpj8fjbV3X39clPsWgCIy2bdevFj0ajTaz2WzzNlCOx+Pyer0uZcHD4XArhogdYox8p7/JdQk42U2xQKbT6epVmKDjUpiUFYoNGcQABSM2zefzVQoArntmhaKLRIDoZA+Hw/p+vze/WRUbVlYoIQsM+U9XSFmh7Pf7L5nwYrH4RCeuIZczhHoPJSTkUOCvxmWFEhIKbwOFidY4ao9k5DSxtYpPHvpX4SOT1RD6K3H61jRdQdj/Z80p+mA9hbSMty+AAuN8Pi+lNnmbMl/B2NDo20thEVMsGLmWtoGaYV8QS7UPikKJmQdi3otQHDQJhVCwIKMpJUyxjWk9YbD9eh6lp5J8m7p3m9QUpBYJAZS6qEsGRct5WYDs8mQy2XSpO9Q4uZ82tn1eLH3gJ4Fie6tdYbgWk7qpHR2K75uwzw7asSmb2tGh5GwKhTStkE2IDiXVRF2LSfWs6FBCmtPI7rnGpGpqE0qO4o2mOCgTSk+gxC7ioucUSX7Cqkv16pN45XmxnxUdis+C+jqWUHKcPn3dfZ950RSagvlCU2gKTcEI0BSME3MKTaEpGAGagnFiTqEpNAUjQFMwTswpDk4PSkdN/PWfo00AAAAASUVORK5CYII=",
+      avatar: uploadImage === null ? false : true,
     };
     try {
-      const response = await instance.patch(
-        "/auth/signup",
-        JSON.stringify(data)
-      );
-      if (response.status === 200) {
-        if (nicknameRef.current) {
-          addDataToCollection(nicknameRef.current?.value);
-        }
-        setMyData({ ...myData, nickname: nicknameRef.current?.value });
-        navigate("/");
-      }
+      const response = await instance
+        .patch("/auth/signup", JSON.stringify(data))
+        .then((res) => {
+          if (nicknameRef.current) {
+            addDataToCollection(nicknameRef.current?.value);
+          }
+          console.log(res.data, "res.data");
+          console.log(res.data, "preSignedUrl");
+          if (res.data.preSignedUrl === null) {
+            navigate("/");
+          }
+          setPreSignedUrl(res.data.preSignedUrl);
+          // setMyData({ ...myData, nickname: nicknameRef.current?.value });
+          // navigate("/");
+        });
     } catch (error) {
       console.error("Error occurred during login authentication:", error);
     }
   };
+
+  const putS3Image = async () => {
+    console.log(222);
+    try {
+      if (preSignedUrl !== null) {
+        console.log(333);
+        console.log(preSignedUrl, "업로드");
+        await axios
+          .put(preSignedUrl, uploadImage)
+          .then((res) => console.log(res.data, "upload image"));
+        navigate("/");
+      } else {
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    putS3Image();
+    console.log("useEffect");
+  }, [preSignedUrl]);
 
   return (
     <section className="flex flex-col justify-between w-full h-screen">
@@ -81,10 +113,7 @@ const LoginUserInfo = (): JSX.Element => {
             </section>
           </section>
           <section className="flex flex-col items-center justify-center w-full mt-16">
-            {/* <ProfileImageInput
-              setUploadImage={setUploadImage}
-              uploadImage={uploadImage}
-            /> */}
+            <ProfileImageInput setUploadImage={setUploadImage} />
             <NickNameInput nicknameRef={nicknameRef} />
           </section>
         </section>

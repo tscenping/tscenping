@@ -60,15 +60,12 @@ export default function RankingList() {
   });
   useEffect(() => {
     setRankingData(data);
-    if (!rankingData?.rankUsers) return;
-    const paginatedItems = chunkArray(rankingData?.rankUsers, 5);
-    if (!paginatedItems) return;
-    setRankingDataChunks(paginatedItems);
   }, [data]);
 
   useEffect(() => {
     if (!rankingData?.rankUsers) return;
     const paginatedItems = chunkArray(rankingData?.rankUsers, 5);
+    if (!paginatedItems) return;
     setRankingDataChunks(paginatedItems);
   }, [rankingData]);
 
@@ -77,42 +74,62 @@ export default function RankingList() {
   return (
     <ul className="items-center w-full h-full overflow-x-hidden">
       <div className="overflow-x-hidden">
-        <Swiper
-          style={{
-            // @ts-ignore
-            "--swiper-pagination-color": "#6DFCAF",
-            "--swiper-pagination-bullet-inactive-color": "#D9D9D9",
-          }}
-          className="relative flex h-full"
-          slidesPerView={1}
-          modules={[Autoplay, Pagination, EffectCoverflow]}
-          loop={true}
-          pagination={{ clickable: true }}
-          centeredSlides={true}
-          grabCursor={true}
-          autoplay={{
-            delay: 3000,
-            stopOnLastSlide: false,
-            disableOnInteraction: false,
-          }}
-          effect={"coverflow"}
-        >
-          {rankingDataChunks?.slice(0, 5).map((user, i) => (
-            <ul className="flex flex-col" key={i}>
-              <SwiperSlide key={i} className="relative w-full mb-10">
-                {user.map((user, index) => (
-                  <RankingContentItem
-                    ranking={user.ranking}
-                    avatar={user.avatar}
-                    ladderScore={user.ladderScore}
-                    nickname={user.nickname}
-                    key={index}
-                  />
-                ))}
-              </SwiperSlide>
-            </ul>
-          ))}
-        </Swiper>
+        {rankingDataChunks && rankingDataChunks.length > 1 ? (
+          <Swiper
+            style={{
+              // @ts-ignore
+              "--swiper-pagination-color": "#6DFCAF",
+              "--swiper-pagination-bullet-inactive-color": "#D9D9D9",
+            }}
+            className="relative flex h-full"
+            slidesPerView={1}
+            modules={[Autoplay, Pagination, EffectCoverflow]}
+            loop={true}
+            pagination={{ clickable: true }}
+            centeredSlides={true}
+            grabCursor={true}
+            autoplay={{
+              delay: 3000,
+              stopOnLastSlide: false,
+              disableOnInteraction: false,
+            }}
+            effect={"coverflow"}
+          >
+            {rankingDataChunks?.slice(0, 5).map((user, i) => (
+              <ul className="flex flex-col" key={i}>
+                <SwiperSlide key={i} className="relative w-full mb-10">
+                  {user.map((user, index) => (
+                    <RankingContentItem
+                      ranking={user.ranking}
+                      avatar={user.avatar}
+                      ladderScore={user.ladderScore}
+                      nickname={user.nickname}
+                      key={index}
+                    />
+                  ))}
+                </SwiperSlide>
+              </ul>
+            ))}
+          </Swiper>
+        ) : (
+          <>
+            {rankingDataChunks?.slice(0, 5).map((user, i) => (
+              <ul className="flex flex-col" key={i}>
+                <SwiperSlide key={i} className="relative w-full mb-10">
+                  {user.map((user, index) => (
+                    <RankingContentItem
+                      ranking={user.ranking}
+                      avatar={user.avatar}
+                      ladderScore={user.ladderScore}
+                      nickname={user.nickname}
+                      key={index}
+                    />
+                  ))}
+                </SwiperSlide>
+              </ul>
+            ))}
+          </>
+        )}
       </div>
     </ul>
   );

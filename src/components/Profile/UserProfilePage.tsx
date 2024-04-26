@@ -22,6 +22,7 @@ export default function UserProfilePage({ nickname }: UserProps) {
   const getProfileData = async () => {
     try {
       const response = await instance.get(`users/profile/${nickname}`);
+      console.log(response.data)
       return response.data;
     } catch (error) {
       console.log(error);
@@ -31,6 +32,7 @@ export default function UserProfilePage({ nickname }: UserProps) {
   const { isPending, error, data, refetch } = useQuery({
     queryKey: ["profileData", { nickname }],
     queryFn: getProfileData,
+    staleTime: 1000 * 1
   });
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export default function UserProfilePage({ nickname }: UserProps) {
       {nickname === myData.nickname ? (
         <ProfileMe refetch={refetch} />
       ) : (
-        <ProfileUser />
+        <ProfileUser refetch={refetch}/>
       )}
       <ProfileMatchData
         ladderRank={data?.ladderRank}

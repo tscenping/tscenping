@@ -18,6 +18,7 @@ const LoginCheck = (): JSX.Element => {
     try {
       const response = await instance.get(`users/me`);
       setMyData(response.data);
+      console.log("getMyData", response.data);
     } catch (e) {
       console.log(e);
     }
@@ -25,18 +26,22 @@ const LoginCheck = (): JSX.Element => {
 
   useEffect(() => {
     if (
-      !cookies.get("accessToken") &&
-      pathName !== "logincallback" &&
-      pathName !== "googlecallback"
-    ) {
+      pathName === "logincallback" ||
+      pathName === "googlecallback" ||
+      pathName === "login" ||
+      pathName === "userinfo"
+    )
+      return;
+    if (!cookies.get("accessToken")) {
       navigate("/login");
-    } else if (
-      pathName !== "logincallback" &&
-      pathName !== "login" &&
-      myData?.nickname === ""
-    ) {
+    } else if (myData?.nickname === "" || myData?.nickname === null) {
+      console.log("getMyData");
+      console.log(pathName)
       getMyData();
+      return;
     }
+    console.log(myData)
+    console.log("getMy");
 
     // 1. 액세스 토큰 없음
     // 2. 액세스 토큰 유효하지 않음

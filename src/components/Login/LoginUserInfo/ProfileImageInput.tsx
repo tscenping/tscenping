@@ -1,17 +1,19 @@
 import profileImageBtn from "../../../img/Login/profileImageBtn.svg";
 import Resizer from "react-image-file-resizer";
 import defaultImg from "../../../img/Login/defaultProfileImage.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { instance } from "components/Util/axios";
+import { resizeImage } from "components/Util/ImageResizing";
 
 interface ProfileImageInputProps {
   setUploadImage: (v: File) => void;
-  uploadImage?: File;
 }
 
 const maxFileSize = 3 * 1024 * 1024;
 
 const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
   const [imgString, setImgString] = useState<string | null>(null);
+  
 
   const profileImageStyle =
     "w-[69px] h-[69px] mb-2 md:w-[88px] md:h-[88px] cursor-pointer rounded-[30px] md:rounded-[40px] object-cover";
@@ -27,7 +29,7 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
         e.target.value = "";
         return;
       }
-      const supportedFormats = ["image/jpeg", "image/png", "image/svg+xml"];
+      const supportedFormats = ["image/jpeg"];
       if (!file) return;
       if (!supportedFormats.includes(file.type)) {
         alert(
@@ -37,13 +39,19 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
       }
 
       try {
-        props.setUploadImage(file);
+        const resizingFile = await resizeImage({
+          file,
+          maxWidth: 200,
+          maxHeight: 200,
+          quality: 0.8,
+        });
+        props.setUploadImage(resizingFile);
         const reader = new FileReader();
         reader.onload = () => {
           const url = reader.result as string;
           setImgString(url);
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(resizingFile);
       } catch (error) {
         console.log("file resizing failed");
       }
