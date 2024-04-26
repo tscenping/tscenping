@@ -8,8 +8,10 @@ import inFriends from "img/Footer/inFriends.svg";
 import inChatting from "img/Footer/inChatting.svg";
 import openPassword from "img/Footer/openPassword.svg";
 import inOpenPassword from "img/Footer/checkedOpenPassword.svg";
+import { useChat } from "store/chat";
 
 const Footer = (): JSX.Element => {
+  const { setEmptyInChatInfo } = useChat();
   const footerIconStyle =
     "w-[28px] h-[28px] sm:w-[28px] sm:h-[28px] md:w-[32px] md:h-[32px] lg:w-[36px] lg:h-[36px] xl:w-[40px] xl:h-[40px] 2xl:w-[44px] 2xl:w-[44px]";
   const location = useLocation();
@@ -25,11 +27,14 @@ const Footer = (): JSX.Element => {
       ? "hidden"
       : "z-5 bottom-0 p-6 w-full bg-[#3F3F3F]";
 
+  const resetChatInfoHandler = () => {
+    setEmptyInChatInfo();
+  };
   return (
     <footer className={footerStyle}>
       <nav className="h-full">
         <ul className="flex justify-around h-full text-center">
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/">
               <img
                 src={pathName === "" ? inMain : main}
@@ -38,7 +43,7 @@ const Footer = (): JSX.Element => {
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/friends">
               <img
                 src={pathName === "friends" ? inFriends : friends}
@@ -47,7 +52,7 @@ const Footer = (): JSX.Element => {
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/inchatting">
               <img
                 src={pathName === "inchatting" ? inChatting : chatting}
@@ -56,7 +61,7 @@ const Footer = (): JSX.Element => {
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/chatting">
               <img
                 src={pathName === "chatting" ? inOpenPassword : openPassword}
@@ -65,7 +70,7 @@ const Footer = (): JSX.Element => {
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <img src={notice} alt="" className={footerIconStyle} />
           </li>
         </ul>

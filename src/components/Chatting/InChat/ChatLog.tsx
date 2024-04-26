@@ -9,22 +9,33 @@ import { useChat } from "store/chat";
 import { useMessage } from "store/chat";
 import { useMyData } from "store/profile";
 import ChatNotice from "./ChatNotice";
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  Firestore,
+} from "firebase/firestore/lite";
 
 const ChatLog = (): JSX.Element => {
   const messageRef = useRef<HTMLInputElement>(null);
   const messageEndRef = useRef<HTMLDivElement | null>(null);
-  const { inChatInfo } = useChat();
+  const { inChatInfo, setInChatInfo } = useChat();
   const { chatLog } = useMessage();
   const { myData } = useMyData();
 
   const SendMessageSocketHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (channelSocket.connected) {
-      channelSocket.emit("message", {
-        channelId: inChatInfo.inChat,
-        message: messageRef.current?.value,
-      });
-      messageRef.current && (messageRef.current.value = "");
+    const trimmedMessage = messageRef.current?.value.trim(); //메세지의 앞뒤 공백 제거
+
+    if (trimmedMessage) {
+      if (channelSocket.connected) {
+        channelSocket.emit("message", {
+          channelId: inChatInfo.inChat,
+          message: messageRef.current?.value,
+        });
+        messageRef.current && (messageRef.current.value = "");
+      }
     }
   };
 
@@ -32,18 +43,24 @@ const ChatLog = (): JSX.Element => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatLog]);
 
+  useEffect(() => {
+    setInChatInfo({ ...inChatInfo, isJoined: false });
+  }, []);
+
   return (
-    <section className="flex flex-col justify-between w-full h-full">
-      <section className="relative h-9/10 xs:h-5/6 xxs:h-4/5 md:h-5/6 lg:h-9/10">
+    <section className="flex flex-col justify-between h-full w-full">
+      <section className="h-9/10 xs:h-5/6 xxs:h-4/5 md:h-5/6 lg:h-9/10 relative">
         <InChatHeader />
-        <section className="h-full p-3">
-          <ul className="flex flex-col h-full overflow-y-auto scrollbar-hide ">
-            {chatLog.map((el) => {
+        <section className="p-3 h-full">
+          <ul className="flex flex-col overflow-y-auto h-full scrollbar-hide ">
+            {chatLog.map((el, index) => {
               if (el.eventType && el.channelId === inChatInfo.inChat) {
                 return (
                   <ChatNotice
                     nickname={el.nickname}
                     noticeType={el.eventType}
+                    channelId={el.channelId}
+                    key={index}
                   />
                 );
               }

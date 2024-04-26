@@ -61,6 +61,7 @@ export interface useChatProps {
   channelType: ChatType;
   myChannelUserType: ChannelUserTypes;
   chatUsers: ChatUsersInfoTypes[];
+  isJoined: boolean;
 }
 
 export interface useChatSettingProps {

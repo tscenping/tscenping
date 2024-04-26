@@ -9,6 +9,7 @@ import addAdmin from "../img/DropDown/addAdmin.svg";
 import deleteAdmin from "../img/DropDown/deleteAdmin.svg";
 import game from "../img/DropDown/game.svg";
 import block from "../img/DropDown/block.svg";
+import profile from "img/DropDown/profile.svg";
 
 interface DropDownIconProps {
   types: DropDownIcons;
@@ -28,6 +29,7 @@ const useDorpDownIcon = ({ types }: DropDownIconProps) => {
     CHAT: chat,
     A_BLOCK: block,
     D_BLOCK: block,
+    PROFILE: profile,
   };
 
   return <img src={returnIcon[types]} alt={altString} className="w-3 h-3" />;

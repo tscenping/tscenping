@@ -1,7 +1,5 @@
 import { ReactNode } from "react";
 import LoginCheck from "./LoginCheck";
-import ChannelSocketConnectHandler from "components/Socket/ChannelSocketConnectHandler";
-import ChannelSocketHandler from "components/Socket/ChannelSocketHandler";
 
 const Main = ({ children }: { children: ReactNode }): JSX.Element => {
   return (
@@ -11,7 +9,6 @@ const Main = ({ children }: { children: ReactNode }): JSX.Element => {
     >
       <div className="flex items-center justify-center w-full h-full">
         <LoginCheck />
-        <ChannelSocketHandler />
         {children}
       </div>
     </main>

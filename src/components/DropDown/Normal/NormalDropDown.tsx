@@ -9,7 +9,7 @@ interface DropDownNormalProps {
   prop?: DropDownProps | null;
 }
 export const dropDownStyle =
-  "flex items-center justify-strat gap-3 px-3 py-0.5 cursor-pointer hover:scale-x-105 hover:bg-[#C6C6C6] rounded-[5px]";
+  "flex items-center justify-strat gap-3 px-3 py-0.5 cursor-pointer hover:scale-x-105 hover:bg-[#C6C6C6] rounded-[5px] font-[Pretendard]";
 
 export default function NormalDropDown({ prop }: DropDownNormalProps) {
   const dropdownArray = [

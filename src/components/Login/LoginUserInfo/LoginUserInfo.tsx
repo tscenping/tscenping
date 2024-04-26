@@ -5,6 +5,9 @@ import NickNameInput from "./NicknameInput";
 import ProfileImageInput from "./ProfileImageInput";
 import useAxios from "../../../hooks/useAxios";
 import useImage from "../../../hooks/useImage";
+import { useMyData } from "store/profile";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc } from "firebase/firestore/lite";
 
 const defaultImage = process.env.REACT_APP_DEFAULT_PROFILE;
 
@@ -14,6 +17,23 @@ const LoginUserInfo = (): JSX.Element => {
   const navigate = useNavigate();
   const nicknameRef = useRef<HTMLInputElement>(null);
   const { handleUploadImage, imageUrl } = useImage();
+  const { setMyData, myData } = useMyData();
+
+  const firebaseConfig = {
+    projectId: "tscenping",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const addDataToCollection = async (nickname: string) => {
+    try {
+      const docRef = await addDoc(collection(db, nickname), {});
+      console.log("Document create success : ", docRef.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [presignedUrl, setPreSignedUrl] = useState<string>("");
   const [s3Url, setS3Url] = useState<string>("");
@@ -49,14 +69,20 @@ const LoginUserInfo = (): JSX.Element => {
     }
     const data = {
       nickname: nicknameRef.current?.value,
-      avatar: "zxc",
+      avatar: imageUrl,
     };
     try {
       const response = await instance.patch(
         "/auth/signup",
         JSON.stringify(data)
       );
-      if (response.status === 200) navigate("/");
+      if (response.status === 200) {
+        if (nicknameRef.current) {
+          addDataToCollection(nicknameRef.current?.value);
+        }
+        setMyData({ ...myData, nickname: nicknameRef.current?.value });
+        navigate("/");
+      }
     } catch (error) {
       console.error("Error occurred during login authentication:", error);
     }

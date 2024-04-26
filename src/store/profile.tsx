@@ -2,7 +2,9 @@ import { create } from "zustand";
 
 interface ProfileState {
   id: number;
-  nickname: string;
+  nickname: string | undefined;
+  isMfaEnabled?: boolean;
+  mfaCode?: string;
 }
 interface MyData {
   myData: ProfileState;

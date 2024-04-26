@@ -2,20 +2,12 @@ import DropDown from "../DropDown/DropDown";
 import userSetting from "../../img/Friends/user3dot.svg";
 import { DropDownTypes } from "../../types/DropDownTypes";
 import { useState } from "react";
-import { UserStatusType } from "types/UserTypes";
 import { useEffect } from "react";
 import { channelSocket } from "socket/ChannelSocket";
+import { FriendUserInfoType } from "types/FriendTypes";
+import defaultProfile from "img/Login/defaultProfileImage.svg";
 
-interface FriendUserProps {
-  nickname: string;
-  avatar: string;
-  id: number;
-  status: UserStatusType;
-  isFriend: boolean;
-  isBlocked: boolean;
-}
-
-const FriendUser = (props: FriendUserProps): JSX.Element => {
+const FriendUser = (props: FriendUserInfoType): JSX.Element => {
   const [dropDownType, setDropDownType] = useState<DropDownTypes>("NONE");
   const [userStatus, setUserStatus] = useState<string>("");
 
@@ -36,28 +28,32 @@ const FriendUser = (props: FriendUserProps): JSX.Element => {
 
   useEffect(() => {
     updateUserStatus(props.status);
-    if (channelSocket.connected) {
-      channelSocket.on("userStatus", (data) => {
+
+    channelSocket.on("userStatus", (data) => {
+      if (channelSocket.connected) {
         if (data.userId === props.id) {
           updateUserStatus(data.status);
         }
-      });
-      return () => {
-        channelSocket.off("userStatus");
-      };
-    }
-  }, []);
+      }
+    });
+    return () => {
+      channelSocket.off("userStatus");
+    };
+    // }
+  }, [props]);
   //채널소켓 "userStatus" 연결
 
   return (
     <li
       key={props.id}
-      className="relative flex justify-between w-full overflow-visible mb-7"
+      className={`relative flex justify-between w-full overflow-visible mb-7 ${
+        props.nickname === "" ? "hidden" : ""
+      }`}
     >
       <section className="flex items-center">
         <section className="relative">
           <img
-            src={props.avatar}
+            src={props.avatar ? props.avatar : defaultProfile}
             className="w-10 rounded-full"
             alt="friend user profile"
           />

@@ -1,42 +1,37 @@
 import blockUsers from "../../img/Friends/blockUsers.svg";
-import { FormEvent, useState, useRef } from "react";
+import { FormEvent, useState, useRef, useEffect } from "react";
 import useAxios from "../../hooks/useAxios";
 import FriendUser from "./FriendUser";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SearchUserInput from "./SearchUserInput";
 import useGetUsers from "hooks/useApiFunction/useGetUsers";
-import { useQuery } from "@tanstack/react-query";
-import { UserStatusType } from "types/UserTypes";
 import { useMyData } from "store/profile";
 import { useModalState, useNoticeModalState } from "store/modal";
-
-interface FriendUserProps {
-  id: number;
-  nickname: string;
-  avatar: string;
-  status: UserStatusType;
-  isBlocked: boolean;
-  isFriend: boolean;
-}
+import { FriendUserInfoType } from "types/FriendTypes";
+import { useSearchUser } from "store/friend";
+import { channelSocket } from "socket/ChannelSocket";
 
 interface FriendUsersProps {
   setPageSection: (v: string) => void;
 }
 
 const FriendUsers = (props: FriendUsersProps): JSX.Element => {
-  const [searchUser, setSearchUser] = useState<FriendUserProps | undefined>();
+  // const [searchUser, setSearchUser] = useState<
+  //   FriendUserInfoType | undefined
+  // >();
+  const { searchUser, setSearchUser } = useSearchUser();
   const [searchUserInput, setSearchUserInput] = useState<string>("");
   const instance = useAxios();
   const nicknameRef = useRef<HTMLInputElement>(null);
   const { data, fetchNextPage, hasNextPage } = useGetUsers("FRIEND");
-  const [isEnabled, setIsEnabled] = useState<boolean>(false);
   const { setModalName } = useModalState();
   const { setContent } = useNoticeModalState();
   const { myData } = useMyData();
 
-  const searchUserApiHandler = async (url: string) => {
+  const searchUserApiHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     //자기 자신 검색할 시 처리하는 예외처리
-    if (myData.nickname === nicknameRef.current?.value) {
+    if (nicknameRef.current && myData.nickname === nicknameRef.current?.value) {
       setModalName("notice");
       setContent("자기자신을 검색할 수 없습니다.");
       nicknameRef.current.value = "";
@@ -52,7 +47,9 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
     //아무것도 입력안하고 검색했을 시
 
     try {
-      const response = await instance.get(url);
+      const response = await instance.get(
+        `/users/profile/${nicknameRef.current.value}`
+      );
       if (response.status === 200) {
         setSearchUser({
           nickname: response.data.nickname,
@@ -63,33 +60,17 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
           avatar: response.data.avatar,
         });
       }
-      setIsEnabled(true);
-      return response.data;
     } catch (error) {
       console.log(error);
     }
   };
-
-  const { refetch } = useQuery({
-    queryKey: ["search-user"],
-    queryFn: () =>
-      searchUserApiHandler(
-        `/users/profile/${
-          !isEnabled ? nicknameRef.current?.value : searchUser?.nickname
-        }`
-      ),
-    enabled: isEnabled,
-  });
 
   return (
     <>
       <section className="p-5 py-7 w-full h-full">
         <form
           className="relative flex flex-col items-center"
-          onSubmit={(e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            refetch();
-          }}
+          onSubmit={searchUserApiHandler}
         >
           <SearchUserInput
             nicknameRef={nicknameRef}
@@ -97,7 +78,6 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
             searchUserInput={searchUserInput}
             searchUser={searchUser}
             setSearchUser={setSearchUser}
-            setIsEnabled={setIsEnabled}
           />
         </form>
         <section className="flex flex-col h-full ">
@@ -126,7 +106,7 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
               className="flex flex-col w-full mt-4 overflow-y-auto h-5/6 scrollbar-hide"
               id="frinedList"
             >
-              {searchUser && (
+              {searchUser && searchUserInput && (
                 <FriendUser
                   nickname={searchUser.nickname}
                   avatar={searchUser.avatar}
@@ -136,7 +116,7 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
                   isBlocked={searchUser.isBlocked}
                 />
               )}
-              {!searchUser && !searchUserInput && (
+              {!searchUserInput && (
                 <InfiniteScroll
                   next={fetchNextPage}
                   hasMore={hasNextPage}
@@ -151,7 +131,7 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
                   style={{ overflow: "visible" }}
                 >
                   {data?.pages.map((page) =>
-                    page.friends?.map((el: FriendUserProps) => (
+                    page.friends.map((el: FriendUserInfoType) => (
                       <FriendUser
                         key={el.id}
                         nickname={el.nickname}

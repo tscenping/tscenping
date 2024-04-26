@@ -16,20 +16,15 @@ interface SearchUserInputProps {
   searchUserInput: string;
   setSearchUserInput: (v: string) => void;
   setSearchUser: (v: searchUserType | undefined) => void;
-  setIsEnabled: (v: boolean) => void;
   searchUser: searchUserType | undefined;
 }
 
 const SearchUserInput = (props: SearchUserInputProps): JSX.Element => {
   const searchUserInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    // if (
-    //   props.searchUser &&
-    //   props.searchUser.nickname !== props.nicknameRef.current?.value
-    // ) {
-    //   props.setIsEnabled(false);
-    // }
     props.setSearchUserInput(e.target.value);
-    if (!e.target.value) props.setSearchUser(undefined);
+    if (!props.searchUserInput.length) {
+      props.setSearchUser(undefined);
+    }
   };
 
   return (
