@@ -12,7 +12,8 @@ export type DropDownIcons =
   | "GAME"
   | "CHAT"
   | "A_BLOCK"
-  | "D_BLOCK";
+  | "D_BLOCK"
+  | "PROFILE";
 
 export interface Dropdown {
   dropDonwType: DropDownTypes;

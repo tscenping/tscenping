@@ -8,16 +8,53 @@ import { useModalState, useNoticeModalState } from "store/modal";
 import useAxios from "hooks/useAxios";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import ChatUserList from "./ChatUserList";
-import { useInviteMode } from "store/chat";
+import { useInviteMode, useMessage } from "store/chat";
+import { useMyData } from "store/profile";
+import { initializeApp } from "firebase/app";
+import {
+  getDocs,
+  collection,
+  query,
+  where,
+  deleteDoc,
+  getFirestore,
+} from "firebase/firestore/lite";
 
 const ChatUserLists = (): JSX.Element => {
   const instance = useAxios();
-  const { inChatInfo, setInChatInfo } = useChat();
+  const { inChatInfo, setInChatInfo, setEmptyInChatInfo } = useChat();
   const { setModalName } = useModalState();
   const { setChatSetting } = useChatSetting();
   const queryClient = useQueryClient();
   const { setContent } = useNoticeModalState();
   const { setMode } = useInviteMode();
+  const { setParseChatLog, chatLog } = useMessage();
+  const { myData } = useMyData();
+
+  const deleteMessageData = async () => {
+    try {
+      if (myData.nickname) {
+        const firebaseConfig = {
+          projectId: "tscenping",
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const messagesCol = collection(db, myData.nickname);
+        const q = query(
+          messagesCol,
+          where("channelId", "==", inChatInfo.inChat)
+        );
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+          deleteDoc(doc.ref);
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const exitChatHandler = async () => {
     try {
       const response = await instance.patch("/channels/exit", {
@@ -25,7 +62,12 @@ const ChatUserLists = (): JSX.Element => {
       });
       if (response.status === 200) {
         setModalName(null);
-        setInChatInfo({ ...inChatInfo, inChat: 0 });
+        const parseChatLog = chatLog.filter((message) => {
+          return message.channelId !== inChatInfo.inChat;
+        });
+        deleteMessageData();
+        setParseChatLog(parseChatLog);
+        setEmptyInChatInfo();
       }
     } catch (error) {
       console.log(error);
@@ -85,17 +127,15 @@ const ChatUserLists = (): JSX.Element => {
                 isFriend={el.isFriend}
                 isBlocked={el.isBlocked}
                 channelUserType={el.channelUserType}
-                myChannelUserType={el.myChannelUserType}
+                myChannelUserType={inChatInfo.myChannelUserType}
               />
             ))}
         </ul>
       </section>
       <section className="pt-5 pr-5">
-        {inChatInfo.myChannelUserType === "OWNER" && (
-          <h1 className="font-[Pretendard-SemiBold] text-base sm:text-lg lg:text-xl xl:text-3xl pb-5 sm:pb-7 lg:pb-9 xl:pb-11">
-            채팅방 설정
-          </h1>
-        )}
+        <h1 className="font-[Pretendard-SemiBold] text-base sm:text-lg lg:text-xl xl:text-3xl pb-5 sm:pb-7 lg:pb-9 xl:pb-11">
+          채팅방 설정
+        </h1>
         <ul>
           {inChatInfo.myChannelUserType === "OWNER" &&
             inChatInfo.channelType !== "DM" &&

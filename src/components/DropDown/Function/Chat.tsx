@@ -5,13 +5,13 @@ import { useChat } from "store/chat";
 
 import useAxios from "hooks/useAxios";
 import { dropDownStyle } from "../Normal/NormalDropDown";
-import { DropDownProps, DropDownTypes } from "types/DropDownTypes";
+import { DropDownProps } from "types/DropDownTypes";
 
 interface Props {
-  props: DropDownProps
+  props: DropDownProps;
 }
 
-export default function Chat({props}:Props) {
+export default function Chat({ props }: Props) {
   const instance = useAxios();
   const { setInChatInfo, inChatInfo } = useChat();
   const { setChatSetting } = useChatSetting();
@@ -45,7 +45,7 @@ export default function Chat({props}:Props) {
   const chatIcon = useDorpDownIcon({ types: "CHAT" });
   return (
     <li
-    className={dropDownStyle}
+      className={`${dropDownStyle} ${props.isBlocked ? "hidden" : ""}`}
       onClick={() => {
         setChatSetting(
           "",

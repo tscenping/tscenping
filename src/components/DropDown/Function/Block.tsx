@@ -5,6 +5,8 @@ import { useChatSetting } from "../../../store/chat";
 import { DropDownProps, DropDownTypes } from "../../../types/DropDownTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { dropDownStyle } from "../Normal/NormalDropDown";
+import { useChat } from "store/chat";
+import { useSearchUser } from "store/friend";
 
 interface Props {
   props: DropDownProps;
@@ -18,6 +20,19 @@ export default function Block({ props }: Props) {
   const { setChatSetting } = useChatSetting();
   const instance = useAxios();
   const queryClient = useQueryClient();
+  const { setInChatInfo, inChatInfo } = useChat();
+  const { setEditUserRelation } = useSearchUser();
+
+  const editChatUserInfo = (v: boolean) => {
+    const editChatUsersInfo = inChatInfo.chatUsers.map((el) => {
+      if (el.nickname === props.nickname) {
+        return { ...el, isBlocked: v };
+      } else {
+        return el;
+      }
+    });
+    setInChatInfo({ ...inChatInfo, chatUsers: editChatUsersInfo });
+  };
 
   const blockApiHandler = async () => {
     if (props.isBlocked) {
@@ -27,7 +42,11 @@ export default function Block({ props }: Props) {
             blockId: props.id,
           },
         });
-        if (response.status === 200) setModalName(null);
+        if (response.status === 200) {
+          if (inChatInfo.chatUsers) editChatUserInfo(false);
+          setEditUserRelation("DELETEBLOCK");
+          setModalName(null);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -37,6 +56,8 @@ export default function Block({ props }: Props) {
           blockId: props.id,
         });
         if (response.status === 201) {
+          if (inChatInfo.chatUsers) editChatUserInfo(true);
+          setEditUserRelation("ADDBLOCK");
           setModalName(null);
         }
       } catch (error) {

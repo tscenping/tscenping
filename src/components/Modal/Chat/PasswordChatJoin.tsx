@@ -47,6 +47,7 @@ const PasswordChatJoin = (): JSX.Element => {
           channelType: "PROTECTED",
           chatUsersCount: response.data.channelUsers.length,
           myChannelUserType: response.data.myChannelUserType,
+          isJoined: false,
         });
       }
     } catch (error) {

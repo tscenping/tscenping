@@ -28,9 +28,9 @@ const LoginCheck = (): JSX.Element => {
       !cookies.get("accessToken") &&
       pathName !== "logincallback" &&
       pathName !== "googlecallback"
-    )
+    ) {
       navigate("/login");
-    else if (
+    } else if (
       pathName !== "logincallback" &&
       pathName !== "login" &&
       myData?.nickname === ""

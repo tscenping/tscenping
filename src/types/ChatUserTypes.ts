@@ -1,1 +1,1 @@
-export type ChatUserTypes = "OWNER" | "ADMIN" | "MEMBER";
+export type ChatUserTypes = "OWNER" | "ADMIN" | "MEMBER" | "";

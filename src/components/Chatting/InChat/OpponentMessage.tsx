@@ -19,10 +19,10 @@ const OpponentMessage = (props: MessageType): JSX.Element => {
         <section className="flex">
           <span
             className={`text-[#3f3f3f] bg-white rounded-2xl py-2 px-3.5 mt-2 text-left ${
-              props.nickname === "" ? "max-w-full" : "max-w-3/5"
+              !props.avatar ? "max-w-full" : "max-w-3/5"
             }`}
           >
-            {props.message}
+            {props.avatar ? props.message : "차단된 유저의 메세지 입니다."}
           </span>
           <span className="self-end text-[rgba(255,255,255,0.5)] text-[12px] md:text-base ml-2 align-text-bottom">
             {props.time}

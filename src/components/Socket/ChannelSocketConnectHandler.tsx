@@ -5,14 +5,15 @@ import { channelSocket } from "socket/ChannelSocket";
 const ChannelSocketConnectHandler = () => {
   const { myData } = useMyData();
   useEffect(() => {
-    if (myData.nickname !== null && myData.nickname !== "") {
+    if (
+      myData.nickname !== null &&
+      myData.nickname !== "" &&
+      !myData.isMfaEnabled
+    ) {
       channelSocket.connect();
     }
     return () => {
-      if (myData.nickname === null && myData.nickname === "") {
-        channelSocket.close();
-        channelSocket.disconnect();
-      }
+      channelSocket.close();
     };
   }, [myData.nickname]);
   return <></>;

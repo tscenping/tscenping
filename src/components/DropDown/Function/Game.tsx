@@ -3,15 +3,19 @@ import useDorpDownIcon from "../../../hooks/useDropDownIcon";
 import { dropDownStyle } from "../Normal/NormalDropDown";
 
 interface Props {
-  props: DropDownProps
+  props: DropDownProps;
 }
 
-
-export default function Game({props}: Props) {
+export default function Game({ props }: Props) {
   const gameIcon = useDorpDownIcon({ types: "GAME" });
-  return <li className={dropDownStyle} onClick={()=>{
-    props.setDropDownType!("NONE");
-  }}> 
-    {gameIcon} 게임초대
-    </li>;
+  return (
+    <li
+      className={`${dropDownStyle} ${props.isBlocked ? "hidden" : ""}`}
+      onClick={() => {
+        props.setDropDownType!("NONE");
+      }}
+    >
+      {gameIcon} 게임초대
+    </li>
+  );
 }
