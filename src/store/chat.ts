@@ -8,6 +8,7 @@ import {
 interface useChatInfoProps {
   inChatInfo: useChatProps;
   setInChatInfo: (inChatInfo: useChatProps) => void;
+  setEmptyInChatInfo: () => void;
 }
 
 export const useChat = create<useChatInfoProps>((set) => ({
@@ -20,8 +21,23 @@ export const useChat = create<useChatInfoProps>((set) => ({
     channelType: "",
     myChannelUserType: "",
     chatUsersCount: 1,
+    isJoined: false,
   },
   setInChatInfo: (inChatInfo: useChatProps) => set({ inChatInfo }),
+  setEmptyInChatInfo: () =>
+    set({
+      inChatInfo: {
+        inChat: 0,
+        chatTitle: "",
+        readyToChat: 0,
+        readyToChatTitle: "",
+        chatUsers: [],
+        channelType: "",
+        myChannelUserType: "",
+        chatUsersCount: 1,
+        isJoined: false,
+      },
+    }),
 }));
 
 export const useChatSetting = create<useChatSettingProps>((set) => ({
@@ -50,6 +66,7 @@ export const useInviteMode = create<useInviteModeProps>((set) => ({
 interface useMessageProps {
   chatLog: MessageType[];
   setChatLog: (v: MessageType) => void;
+  setParseChatLog: (v: MessageType[]) => void;
 }
 
 export const useMessage = create<useMessageProps>((set) => ({
@@ -64,4 +81,6 @@ export const useMessage = create<useMessageProps>((set) => ({
       }
       return { chatLog: updatedChatLog };
     }),
+  setParseChatLog: (parseMessage: MessageType[]) =>
+    set({ chatLog: parseMessage }),
 }));

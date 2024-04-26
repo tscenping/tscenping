@@ -5,6 +5,7 @@ import useAxios from "hooks/useAxios";
 import { DropDownProps } from "types/DropDownTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { dropDownStyle } from "../Normal/NormalDropDown";
+import { useSearchUser } from "store/friend";
 
 interface Props {
   props: DropDownProps;
@@ -14,6 +15,7 @@ export default function Friend({ props }: Props) {
   const instance = useAxios();
   const { setModalName } = useModalState();
   const { setChatSetting } = useChatSetting();
+  const { setEditUserRelation } = useSearchUser();
   const addFriendIcon = useDorpDownIcon({ types: "A_FRIEND" });
   const deleteFriendIcon = useDorpDownIcon({ types: "D_FRIEND" });
   const friendString = props.isBlocked
@@ -32,7 +34,10 @@ export default function Friend({ props }: Props) {
             friendId: props.id,
           },
         });
-        if (response.status === 200) setModalName(null);
+        if (response.status === 200) {
+          setEditUserRelation("DELELEFRIEND");
+          setModalName(null);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -42,6 +47,7 @@ export default function Friend({ props }: Props) {
           friendId: props.id,
         });
         if (response.status === 201) {
+          setEditUserRelation("ADDFRIEND");
           setModalName(null);
         }
       } catch (error) {
@@ -55,8 +61,6 @@ export default function Friend({ props }: Props) {
     mutationFn: friendApiHandler,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["friend-users"] });
-      // queryClient.invalidateQueries({ queryKey: ["search-user"] });
-      queryClient.refetchQueries({ queryKey: ["search-user"] });
     },
   });
 

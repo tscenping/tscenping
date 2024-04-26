@@ -5,7 +5,7 @@ import { useChat } from "store/chat";
 
 const InChatHeader = (): JSX.Element => {
   const { setModalName } = useModalState();
-  const { inChatInfo, setInChatInfo } = useChat();
+  const { inChatInfo, setEmptyInChatInfo } = useChat();
 
   return (
     <>
@@ -15,7 +15,7 @@ const InChatHeader = (): JSX.Element => {
           alt=""
           className="w-3 sm:w-3 md:w-4 cursor-pointer"
           onClick={() => {
-            setInChatInfo({ ...inChatInfo, inChat: 0 });
+            setEmptyInChatInfo();
           }}
         />
         <section className="font-[Pretendard-SemiBold] text-lg sm:text-xl md:text-2xl">

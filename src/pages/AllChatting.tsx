@@ -26,7 +26,7 @@ const AllChattingPage = (): JSX.Element => {
           <>
             <ChattingListHeader />
             <nav>
-              <ul className="flex w-full justify-between px-4 text-base font-bold md:text-[20px]">
+              <ul className="flex w-full justify-between px-4 text-[16px] font-bold md:text-[20px]">
                 <ChattingNaviList
                   tabState={tabState}
                   setTabState={setTabState}

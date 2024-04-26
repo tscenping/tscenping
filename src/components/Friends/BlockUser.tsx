@@ -2,7 +2,7 @@ import useAxios from "../../hooks/useAxios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useModalState } from "../../store/modal";
 import { useChatSetting } from "../../store/chat";
-
+import { useChat } from "../../store/chat";
 interface BlockUserProps {
   nickname: string;
   avatar: string;
@@ -15,6 +15,7 @@ const BlockUser = (props: BlockUserProps): JSX.Element => {
   const { setModalName } = useModalState();
   const { setChatSetting } = useChatSetting();
   const instance = useAxios();
+  const { setInChatInfo, inChatInfo } = useChat();
 
   const blockCancelApiHandler = async () => {
     try {
@@ -23,7 +24,17 @@ const BlockUser = (props: BlockUserProps): JSX.Element => {
           blockId: props.id,
         },
       });
-      if (response.status === 200) setModalName(null);
+      if (response.status === 200) {
+        const editChatUsersInfo = inChatInfo.chatUsers.map((el) => {
+          if (el.nickname === props.nickname) {
+            return { ...el, isBlocked: false };
+          } else {
+            return el;
+          }
+        });
+        setInChatInfo({ ...inChatInfo, chatUsers: editChatUsersInfo });
+        setModalName(null);
+      }
     } catch (error) {
       console.log(error);
     }

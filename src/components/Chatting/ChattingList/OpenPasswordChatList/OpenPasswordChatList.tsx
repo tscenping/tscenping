@@ -1,10 +1,20 @@
 import useAxios from "hooks/useAxios";
 import publicChatting from "img/Chatting/publicChatting.svg";
 import passwordChatting from "img/Chatting/passwordChatting.svg";
-import { useChat, useChatSetting } from "store/chat";
+import { useChat, useChatSetting, useMessage } from "store/chat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useModalState } from "store/modal";
 import { ChatType, ChatUsersInfoTypes } from "types/ChatTypes";
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  Firestore,
+  query,
+  orderBy,
+} from "firebase/firestore/lite";
+import { useMyData } from "store/profile";
 
 interface AllChattingListProps {
   channelId: number;
@@ -20,8 +30,45 @@ const OpenPasswordChatList = (props: AllChattingListProps): JSX.Element => {
   const { setChatSetting } = useChatSetting();
   const queryClient = useQueryClient();
   const { setModalName } = useModalState();
+  const { myData } = useMyData();
+  const { setParseChatLog } = useMessage();
+
   const inChattingListStyle =
     "bg-[#424242] p-3 px-4 rounded-[20px] mt-6 cursor-pointer font-[Pretendard-SemiBold] ";
+
+  const firebaseConfig = {
+    projectId: "tscenping",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function getMessages(db: Firestore) {
+    if (myData.nickname) {
+      const messagesCol = collection(db, myData.nickname);
+      const orderMessage = query(messagesCol, orderBy("createAt", "asc"));
+      const messageSnapshot = await getDocs(orderMessage);
+      const messageList = messageSnapshot.docs
+        .map((doc) => doc.data())
+        .filter((data) => data.channelId === props.channelId); // props.channelId와 일치하는 데이터만 필터링
+      return messageList;
+    }
+  }
+
+  async function fetchData() {
+    const result = await getMessages(db);
+    if (result) {
+      const parsedResult = result.map((doc: any) => ({
+        avatar: doc.avatar,
+        nickname: doc.nickname,
+        message: doc.message,
+        time: doc.time,
+        eventType: doc.eventType,
+        channelId: doc.channelId,
+      }));
+      setParseChatLog(parsedResult);
+    }
+  }
 
   const joinChatApiHandler = async () => {
     if (props.channelType === "PROTECTED" && props.isJoined === false) {
@@ -60,9 +107,12 @@ const OpenPasswordChatList = (props: AllChattingListProps): JSX.Element => {
           chatUsers: chatUsers,
           channelType: props.channelType,
           myChannelUserType: response.data.myChannelUserType,
+          isJoined: response.status === 200 ? true : false,
         });
-
         setModalName(null);
+        if (response.status === 200) {
+          fetchData();
+        }
       }
     } catch (error) {
       console.log(error);

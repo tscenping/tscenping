@@ -50,6 +50,7 @@ const useGetChatLists = (tabState: ChatTabStateType) => {
         tabState === "DM" ? lastPage.dmChannels : lastPage.channels;
       return channels.length < 10 ? undefined : allPages.length + 1;
     },
+    staleTime: 1000,
   });
 
   return { data, hasNextPage, fetchNextPage };

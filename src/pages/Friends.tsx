@@ -16,6 +16,7 @@ const FriendsPage = (): JSX.Element => {
 
   return (
     <Container>
+      <div id="chatUserListModal" />
       {inChatInfo.inChat ? (
         <ChatLog />
       ) : pageSection === "friend" ? (
