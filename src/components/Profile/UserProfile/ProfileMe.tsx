@@ -40,6 +40,21 @@ export default function ProfileMe(props: MyProfileProps) {
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  function isWithinThreeDays(fileName: string) {
+    // 파일명에서 날짜 부분을 추출
+    const dateString = fileName.slice(-11, -5); // 파일명에서 년월일 부분 추출
+    const fileDate = new Date(dateString);
+
+    // 오늘 날짜와의 차이를 계산
+    const today = new Date();
+    const year = String(today.getFullYear()).slice(-2); // 연도
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // 월
+    const day = String(today.getDate()).padStart(2, "0"); // 일
+    const formattedDate = `${year}${month}${day}`;
+    // 3일 이내인지 확인
+    return formattedDate === dateString;
+  }
+
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputText = e.target.value;
 
@@ -47,6 +62,14 @@ export default function ProfileMe(props: MyProfileProps) {
       // 입력한 텍스트가 20자 이하인 경우에만 업데이트
       setStatusMsg(inputText);
     }
+  };
+
+  const handleImgEdit = () => {
+    if (isWithinThreeDays(userProfileState.avatar)) {
+      alert("프로필 사진은 하루에 한 번만 변경할 수 있습니다.");
+      return;
+    }
+    setIsImgEdit(!isImgEdit);
   };
 
   const handleEditProfileMsg = () => {
@@ -63,20 +86,6 @@ export default function ProfileMe(props: MyProfileProps) {
     }
   };
 
-  // const handleEditProfileImg = () => {
-  //   if (isImgEdit) {
-  //     submitImg();
-  //     setIsImgEdit(!isImgEdit);
-  //     const updatedUserProfileState = {
-  //       ...userProfileState, // 이전 상태 복사
-  //       avatar: imgUrl, // 변경된 상태 메시지 할당
-  //     };
-  //     setUserProfile(updatedUserProfileState);
-  //   } else {
-  //     setIsImgEdit(!isImgEdit);
-  //   }
-  // };
-
   const submitStatusMessage = async () => {
     await instance
       .patch("/users/me/statusMessage", { statusMessage: statusMsg })
@@ -87,30 +96,29 @@ export default function ProfileMe(props: MyProfileProps) {
 
   return (
     <section className="flex flex-col items-center gap-3 justify-normal">
-      {/* <div className="relative "> */}
-        {isImgEdit ? (
-          <ProfileImgEdit refetch={props.refetch} setIsImgEdit={setIsImgEdit} />
-        ) : (
-          <div className="relative ">
-            <img
-              src={
-                userProfileState?.avatar === null
-                  ? defaultImg
-                  : userProfileState?.avatar
-              }
-              alt="profileImg"
-              width={svgWidth}
-              height={svgHeight}
-              className="rounded-[30px] md:rounded-[40px] object-cover"
-            />
-            <img
-              src={imgEditBtn}
-              alt="editBtn"
-              className="absolute w-1/3 cusor-pointer -bottom-1 right-1"
-              onClick={() => setIsImgEdit(!isImgEdit)}
-            />
-          </div>
-        )}
+      {isImgEdit ? (
+        <ProfileImgEdit refetch={props.refetch} setIsImgEdit={setIsImgEdit} />
+      ) : (
+        <div className="relative ">
+          <img
+            src={
+              userProfileState?.avatar === null
+                ? defaultImg
+                : userProfileState?.avatar
+            }
+            alt="profileImg"
+            width={svgWidth}
+            height={svgHeight}
+            className="rounded-full md:rounded-[40px] object-cover w-[70px] h-[70px]"
+          />
+          <img
+            src={imgEditBtn}
+            alt="editBtn"
+            className="absolute w-1/3 cusor-pointer -bottom-1 right-1"
+            onClick={() => handleImgEdit()}
+          />
+        </div>
+      )}
       {/* </div> */}
       <div className="text-white strong">{userProfileState?.nickname}</div>
       {!isMsgEdit ? (

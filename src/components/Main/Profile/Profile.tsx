@@ -1,10 +1,6 @@
-import { Link } from "react-router-dom";
-import defailtImg from "../../../img/Main/DefaultPorfileImg.svg";
 import { useModalState } from "../../../store/modal";
 import { useMyData } from "../../../store/profile";
-import { useEffect, useState } from "react";
-import { instance } from "components/Util/axios";
-import axios from "axios";
+
 
 const svgWidth = 60;
 const svgHeight = 60;
@@ -13,16 +9,15 @@ export default function MainProfile() {
   const { setModalName, setModalProps } = useModalState();
   const { myData } = useMyData();
 
-
   return (
     <span className="relative  flex flex-col items-center justify-center gap-1.5 h-1/4 ">
       <img
         // src={defailtImg}
-        src="https://tscenping-img.s3.ap-northeast-2.amazonaws.com/images/2.jpeg"
+        src={myData.avatar}
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="object-cover w-1/6 rounded-full cursor-pointer h-1/6"
+        className="object-cover rounded-full cursor-pointer h-[120px] w-[120px]"
         onClick={() => {
           // setModalProps({nickname: })
           setModalName("profile");

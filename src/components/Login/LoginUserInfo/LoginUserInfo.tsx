@@ -13,10 +13,10 @@ const defaultImage = process.env.REACT_APP_DEFAULT_PROFILE;
 
 const LoginUserInfo = (): JSX.Element => {
   const instance = useAxios();
-  const [uploadImage, setUploadImage] = useState<File>();
+  const [uploadImage, setUploadImage] = useState<File | null>(null);
   const navigate = useNavigate();
   const nicknameRef = useRef<HTMLInputElement>(null);
-  const { handleUploadImage, imageUrl } = useImage();
+  // const { handleUploadImage, imageUrl } = useImage();
   const { setMyData, myData } = useMyData();
 
   const firebaseConfig = {
@@ -35,20 +35,10 @@ const LoginUserInfo = (): JSX.Element => {
     }
   };
 
-  const [presignedUrl, setPreSignedUrl] = useState<string>("");
-  const [s3Url, setS3Url] = useState<string>("");
-  const getPresignedUrl = async () => {
-    try {
-      await instance.get("/users/s3image").then((res) => {
-        console.log(res.data);
-        setPreSignedUrl(res.data);
-      });
-    } catch (e) {}
-  };
-
-  useEffect(() => {
-    getPresignedUrl();
-  });
+  const [preSignedUrl, setPreSignedUrl] = useState<string | null>(null);
+  // useEffect(() => {
+  // getPresignedUrl();
+  // });
 
   // useEffect(() => {
   //   if (uploadImage === undefined) return;
@@ -58,35 +48,56 @@ const LoginUserInfo = (): JSX.Element => {
   // useEffect(() => {
   //   console.log(imageUrl, "imageUrl");
   // }, [imageUrl]);
+  // 다음
 
   const userinfoHandler = async () => {
-    try{
-    await axios
-      .put(presignedUrl, uploadImage)
-      .then((res) => console.log(res.data, "upload image"));
-    }catch(e){
-      console.log(e)
-    }
     const data = {
       nickname: nicknameRef.current?.value,
-      avatar: imageUrl,
+      avatar: uploadImage === null ? false : true,
     };
     try {
-      const response = await instance.patch(
-        "/auth/signup",
-        JSON.stringify(data)
-      );
-      if (response.status === 200) {
-        if (nicknameRef.current) {
-          addDataToCollection(nicknameRef.current?.value);
-        }
-        setMyData({ ...myData, nickname: nicknameRef.current?.value });
-        navigate("/");
-      }
+      const response = await instance
+        .patch("/auth/signup", JSON.stringify(data))
+        .then((res) => {
+          if (nicknameRef.current) {
+            addDataToCollection(nicknameRef.current?.value);
+          }
+          console.log(res.data, "res.data");
+          console.log(res.data, "preSignedUrl");
+          if (res.data.preSignedUrl === null) {
+            navigate("/");
+          }
+          setPreSignedUrl(res.data.preSignedUrl);
+          // setMyData({ ...myData, nickname: nicknameRef.current?.value });
+          // navigate("/");
+        });
     } catch (error) {
       console.error("Error occurred during login authentication:", error);
     }
   };
+
+  const putS3Image = async () => {
+    console.log(222);
+    try {
+      if (preSignedUrl !== null) {
+        console.log(333);
+        console.log(preSignedUrl, "업로드");
+        await axios
+          .put(preSignedUrl, uploadImage)
+          .then((res) => console.log(res.data, "upload image"));
+        navigate("/");
+      } else {
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    putS3Image();
+    console.log("useEffect");
+  }, [preSignedUrl]);
 
   return (
     <section className="flex flex-col justify-between w-full h-screen">
@@ -102,10 +113,7 @@ const LoginUserInfo = (): JSX.Element => {
             </section>
           </section>
           <section className="flex flex-col items-center justify-center w-full mt-16">
-            <ProfileImageInput
-              setUploadImage={setUploadImage}
-              uploadImage={uploadImage}
-            />
+            <ProfileImageInput setUploadImage={setUploadImage} />
             <NickNameInput nicknameRef={nicknameRef} />
           </section>
         </section>

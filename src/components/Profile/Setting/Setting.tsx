@@ -18,7 +18,7 @@ export default function Setting() {
       if (response.status === 200) {
         channelSocket.disconnect();
         channelSocket.close();
-        setMyData({ id: -1, nickname: "" });
+        setMyData({ id: -1, nickname: "", avatar: ""});
         localStorage.clear();
         setModalName(null);
       }

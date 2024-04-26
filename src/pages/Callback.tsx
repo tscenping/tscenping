@@ -31,6 +31,7 @@ const LoginCallbackPage = (): JSX.Element => {
             id: response.data.userId,
             isMfaEnabled: response.data.isMfaEnabled,
             mfaCode: response.data.mfaUrl,
+            avatar: response.data.avatar,
           });
           if (response.data.isFirstLogin) navigate("/login/userinfo");
           if (!response.data.isFirstLogin && !response.data.isMfaEnabled)
@@ -53,7 +54,7 @@ const LoginCallbackPage = (): JSX.Element => {
       {myData.isMfaEnabled ? (
         <Mfa />
       ) : (
-        <section className="flex items-center w-full flex-col absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <section className="absolute flex flex-col items-center w-full transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
           <strong>42서울 계정으로 로그인 중이에요</strong>
           <img src={Loading} alt="loading" className="w-20" />
         </section>
