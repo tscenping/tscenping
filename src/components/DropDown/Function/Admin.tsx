@@ -45,7 +45,6 @@ export default function Admin({ props }: Props) {
   const AddAdminIcon = useDorpDownIcon({ types: "A_ADMIN" });
   const DeleteAdminIcon = useDorpDownIcon({ types: "D_ADMIN" });
 
-  console.log(props);
   return (
     <li
       className={`${dropDownStyle} ${

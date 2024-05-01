@@ -2,11 +2,12 @@ import useDorpDownIcon from "../../../hooks/useDropDownIcon";
 import useAxios from "../../../hooks/useAxios";
 import { useModalState } from "../../../store/modal";
 import { useChatSetting } from "../../../store/chat";
-import { DropDownProps, DropDownTypes } from "../../../types/DropDownTypes";
+import { DropDownProps } from "../../../types/DropDownTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { dropDownStyle } from "../Normal/NormalDropDown";
 import { useChat } from "store/chat";
 import { useSearchUser } from "store/friend";
+import { useBlocks } from "store/friend";
 
 interface Props {
   props: DropDownProps;
@@ -22,6 +23,7 @@ export default function Block({ props }: Props) {
   const queryClient = useQueryClient();
   const { setInChatInfo, inChatInfo } = useChat();
   const { setEditUserRelation } = useSearchUser();
+  const { setBlockUsers } = useBlocks();
 
   const editChatUserInfo = (v: boolean) => {
     const editChatUsersInfo = inChatInfo.chatUsers.map((el) => {
@@ -43,6 +45,9 @@ export default function Block({ props }: Props) {
           },
         });
         if (response.status === 200) {
+          const blocksUserResponse = await instance.get("/users/blocks");
+          if (blocksUserResponse.status === 200)
+            setBlockUsers(blocksUserResponse.data.blocks);
           if (inChatInfo.chatUsers) editChatUserInfo(false);
           setEditUserRelation("DELETEBLOCK");
           setModalName(null);
@@ -56,6 +61,9 @@ export default function Block({ props }: Props) {
           blockId: props.id,
         });
         if (response.status === 201) {
+          const blocksUserResponse = await instance.get("/users/blocks");
+          if (blocksUserResponse.status === 200)
+            setBlockUsers(blocksUserResponse.data.blocks);
           if (inChatInfo.chatUsers) editChatUserInfo(true);
           setEditUserRelation("ADDBLOCK");
           setModalName(null);

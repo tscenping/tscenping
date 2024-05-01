@@ -18,7 +18,6 @@ const LoginCheck = (): JSX.Element => {
     try {
       const response = await instance.get(`users/me`);
       setMyData(response.data);
-      console.log("getMyData", response.data);
     } catch (e) {
       console.log(e);
     }
@@ -41,7 +40,7 @@ const LoginCheck = (): JSX.Element => {
       getMyData();
       return;
     }
-    console.log(123, myData);
+
     // 1. 액세스 토큰 없음
     // 2. 액세스 토큰 유효하지 않음
     // 3. 액세스 토큰 유효하지만, 정보가 없음
