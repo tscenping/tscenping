@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gameSocket } from "socket/GameSocket";
 import { useGameMatchState } from "store/game";
-import { ObjectType } from "types/GameTypes";
+import { MatchDataType, ObjectType } from "types/GameTypes";
 
 interface DrawProps {
   x: number;
@@ -21,7 +21,7 @@ const rivalRacketColor = "#FFFFFF";
 const canvasColor = "#2D2D2D";
 const ballColor = "#FFFFFF";
 
-export default function GameFrame() {
+export default function GameFrame({ props }: { props: MatchDataType }) {
   const { gameId } = useGameMatchState();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
@@ -43,22 +43,41 @@ export default function GameFrame() {
     y: 0,
   };
 
-  // const width = racketWidth;
-  // const height = racketHeight;
-  const radius = 5;
-  // ctx.fillRect(
-  //   canvasWidth * 0.05,
-  //   canvasHeight - canvasHeight * 0.05,
-  //   canvasWidth * 0.25,
-  //   canvasHeight * 0.025
-  // );
+  let radius = 5;
+  let rightPressed = false;
+  let leftPressed = false;
 
-  // ctx.fillRect(
-  //   canvasWidth - canvasWidth * 0.3,
-  //   canvasHeight * 0.025,
-  //   canvasWidth * 0.25,
-  //   canvasHeight * 0.025
-  // );
+  const leftKey = (value: "down" | "up") => {
+    if (value === "down") {
+      gameSocket.emit("matchKeyDown", {
+        gameId: gameId,
+        keyStatus: "up",
+        keyName: props.myPosition === "LEFT" ? "arrowUp" : "arrowDown",
+      });
+    } else if (value === "up") {
+      gameSocket.emit("matchKeyDown", {
+        gameId: gameId,
+        keyStatus: "down",
+        keyName: props.myPosition === "LEFT" ? "arrowDown" : "arrowUp",
+      });
+    }
+  };
+
+  const rightKey = (value: "down" | "up") => {
+    if (value === "down") {
+      gameSocket.emit("matchKeyDown", {
+        gameId: gameId,
+        keyStatus: "up",
+        keyName: props.myPosition === "LEFT" ? "arrowDown" : "arrowUp",
+      });
+    } else if (value === "up") {
+      gameSocket.emit("matchKeyDown", {
+        gameId: gameId,
+        keyStatus: "down",
+        keyName: props.myPosition === "LEFT" ? "arrowUp" : "arrowDown",
+      });
+    }
+  };
 
   const drawRacket = (
     ctx: CanvasRenderingContext2D,
@@ -67,46 +86,28 @@ export default function GameFrame() {
   ) => {
     const { x, y } = props;
     // x 1200 y 800
-    let yCoordinate = (x / 1200) * canvasHeight;
-    let xCoordinate = (y / 800) * canvasWidth;
+    // let y = (x / 1200) * canvasHeight;
+    // let x = (y / 800) * canvasWidth;
     ctx.shadowColor = color;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = color === myRacketColor ? -4 : 4;
     ctx.shadowBlur = 10;
     ctx.beginPath();
-    ctx.moveTo(xCoordinate + radius, yCoordinate);
-    ctx.lineTo(xCoordinate + racketWidth - radius, yCoordinate);
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + racketWidth - radius, y);
+    ctx.arcTo(x + racketWidth, y, x + racketWidth, y + radius, radius);
+    ctx.lineTo(x + racketWidth, y + racketHeight - radius);
     ctx.arcTo(
-      xCoordinate + racketWidth,
-      yCoordinate,
-      xCoordinate + racketWidth,
-      yCoordinate + radius,
+      x + racketWidth,
+      y + racketHeight,
+      x + racketWidth - radius,
+      y + racketHeight,
       radius
     );
-    ctx.lineTo(xCoordinate + racketWidth, yCoordinate + racketHeight - radius);
-    ctx.arcTo(
-      xCoordinate + racketWidth,
-      yCoordinate + racketHeight,
-      xCoordinate + racketWidth - radius,
-      yCoordinate + racketHeight,
-      radius
-    );
-    ctx.lineTo(xCoordinate + radius, yCoordinate + racketHeight);
-    ctx.arcTo(
-      xCoordinate,
-      yCoordinate + racketHeight,
-      xCoordinate,
-      yCoordinate + racketHeight - radius,
-      radius
-    );
-    ctx.lineTo(xCoordinate, yCoordinate + radius);
-    ctx.arcTo(
-      xCoordinate,
-      yCoordinate,
-      xCoordinate + radius,
-      yCoordinate,
-      radius
-    );
+    ctx.lineTo(x + radius, y + racketHeight);
+    ctx.arcTo(x, y + racketHeight, x, y + racketHeight - radius, radius);
+    ctx.lineTo(x, y + radius);
+    ctx.arcTo(x, y, x + radius, y, radius);
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
@@ -117,14 +118,14 @@ export default function GameFrame() {
       gameSocket.emit("matchKeyDown", {
         gameId: gameId,
         keyStatus: "up",
-        keyName: "arrowUp",
+        keyName: props.myPosition === "LEFT" ? "arrowUp" : "arrowDown",
       });
       // myRacket.dy = 0
     } else if (e.key === "ArrowRight") {
       gameSocket.emit("matchKeyDown", {
         gameId: gameId,
         keyStatus: "up",
-        keyName: "arrowDown",
+        keyName: props.myPosition === "LEFT" ? "arrowDown" : "arrowUp",
       });
       // myRacket.dy = 0
     }
@@ -135,34 +136,37 @@ export default function GameFrame() {
       gameSocket.emit("matchKeyDown", {
         gameId: gameId,
         keyStatus: "down",
-        keyName: "arrowDown",
+        keyName: props.myPosition === "LEFT" ? "arrowUp" : "arrowDown",
       });
-      console.log("arrowDown", 2);
     } else if (e.key === "ArrowLeft") {
       gameSocket.emit("matchKeyDown", {
         gameId: gameId,
         keyStatus: "down",
-        keyName: "arrowUp",
+        keyName: props.myPosition === "LEFT" ? "arrowDown" : "arrowUp",
       });
-      console.log("arrowUp");
     }
   };
 
+  // let y = (x / 1200) * canvasHeight;
+  // let x = (y / 800) * canvasWidth;
   const matchStatusHandler = (data: MatchStatus) => {
-    myRacket.x = data.myRacket.x;
-    myRacket.y = data.myRacket.y;
-    rivalRacket.x = data.rivalRacket.x;
-    rivalRacket.y = data.rivalRacket.y;
+    if (props.myPosition === "LEFT") {
+      myRacket.x =
+        canvasWidth - (data.myRacket.y / 800) * canvasWidth - racketWidth;
+      myRacket.y =
+        canvasHeight - (data.myRacket.x / 1200) * canvasHeight - racketHeight;
+      rivalRacket.x =
+        canvasWidth - (data.rivalRacket.y / 800) * canvasWidth - racketWidth;
+      rivalRacket.y = canvasHeight - (data.rivalRacket.x / 1200) * canvasHeight;
+    } else {
+      myRacket.x = (data.myRacket.y / 800) * canvasWidth;
+      myRacket.y = (data.myRacket.x / 1200) * canvasHeight - racketHeight / 2;
+      rivalRacket.x = (data.rivalRacket.y / 800) * canvasWidth;
+      rivalRacket.y = (data.rivalRacket.x / 1200) * canvasHeight;
+    }
     ball.x = data.ball.x;
     ball.y = data.ball.y;
   };
-
-  useEffect(() => {
-    gameSocket.on("matchStatus", matchStatusHandler);
-    return () => {
-      gameSocket.off("matchStatus", matchStatusHandler);
-    };
-  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -178,7 +182,6 @@ export default function GameFrame() {
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
-    console.log(canvasHeight, canvasWidth);
     function loop() {
       requestAnimationFrame(loop);
       if (ctx) {
@@ -192,17 +195,19 @@ export default function GameFrame() {
         ctx.shadowOffsetY = 0;
         ctx.shadowBlur = 10;
         ctx.fillStyle = ballColor;
-        // context.fillRect(ball.x, ball.y, ball.width, ball.height)
-        // console.log(ball)
         ctx.beginPath(); // 경로 그리기 시작
         ctx.arc(
-          (ball.y / 800) * canvasWidth,
-          (ball.x / 1200) * canvasHeight,
-          10,
+          props.myPosition === "LEFT"
+            ? canvasWidth - (ball.y / 800) * canvasWidth
+            : (ball.y / 800) * canvasWidth,
+          props.myPosition === "LEFT"
+            ? canvasHeight - (ball.x / 1200) * canvasHeight
+            : (ball.x / 1200) * canvasHeight,
+          canvasWidth * 0.02,
           0,
           Math.PI * 2
         ); // 원 그리기
-        console.log(ball);
+        // console.log(ball);
         ctx.fillStyle = ballColor; // 공의 색상 지정
         ctx.fill(); // 채우기
         ctx.closePath(); // 경로 그리기 종료
@@ -210,55 +215,59 @@ export default function GameFrame() {
     }
     myRacket.x++;
     ball.x++;
-    // const rackets = changeRacketPosition();
-    // myRacket = rackets.newMyRacket;
-    // rivalRacket = rackets.newRivalRacket;
-    // racketHeight = rackets.newRacketHeight;
-    // racketWidth = rackets.newRacketWidth;
     const animationId = requestAnimationFrame(loop);
-    // gameSocket.on("matchStatus", matchStatusHandler);
-
+    gameSocket.on("matchStatus", matchStatusHandler);
     document.addEventListener("keydown", keyDownEventHandler);
     document.addEventListener("keyup", keyUpEventHandler);
     return () => {
       cancelAnimationFrame(animationId);
-      // gameSocket.off("matchStatus", matchStatusHandler);
+      gameSocket.off("matchStatus", matchStatusHandler);
       document.removeEventListener("keydown", keyDownEventHandler);
       document.removeEventListener("keyup", keyUpEventHandler);
-      // document.removeEventListener("keydown", keyDownEventHandler);
     };
   }, [canvasWidth, canvasHeight]);
 
+  const touchStartHandler = (value: "LEFT" | "RIGHT") => () => {
+    if (value === "LEFT" && !leftPressed) {
+      leftKey("down");
+      leftPressed = true;
+      console.log("leftStart");
+    } else if (value === "RIGHT" && !rightPressed) {
+      rightKey("down");
+      console.log("rightStart");
+      rightPressed = true;
+    }
+  };
+  const touchEndHandler = (value: "LEFT" | "RIGHT") => () => {
+    if (value === "LEFT" && leftPressed) {
+      leftKey("up");
+      console.log("leftEnd");
+      leftPressed = false;
+    } else if (value === "RIGHT" && rightPressed) {
+      rightKey("up");
+      console.log("rightEnd");
+      rightPressed = false;
+    }
+  };
+
   return (
-    <div className="w-full h-full" ref={parentRef}>
+    <div className="relative w-full h-full" ref={parentRef}>
       <canvas
         width={canvasWidth}
         height={canvasHeight}
         ref={canvasRef}
         className="w-full h-full"
       ></canvas>
+      <div
+        className="absolute top-0 w-1/2 h-full"
+        onTouchStart={touchStartHandler("LEFT")}
+        onTouchEnd={touchEndHandler("LEFT")}
+      ></div>
+      <div
+        className="absolute top-0 right-0 w-1/2 h-full"
+        onTouchStart={touchStartHandler("RIGHT")}
+        onTouchEnd={touchEndHandler("RIGHT")}
+      ></div>
     </div>
   );
 }
-
-// const keyDownEventHandler = (e: KeyboardEvent) => {
-//   switch (e.key) {
-//     case "ArrowLeft": {
-//       if (myRacket.x - canvasWidth * 0.025 < canvasWidth * 0.05) {
-//         myRacket.x = canvasWidth * 0.05;
-//         break;
-//       }
-//       myRacket.x -= canvasWidth * 0.025;
-//       break;
-//     }
-
-//     case "ArrowRight": {
-//       if (myRacket.x > canvasWidth - canvasWidth * 0.05 - canvasWidth * 0.25)
-//         break;
-//       myRacket.x += canvasWidth * 0.025;
-//       break;
-//     }
-//     default:
-//       break;
-//   }
-// };

@@ -6,6 +6,7 @@ import Main from "./Main";
 import InviteGameToast from "../Toast/InviteGameToast";
 import ChannelSocketHandler from "components/Socket/ChannelSocketHandler";
 import { useGameInviteState } from "store/game";
+import ToastHandler from "components/Toast/ToastHandler";
 export default function Container({ children }: { children: ReactNode }) {
   const { modalName } = useModalState();
   const { invitationId } = useGameInviteState();
@@ -29,7 +30,8 @@ export default function Container({ children }: { children: ReactNode }) {
       >
         토스트
       </button> */}
-      {invitationId !== -1 && <InviteGameToast setViewToast={setViewToast} />}
+      {/* {invitationId !== -1 && <InviteGameToast setViewToast={setViewToast} />} */}
+      <ToastHandler />
       <Main>{children}</Main>
       <Footer />
     </div>

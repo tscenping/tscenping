@@ -7,7 +7,7 @@ interface ScoreType {
   rivalScore: number;
 }
 
-export default function Score({props}: {props?: MatchDataType}) {
+export default function Score({props}: {props: MatchDataType}) {
   const [score, setScore] = useState<ScoreType>({ myScore: 0, rivalScore: 0 });
 
   const matchHandler = (data: ScoreType) => {

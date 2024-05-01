@@ -14,6 +14,7 @@ import { useMyData } from "store/profile";
 import { GameInviteType, GameMatchType } from "types/GameTypes";
 import { useGameInviteState, useGameMatchState } from "store/game";
 import { useNavigate } from "react-router-dom";
+import { useToastState } from "store/toast";
 
 const ChannelSocketHandler = () => {
   const { inChatInfo } = useChat();
@@ -21,6 +22,7 @@ const ChannelSocketHandler = () => {
   const navigation = useNavigate();
   const { myData } = useMyData();
   const { invitationId, setGameInviteState } = useGameInviteState();
+  const { setToastState } = useToastState();
   const {setGameMatchState} = useGameMatchState();
 
   const firebaseConfig = {
@@ -120,7 +122,9 @@ const ChannelSocketHandler = () => {
 
   const gameInviteHandler = (inviteData: GameInviteType) => {
     if (invitationId === -1) {
+      console.log(inviteData, "inviteData")
       setGameInviteState(inviteData);
+      setToastState("game");
       console.log("ㅋㅌㅊ");
     }
     console.log("퓨퓨");

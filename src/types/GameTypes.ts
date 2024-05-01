@@ -1,7 +1,7 @@
 export interface GameInviteType {
   invitationId: number;
   invitingUserNickname: string;
-  gameType: "SPECIAL_GAME" | "NORMAL_GAME";
+  gameType: "SPECIAL_INVITE" | "NORMAL_INVITE";
   setGameInviteState: (gameInvite: GameInviteType) => void;
 }
 

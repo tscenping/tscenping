@@ -2,14 +2,17 @@ import { instance } from "components/Util/axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGameInviteState } from "store/game";
+import { useToastState } from "store/toast";
 import { GameInviteType } from "types/GameTypes";
 
 const viewTime = 10000;
 const duration = 500;
 
-export default function InviteGameToast({setViewToast}:{setViewToast:Function}) {
+export default function InviteGameToast() {
   const { invitationId, invitingUserNickname, gameType, setGameInviteState } =
     useGameInviteState();
+  const { setToastState } = useToastState();
+  // const [viewToast, setViewToast] = useState(true);
   const navigate = useNavigate();
   const [timeOutId, setTimeOutId] = useState<NodeJS.Timeout | null>(null);
   useEffect(() => {
@@ -18,7 +21,7 @@ export default function InviteGameToast({setViewToast}:{setViewToast:Function}) 
       setGameInviteState({
         invitationId: -1,
         invitingUserNickname: "",
-        gameType: "NORMAL_GAME",
+        gameType: "NORMAL_INVITE",
         setGameInviteState: () => {},
       });
     }, viewTime);
@@ -27,10 +30,7 @@ export default function InviteGameToast({setViewToast}:{setViewToast:Function}) 
     };
   }, [invitationId]);
 
-  const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
-    setIsVisible(true);
     console.log("invite toast");
 
     const timeout = setTimeout(() => {
@@ -38,9 +38,15 @@ export default function InviteGameToast({setViewToast}:{setViewToast:Function}) 
         console.log("game invite auto decline");
         declineGameInvite();
       }
-      setViewToast(false);
-      setGameInviteState({ invitationId: -1, invitingUserNickname: "", gameType: "NORMAL_GAME", setGameInviteState: () => {} })
-      setIsVisible(false);
+      // setViewToast(false);
+      setToastState(null);
+      setGameInviteState({
+        invitationId: -1,
+        invitingUserNickname: "",
+        gameType: "NORMAL_INVITE",
+        setGameInviteState: () => {},
+      });
+      // setIsVisible(false);
     }, viewTime - duration);
 
     setTimeOutId(timeout);
@@ -56,15 +62,27 @@ export default function InviteGameToast({setViewToast}:{setViewToast:Function}) 
     await instance
       .post("game/accept", { gameInvitationId: invitationId })
       .then((res) => {
+        setGameInviteState({
+          invitationId: -1,
+          invitingUserNickname: "",
+          gameType: "NORMAL_INVITE",
+          setGameInviteState: () => {},
+        });
         navigate("/game");
         console.log("invite accept");
       });
 
     clearTimeout(timeOutId!);
     setTimeOutId(null);
-    setIsVisible(false);
-    setGameInviteState({ invitationId: -1, invitingUserNickname: "", gameType: "NORMAL_GAME", setGameInviteState: () => {} })
-    setViewToast(false);
+    // setIsVisible(false);
+    setGameInviteState({
+      invitationId: -1,
+      invitingUserNickname: "",
+      gameType: "NORMAL_INVITE",
+      setGameInviteState: () => {},
+    });
+    setToastState(null);
+    // setViewToast(false);
   };
 
   const declineGameInvite = async () => {
@@ -74,24 +92,30 @@ export default function InviteGameToast({setViewToast}:{setViewToast:Function}) 
 
     clearTimeout(timeOutId!);
     setTimeOutId(null);
-    setIsVisible(false);
-    setGameInviteState({ invitationId: -1, invitingUserNickname: "", gameType: "NORMAL_GAME", setGameInviteState: () => {} })
-    setViewToast(false);
+    // setIsVisible(false);
+    setGameInviteState({
+      invitationId: -1,
+      invitingUserNickname: "",
+      gameType: "NORMAL_INVITE",
+      setGameInviteState: () => {},
+    });
+    setToastState(null);
+    // setViewToast(false);
   };
 
   return (
-    <div
-      className={` absolute mt-3 text-center bg-green-50 opacity-0 transition-all text-black duration-${duration} transform w-1/2 rounded-[10px] z-30 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full"
-      }`}
-    >
-      <p className="text-black text-Body">
-        {invitingUserNickname} 님의{" "}
-        {gameType === "NORMAL_GAME" ? "노말 게임" : "스페셜 게임"} 초대를
-        수락하시겠습니까?
-      </p>
-      <button onClick={acceptGameInvite}>수락</button>
-      <button onClick={declineGameInvite}>거절</button>
-    </div>
+    <>
+      {invitationId !== -1 && (
+        <>
+          <p className="text-black text-Body">
+            {invitingUserNickname} 님의{" "}
+            {gameType === "NORMAL_INVITE" ? "노말 게임" : "스페셜 게임"} 초대를
+            수락하시겠습니까?
+          </p>
+          <button onClick={acceptGameInvite}>수락</button>
+          <button onClick={declineGameInvite}>거절</button>
+        </>
+      )}
+    </>
   );
 }

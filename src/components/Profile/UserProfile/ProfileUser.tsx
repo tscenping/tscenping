@@ -46,7 +46,8 @@ export default function ProfileUser({ refetch }: { refetch: Function }) {
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="rounded-[30px] md:rounded-[40px] object-cover"
+        // rounded-full md:rounded-[40px] object-cover w-[70px] h-[70px]
+        className="object-cover rounded-full w-[70px] h-[70px]"
       />
       <div className="flex flex-col w-full h-full text-white strong">
         <div className="flex justify-between">

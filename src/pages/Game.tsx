@@ -3,7 +3,7 @@ import Container from "../components/Util/Container";
 import GameFrame from "../components/Game/GameFrame";
 import Score from "../components/Game/Score";
 import Player from "../components/Game/Player";
-import { useGameMatchState } from "store/game";
+import { useGameInviteState, useGameMatchState } from "store/game";
 import { gameSocket } from "socket/GameSocket";
 import { MatchDataType, MatchEndType } from "types/GameTypes";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +14,12 @@ export default function Game() {
   const [matchData, setMatchData] = useState<MatchDataType>();
   const navigate = useNavigate();
   const { setMatchEndData } = useMatchEndState();
-  const {setModalName } = useModalState();
+  const { setModalName } = useModalState();
+
+  const { setGameInviteState } = useGameInviteState();
 
   const gameInitHandler = (Data: MatchDataType) => {
+    console.log(Data, "ServerGameReady");
     setMatchData(Data);
     gameSocket.emit("clientGameReady", { gameId: gameId });
     console.log("clientGameReady");
@@ -24,11 +27,17 @@ export default function Game() {
 
   const matchEndHandler = (data: MatchEndType) => {
     setMatchEndData(data);
-    setModalName("matchEnd")
+    setModalName("matchEnd");
     navigate("/");
   };
 
   useEffect(() => {
+    setGameInviteState({
+      invitationId: -1,
+      invitingUserNickname: "",
+      gameType: "NORMAL_INVITE",
+      setGameInviteState: () => {},
+    });
     if (gameId === -1) return;
     gameSocket.connect();
     gameSocket.on("connect", () => {
@@ -55,11 +64,15 @@ export default function Game() {
   return (
     <Container>
       <div className="flex flex-col w-full h-full">
-        <Score props={matchData} />
-        <Player props={matchData} />
-        <div className="flex-grow">
-          <GameFrame />
-        </div>
+        {matchData && (
+          <>
+            <Score props={matchData} />
+            <Player props={matchData} />
+            <div className="flex-grow">
+              <GameFrame props={matchData} />
+            </div>
+          </>
+        )}
       </div>
     </Container>
   );

@@ -4,7 +4,7 @@ import { create } from "zustand";
 export const useGameInviteState = create<GameInviteType>((set) => ({
   invitationId: -1,
   invitingUserNickname: "",
-  gameType: "NORMAL_GAME",
+  gameType: "NORMAL_INVITE",
   setGameInviteState: (gameInvite: GameInviteType) => set({ ...gameInvite }),
 }));
 
