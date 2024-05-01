@@ -4,16 +4,15 @@ import { useEffect } from "react";
 import useAxios from "hooks/useAxios";
 import { useMyData } from "store/profile";
 import { useModalState, useNoticeModalState } from "store/modal";
-import { initializeApp } from "firebase/app";
 import {
   getDocs,
   collection,
   query,
   where,
   deleteDoc,
-  getFirestore,
 } from "firebase/firestore/lite";
 import { useMessage } from "store/chat";
+import firebaseSetting from "func/settingFirebase";
 
 interface ChatNoticeProps {
   nickname: string;
@@ -28,6 +27,7 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
   const { setModalName } = useModalState();
   const { setContent } = useNoticeModalState();
   const { setParseChatLog } = useMessage();
+  const { db } = firebaseSetting();
 
   const eventType = (() => {
     switch (props.noticeType) {
@@ -69,21 +69,23 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
     if (props.channelId === inChatInfo.inChat) {
       try {
         if (myData.nickname) {
-          const firebaseConfig = {
-            projectId: "tscenping",
-          };
-          const app = initializeApp(firebaseConfig);
-          const db = getFirestore(app);
-          const messagesCol = collection(db, myData.nickname);
-          const q = query(
-            messagesCol,
-            where("channelId", "==", props.channelId)
-          );
-          const querySnapshot = await getDocs(q);
-
-          querySnapshot.forEach((doc) => {
-            deleteDoc(doc.ref);
-          });
+          try {
+            const userCollectionRef = collection(db, myData.nickname);
+            const q = query(
+              userCollectionRef,
+              where("channelId", "==", inChatInfo.inChat)
+            );
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+              querySnapshot.forEach(async (doc) => {
+                await deleteDoc(doc.ref);
+              });
+            } else {
+              console.log("해당 문서 없음");
+            }
+          } catch (error) {
+            console.log(error);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -107,17 +109,23 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log("active....");
-    if (props.nickname === myData.nickname) {
+    if (props.nickname === myData.nickname && !inChatInfo.isJoined) {
       //닉네임이 같을때는 kick, ban, mute, admin일때 로직을 구성
       if (props.noticeType === "KICK" || props.noticeType === "BAN") {
+        console.log("active kick ban");
         kickBanChatHandler();
       }
       if (props.noticeType === "ADMIN") {
+        console.log("active admin admin");
         adminChanHandler();
       }
       if (props.noticeType === "ADMIN_CANCEL") {
+        console.log("active admin cancel");
         adminCancelHandler();
+      }
+      if (props.noticeType === "MUTE") {
+        console.log("active Mute");
+        setInChatInfo({ ...inChatInfo, isMute: true });
       }
     } else {
       //닉네임이 다를 때는 join, exit일때만 채팅유저리스트 업데이트
@@ -127,7 +135,7 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
           props.noticeType === "EXIT" ||
           props.noticeType === "KICK" ||
           props.noticeType === "BAN" ||
-          props.noticeType === "ADMIN" || //여기서 바껴야 하는데
+          props.noticeType === "ADMIN" ||
           props.noticeType === "ADMIN_CANCEL")
       ) {
         updateChatInfo();

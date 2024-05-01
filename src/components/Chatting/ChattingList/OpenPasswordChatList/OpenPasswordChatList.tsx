@@ -5,16 +5,17 @@ import { useChat, useChatSetting, useMessage } from "store/chat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useModalState } from "store/modal";
 import { ChatType, ChatUsersInfoTypes } from "types/ChatTypes";
-import { initializeApp } from "firebase/app";
 import {
-  getFirestore,
   collection,
   getDocs,
   Firestore,
   query,
+  where,
   orderBy,
+  updateDoc,
 } from "firebase/firestore/lite";
 import { useMyData } from "store/profile";
+import firebaseSetting from "func/settingFirebase";
 
 interface AllChattingListProps {
   channelId: number;
@@ -32,42 +33,62 @@ const OpenPasswordChatList = (props: AllChattingListProps): JSX.Element => {
   const { setModalName } = useModalState();
   const { myData } = useMyData();
   const { setParseChatLog } = useMessage();
+  const { db } = firebaseSetting();
 
   const inChattingListStyle =
     "bg-[#424242] p-3 px-4 rounded-[20px] mt-6 cursor-pointer font-[Pretendard-SemiBold] ";
 
-  const firebaseConfig = {
-    projectId: "tscenping",
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
   async function getMessages(db: Firestore) {
     if (myData.nickname) {
-      const messagesCol = collection(db, myData.nickname);
-      const orderMessage = query(messagesCol, orderBy("createAt", "asc"));
+      const messagesCol = collection(db, "chat");
+      const orderMessage = query(messagesCol);
       const messageSnapshot = await getDocs(orderMessage);
-      const messageList = messageSnapshot.docs
-        .map((doc) => doc.data())
-        .filter((data) => data.channelId === props.channelId); // props.channelId와 일치하는 데이터만 필터링
-      return messageList;
+      const messageData = messageSnapshot.docs.find((doc) => {
+        return doc.data().channelId === props.channelId;
+      });
+      return messageData?.data().messages;
     }
   }
 
   async function fetchData() {
     const result = await getMessages(db);
     if (result) {
-      const parsedResult = result.map((doc: any) => ({
-        avatar: doc.avatar,
-        nickname: doc.nickname,
-        message: doc.message,
-        time: doc.time,
-        eventType: doc.eventType,
-        channelId: doc.channelId,
-      }));
-      setParseChatLog(parsedResult);
+      const enterPoint = result.findLastIndex((message: any) => {
+        return (
+          message.nickname === myData.nickname && message.eventType === "JOIN"
+        );
+      });
+      const sliceMessages = result.slice(enterPoint > 0 ? enterPoint : 0);
+      if (sliceMessages) {
+        const parsedMessage = sliceMessages.map((message: any) => ({
+          avatar: message.avatar,
+          nickname: message.nickname,
+          message: message.message,
+          time: message.time,
+          eventType: message.eventType,
+          channelId: message.channelId,
+        }));
+        setParseChatLog(parsedMessage);
+      } else {
+        setParseChatLog([]);
+      }
     }
+  }
+
+  async function fetchDataUser(userCount: number) {
+    console.log(userCount);
+    const userCollectionRef = collection(db, "chat");
+    const q = query(
+      userCollectionRef,
+      where("channelId", "==", props.channelId)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      const docRef = doc.ref;
+      await updateDoc(docRef, {
+        userCount: userCount,
+      });
+    });
   }
 
   const joinChatApiHandler = async () => {
@@ -94,6 +115,7 @@ const OpenPasswordChatList = (props: AllChattingListProps): JSX.Element => {
       });
 
       if (response.status === 200 || response.status === 201) {
+        setParseChatLog([]);
         const chatUsers = response.data.channelUsers.map(
           (el: ChatUsersInfoTypes) => ({
             ...el,
@@ -112,6 +134,9 @@ const OpenPasswordChatList = (props: AllChattingListProps): JSX.Element => {
         setModalName(null);
         if (response.status === 200) {
           fetchData();
+        }
+        if (response.status === 201) {
+          fetchDataUser(response.data.channelUsers.length);
         }
       }
     } catch (error) {

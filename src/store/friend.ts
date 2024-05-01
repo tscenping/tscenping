@@ -3,6 +3,7 @@ import {
   FriendUserInfoType,
   useSearchUserProps,
   editType,
+  useBlocksProps,
 } from "types/FriendTypes";
 
 export const useSearchUser = create<useSearchUserProps>((set) => ({
@@ -53,4 +54,8 @@ export const useSearchUser = create<useSearchUserProps>((set) => ({
         },
       }));
   },
+}));
+
+export const useBlocks = create<useBlocksProps>((set) => ({
+  setBlockUsers: (blockUsers) => set({ blockUsers }),
 }));

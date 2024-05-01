@@ -4,10 +4,9 @@ import axios from "axios";
 import NickNameInput from "./NicknameInput";
 import ProfileImageInput from "./ProfileImageInput";
 import useAxios from "../../../hooks/useAxios";
-import useImage from "../../../hooks/useImage";
 import { useMyData } from "store/profile";
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore/lite";
+import { collection, addDoc } from "firebase/firestore/lite";
+import firebaseSetting from "func/settingFirebase";
 
 const defaultImage = process.env.REACT_APP_DEFAULT_PROFILE;
 
@@ -18,13 +17,7 @@ const LoginUserInfo = (): JSX.Element => {
   const nicknameRef = useRef<HTMLInputElement>(null);
   // const { handleUploadImage, imageUrl } = useImage();
   const { setMyData, myData } = useMyData();
-
-  const firebaseConfig = {
-    projectId: "tscenping",
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const { db } = firebaseSetting();
 
   const addDataToCollection = async (nickname: string) => {
     try {
@@ -59,9 +52,9 @@ const LoginUserInfo = (): JSX.Element => {
       const response = await instance
         .patch("/auth/signup", JSON.stringify(data))
         .then((res) => {
-          if (nicknameRef.current) {
-            addDataToCollection(nicknameRef.current?.value);
-          }
+          // if (nicknameRef.current) {
+          //   addDataToCollection(nicknameRef.current?.value);
+          // }
           console.log(res.data, "res.data");
           console.log(res.data, "preSignedUrl");
           if (res.data.preSignedUrl === null) {

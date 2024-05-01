@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useMyData } from "store/profile";
 import { channelSocket } from "socket/ChannelSocket";
+import ChannelSocketHandler from "./ChannelSocketHandler";
 
 const ChannelSocketConnectHandler = () => {
   const { myData } = useMyData();
+  console.log("socket connect");
   useEffect(() => {
     if (
       myData.nickname !== null &&
@@ -16,7 +18,11 @@ const ChannelSocketConnectHandler = () => {
       channelSocket.close();
     };
   }, [myData.nickname]);
-  return <></>;
+  return (
+    <>
+      <ChannelSocketHandler />
+    </>
+  );
 };
 
 export default ChannelSocketConnectHandler;
