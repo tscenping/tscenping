@@ -24,16 +24,19 @@ const LoginCheck = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (
-      pathName === "logincallback" ||
-      pathName === "googlecallback" ||
-      pathName === "login" ||
-      pathName === "userinfo"
-    )
+    if (pathName === "logincallback" || pathName === "googlecallback") {
       return;
+    }
+    if (pathName === "userinfo" && cookies.get("accessToken")) {
+      if (myData?.nickname === null) return;
+      else navigate("/");
+    }
     if (!cookies.get("accessToken")) {
       navigate("/login");
-    } else if (myData?.nickname === "" || myData?.nickname === null) {
+    }
+    if (myData?.nickname === "" || myData?.nickname === null || myData.avatar === undefined) {
+      console.log("getMyData");
+      console.log(pathName);
       getMyData();
       return;
     }

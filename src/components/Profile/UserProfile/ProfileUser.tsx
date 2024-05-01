@@ -33,20 +33,21 @@ export default function ProfileUser({ refetch }: { refetch: Function }) {
       console.log(e);
     }
   };
+  console.log(userProfileState)
 
   return (
     <section className="flex flex-row items-center gap-4 justify-normal">
       <img
         src={
-          "https://d5xph0h5q8hbn.cloudfront.net/images/2.jpeg"
-          // userProfileState?.avatar === null
-          //   ? defaultImg
-          //   : userProfileState?.avatar
+          userProfileState?.avatar === null
+            ? defaultImg
+            : userProfileState?.avatar
         }
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="rounded-[30px] md:rounded-[40px] object-cover"
+        // rounded-full md:rounded-[40px] object-cover w-[70px] h-[70px]
+        className="object-cover rounded-full w-[70px] h-[70px]"
       />
       <div className="flex flex-col w-full h-full text-white strong">
         <div className="flex justify-between">
@@ -92,7 +93,7 @@ export default function ProfileUser({ refetch }: { refetch: Function }) {
               setModalProps({
                 nickname: userProfileState?.nickname,
                 confirmType: "game",
-                confirmMsg: `${userProfileState?.nickname}님과 게임을 진행하시겠습니까?`,
+                id: userProfileState?.id,
               });
             }}
           >

@@ -22,6 +22,7 @@ export default function ModalConfirm() {
           text-black min-w-[100px] font-bold hover:scale-105 cursor-pointer"
           onClick={() => {
             if (prevName) setModalName(prevName);
+            else setModalName(null);
           }}
         >
           No

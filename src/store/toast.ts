@@ -1,24 +1,30 @@
 import { create } from "zustand";
-interface GameInvitation {
-  gameId: number,
-  invitingNickname: string,
+interface GameInvitationType {
+  gameId: number;
+  invitingNickname: string;
 }
+
+interface ChatInvitationType {}
+
+interface NotiType {}
+
+type ToastType = "game" | "chat" | "noti" | null;
 
 interface ToastState {
-  message: string,
+  toastName: ToastType;
+  gameProp?: GameInvitationType;
+  chatProp?: ChatInvitationType;
+  notiProp?: NotiType;
+  setToastState: (
+    toastName: ToastType,
+    gameProp?: GameInvitationType,
+    chatProp?: ChatInvitationType,
+    notiProp?: NotiType
+  ) => void;
 }
 
-interface Toast {
-  toastState: ToastState;
-  setToastSTate: (toastState: ToastState) => void;
-}
-
-
-
-export const useToast = create((set) => ({
-  toastState: {
-    message: "",
-    
-  },
-    setToastSTate: (toastState:ToastState) => set({ toastState }),
+export const useToastState = create<ToastState>((set) => ({
+  toastName: null,
+  setToastState: (toastName, gameProp, chatProp, notiProp) =>
+    set({ toastName, gameProp, chatProp, notiProp }),
 }));

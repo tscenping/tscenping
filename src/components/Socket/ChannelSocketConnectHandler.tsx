@@ -7,6 +7,7 @@ const ChannelSocketConnectHandler = () => {
   const { myData } = useMyData();
   console.log("socket connect");
   useEffect(() => {
+    console.log(222)
     if (
       myData.nickname !== null &&
       myData.nickname !== "" &&

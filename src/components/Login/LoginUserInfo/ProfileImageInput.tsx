@@ -77,7 +77,7 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
       <input
         type="file"
         id="profileImage"
-        accept="image/jpeg, image/png"
+        accept="image/jpeg"
         className="hidden"
         onChange={profileImageHandler}
       />

@@ -29,19 +29,6 @@ const LoginUserInfo = (): JSX.Element => {
   };
 
   const [preSignedUrl, setPreSignedUrl] = useState<string | null>(null);
-  // useEffect(() => {
-  // getPresignedUrl();
-  // });
-
-  // useEffect(() => {
-  //   if (uploadImage === undefined) return;
-  //   handleUploadImage(uploadImage);
-  // }, [uploadImage]);
-
-  // useEffect(() => {
-  //   console.log(imageUrl, "imageUrl");
-  // }, [imageUrl]);
-  // 다음
 
   const userinfoHandler = async () => {
     const data = {
@@ -61,8 +48,6 @@ const LoginUserInfo = (): JSX.Element => {
             navigate("/");
           }
           setPreSignedUrl(res.data.preSignedUrl);
-          // setMyData({ ...myData, nickname: nicknameRef.current?.value });
-          // navigate("/");
         });
     } catch (error) {
       console.error("Error occurred during login authentication:", error);
@@ -73,7 +58,6 @@ const LoginUserInfo = (): JSX.Element => {
     console.log(222);
     try {
       if (preSignedUrl !== null) {
-        console.log(333);
         console.log(preSignedUrl, "업로드");
         await axios
           .put(preSignedUrl, uploadImage)

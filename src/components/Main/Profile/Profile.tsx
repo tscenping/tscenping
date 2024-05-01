@@ -1,6 +1,6 @@
 import { useModalState } from "../../../store/modal";
 import { useMyData } from "../../../store/profile";
-
+import defaultImg from "../../../img/Main/DefaultPorfileImg.svg";
 
 const svgWidth = 60;
 const svgHeight = 60;
@@ -13,7 +13,8 @@ export default function MainProfile() {
     <span className="relative  flex flex-col items-center justify-center gap-1.5 h-1/4 ">
       <img
         // src={defailtImg}
-        src={myData.avatar}
+
+        src={myData.avatar === null ? defaultImg : myData.avatar}
         alt="profile img"
         width={svgWidth}
         height={svgHeight}

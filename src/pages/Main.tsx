@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMyData } from "store/profile";
 import LoginUserInfo from "../components/Login/LoginUserInfo/LoginUserInfo";
-import Toast from "../components/Toast/Toast";
+import Toast from "../components/Toast/InviteGameToast";
 import Mfa from "components/Login/Mfa";
 
 export default function Main() {

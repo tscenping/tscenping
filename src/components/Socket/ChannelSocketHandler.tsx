@@ -10,14 +10,23 @@ import {
   where,
 } from "firebase/firestore/lite";
 import { useMyData } from "store/profile";
+import { GameInviteType, GameMatchType } from "types/GameTypes";
+import { useGameInviteState, useGameMatchState } from "store/game";
+import { useNavigate } from "react-router-dom";
+import { useToastState } from "store/toast";
 import firebaseSetting from "func/settingFirebase";
 import { useBlocks } from "store/friend";
 
 const ChannelSocketHandler = () => {
   const { setChatLog } = useMessage();
+  const navigation = useNavigate();
   const { myData } = useMyData();
   const { db } = firebaseSetting();
   const { blockUsers } = useBlocks();
+  const { invitationId, setGameInviteState } = useGameInviteState();
+  const { setToastState } = useToastState();
+  const {setGameMatchState} = useGameMatchState();
+
 
   // 채널소켓 "message" "on" 핸들러
   const receiveMessageSocketHandler = useCallback(
@@ -78,6 +87,24 @@ const ChannelSocketHandler = () => {
     [myData.nickname, setChatLog, db]
   );
 
+  const gameInviteHandler = (inviteData: GameInviteType) => {
+    if (invitationId === -1) {
+      console.log(inviteData, "inviteData")
+      setGameInviteState(inviteData);
+      setToastState("game");
+      console.log("ㅋㅌㅊ");
+    }
+    console.log("퓨퓨");
+  };
+
+  const gameInviteResponseHandler = (gameData: GameMatchType) => {
+    if (gameData.isAccepted === true) {
+      setGameMatchState(gameData);
+      navigation("/game")
+    }
+  }
+
+
   useEffect(() => {
     console.log("channelSocketHandler active.....");
     channelSocket.on("message", receiveMessageSocketHandler);
@@ -87,6 +114,15 @@ const ChannelSocketHandler = () => {
       channelSocket.off("notice", receiveChatNoticeSocketHandler);
     };
   }, [receiveMessageSocketHandler, receiveChatNoticeSocketHandler]);
+
+  useEffect(() => {
+    channelSocket.on("gameInvitation", gameInviteHandler);
+    channelSocket.on("gameInvitationReply", gameInviteResponseHandler);
+    return () => {
+      channelSocket.off("gameInvitation", gameInviteHandler);
+      channelSocket.off("gameInvitationReply", gameInviteResponseHandler);
+    };
+  }, [gameInviteHandler]);
   // 채널소켓 "message" "on" 핸들러
   return <></>;
 };
