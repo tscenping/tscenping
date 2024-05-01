@@ -34,7 +34,7 @@ export interface MessageTypes {
 
 export interface MessageType {
   nickname: string;
-  avatar?: string;
+  avatar?: string | null;
   message?: string;
   time?: string;
   channelId: number;
@@ -62,6 +62,7 @@ export interface useChatProps {
   myChannelUserType: ChannelUserTypes;
   chatUsers: ChatUsersInfoTypes[];
   isJoined: boolean;
+  isMute: boolean;
 }
 
 export interface useChatSettingProps {

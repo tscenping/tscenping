@@ -7,8 +7,11 @@ import useAxios from "hooks/useAxios";
 import { useChat } from "store/chat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChatPasswordErrorTypes } from "types/ChatTypes";
+import firebaseSetting from "func/settingFirebase";
+import { collection, addDoc } from "firebase/firestore/lite";
 
 const CreateChatInfo = (): JSX.Element => {
+  const { db } = firebaseSetting();
   const queryClient = useQueryClient();
   const instance = useAxios();
   const { setModalName } = useModalState();
@@ -20,6 +23,15 @@ const CreateChatInfo = (): JSX.Element => {
 
   const titleRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const addFireStore = async (channelId: number) => {
+    const userCollectionRef = collection(db, "chat");
+    await addDoc(userCollectionRef, {
+      channelId: channelId,
+      userCount: 1,
+      messages: [],
+    });
+  };
 
   const createChatApiHandler = async () => {
     if (!titleRef.current?.value.length) {
@@ -54,6 +66,7 @@ const CreateChatInfo = (): JSX.Element => {
         JSON.stringify(sendData)
       );
       if (response.statusText === "Created") {
+        addFireStore(response.data.channelId);
         setModalName(null);
         setInChatInfo({
           ...inChatInfo,

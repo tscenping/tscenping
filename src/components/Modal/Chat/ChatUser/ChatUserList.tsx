@@ -3,15 +3,17 @@ import userSetting from "img/Chatting/setting.svg";
 import { ChatUsersInfoTypes } from "types/ChatTypes";
 import { DropDownTypes } from "types/DropDownTypes";
 import DropDown from "components/DropDown/DropDown";
-import { ChannelUserTypes } from "types/ChatTypes";
+// import { ChannelUserTypes } from "types/ChatTypes";
 import { useMyData } from "store/profile";
+import { useChat } from "store/chat";
+import defaultProfile from "img/Login/defaultProfileImage.svg";
 
 const ChatUserList = (props: ChatUsersInfoTypes): JSX.Element => {
   const [dropDownType, setDropDownType] = useState<DropDownTypes>("NONE");
-  const [channelUserType, setChannelUserType] = useState<ChannelUserTypes>(
-    props.channelUserType
-  );
-
+  // const [channelUserType, setChannelUserType] = useState<ChannelUserTypes>(
+  //   props.channelUserType
+  // );
+  const { inChatInfo } = useChat();
   const { myData } = useMyData();
   return (
     <li
@@ -20,23 +22,24 @@ const ChatUserList = (props: ChatUsersInfoTypes): JSX.Element => {
     >
       <section className="flex items-center">
         <img
-          src={props.avatar}
-          className="w-10 mr-3 rounded-full sm:w-12 lg:w-14 xl:w-16"
+          src={props.avatar ? props.avatar : defaultProfile}
+          className="w-10 h-10 object-cover mr-3 rounded-full sm:w-12 sm:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
         />
         <span className="font-[Pretendard] text-sm sm:text-base lg:text-lg xl:text-2xl">
           {props.nickname}
         </span>
       </section>
-      {myData.nickname !== props.nickname && (
-        <img
-          src={userSetting}
-          className="cursor-pointer w-0.5 sm:w-1"
-          onClick={() => {
-            if (dropDownType === "NONE") setDropDownType("CHAT");
-            if (dropDownType === "CHAT") setDropDownType("NONE");
-          }}
-        />
-      )}
+      {myData.nickname !== props.nickname &&
+        inChatInfo.channelType !== "DM" && (
+          <img
+            src={userSetting}
+            className="cursor-pointer w-0.5 sm:w-1"
+            onClick={() => {
+              if (dropDownType === "NONE") setDropDownType("CHAT");
+              if (dropDownType === "CHAT") setDropDownType("NONE");
+            }}
+          />
+        )}
       {dropDownType !== "NONE" && (
         <DropDown
           dropDonwType={dropDownType}

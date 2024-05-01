@@ -3,7 +3,7 @@ import { useModalState } from "store/modal";
 import { useLocation } from "react-router-dom";
 import createChatting from "img/InChatting/createChatting.svg";
 import listRefresh from "img/Chatting/listRefresh.svg";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ChattingListHeader = (): JSX.Element => {
   const location = useLocation();
@@ -25,12 +25,12 @@ const ChattingListHeader = (): JSX.Element => {
   }, []);
 
   const refreshListApiHandler = () => {
-    if (pathName === "inchatting") {
+    if (pathName === "inchatting" && !refreshDisabled) {
       queryClient.invalidateQueries({
         queryKey: ["group-dm"],
       });
     }
-    if (pathName === "chatting") {
+    if (pathName === "chatting" && !refreshDisabled) {
       queryClient.invalidateQueries({
         queryKey: ["open-password"],
       });

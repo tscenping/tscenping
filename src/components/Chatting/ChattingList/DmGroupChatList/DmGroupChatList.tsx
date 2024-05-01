@@ -1,16 +1,9 @@
 import useAxios from "hooks/useAxios";
 import { useChat, useMessage } from "store/chat";
 import { ChatType } from "types/ChatTypes";
-import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  Firestore,
-  query,
-  orderBy,
-} from "firebase/firestore/lite";
+import { collection, getDocs, Firestore, query } from "firebase/firestore/lite";
 import { useMyData } from "store/profile";
+import firebaseSetting from "func/settingFirebase";
 
 interface InChattingListProps {
   channelId: number;
@@ -25,23 +18,17 @@ const DmGroupChatList = (props: InChattingListProps): JSX.Element => {
   const { setInChatInfo, inChatInfo } = useChat();
   const { setParseChatLog } = useMessage();
   const { myData } = useMyData();
-
-  const firebaseConfig = {
-    projectId: "tscenping",
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const { db } = firebaseSetting();
 
   async function getMessages(db: Firestore) {
     if (myData.nickname) {
-      const messagesCol = collection(db, myData.nickname);
-      const orderMessage = query(messagesCol, orderBy("createAt", "asc"));
+      const messagesCol = collection(db, "chat");
+      const orderMessage = query(messagesCol);
       const messageSnapshot = await getDocs(orderMessage);
-      const messageList = messageSnapshot.docs
-        .map((doc) => doc.data())
-        .filter((data) => data.channelId === props.channelId); // props.channelId와 일치하는 데이터만 필터링
-      return messageList;
+      const messageData = messageSnapshot.docs.find((doc) => {
+        return doc.data().channelId === props.channelId;
+      });
+      return messageData?.data().messages;
     }
   }
 

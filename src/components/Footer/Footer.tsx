@@ -9,15 +9,18 @@ import inChatting from "img/Footer/inChatting.svg";
 import openPassword from "img/Footer/openPassword.svg";
 import inOpenPassword from "img/Footer/checkedOpenPassword.svg";
 import { useChat } from "store/chat";
+import { useMessage } from "store/chat";
 
 const Footer = (): JSX.Element => {
-  const { setEmptyInChatInfo } = useChat();
+  const { setEmptyInChatInfo, inChatInfo } = useChat();
   const footerIconStyle =
     "w-[28px] h-[28px] sm:w-[28px] sm:h-[28px] md:w-[32px] md:h-[32px] lg:w-[36px] lg:h-[36px] xl:w-[40px] xl:h-[40px] 2xl:w-[44px] 2xl:w-[44px]";
   const location = useLocation();
   const pathName = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
   );
+
+  const { setParseChatLog } = useMessage();
 
   const footerStyle =
     pathName === "login" ||
@@ -28,8 +31,12 @@ const Footer = (): JSX.Element => {
       : "z-5 bottom-0 p-6 w-full bg-[#3F3F3F]";
 
   const resetChatInfoHandler = () => {
-    setEmptyInChatInfo();
+    if (inChatInfo.inChat) {
+      setEmptyInChatInfo();
+      setParseChatLog([]);
+    }
   };
+
   return (
     <footer className={footerStyle}>
       <nav className="h-full">

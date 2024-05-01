@@ -22,6 +22,7 @@ export const useChat = create<useChatInfoProps>((set) => ({
     myChannelUserType: "",
     chatUsersCount: 1,
     isJoined: false,
+    isMute: false,
   },
   setInChatInfo: (inChatInfo: useChatProps) => set({ inChatInfo }),
   setEmptyInChatInfo: () =>
@@ -36,6 +37,7 @@ export const useChat = create<useChatInfoProps>((set) => ({
         myChannelUserType: "",
         chatUsersCount: 1,
         isJoined: false,
+        isMute: false,
       },
     }),
 }));

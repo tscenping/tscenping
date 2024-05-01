@@ -30,3 +30,15 @@ export interface useSearchUserProps {
   setSearchUser: (v: FriendUserInfo | undefined) => void;
   setEditUserRelation: (v: editType) => void;
 }
+
+export interface BlockUsersType {
+  id: number;
+  nickname: string;
+  avatar: string;
+  status: UserStatusType;
+}
+
+export interface useBlocksProps {
+  blockUsers?: BlockUsersType[];
+  setBlockUsers: (v: BlockUsersType[]) => void;
+}

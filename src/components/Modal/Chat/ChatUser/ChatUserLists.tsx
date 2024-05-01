@@ -10,15 +10,16 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import ChatUserList from "./ChatUserList";
 import { useInviteMode, useMessage } from "store/chat";
 import { useMyData } from "store/profile";
-import { initializeApp } from "firebase/app";
 import {
   getDocs,
   collection,
   query,
   where,
   deleteDoc,
-  getFirestore,
+  updateDoc,
+  Firestore,
 } from "firebase/firestore/lite";
+import firebaseSetting from "func/settingFirebase";
 
 const ChatUserLists = (): JSX.Element => {
   const instance = useAxios();
@@ -30,15 +31,11 @@ const ChatUserLists = (): JSX.Element => {
   const { setMode } = useInviteMode();
   const { setParseChatLog, chatLog } = useMessage();
   const { myData } = useMyData();
+  const { db } = firebaseSetting();
 
   const deleteMessageData = async () => {
     try {
       if (myData.nickname) {
-        const firebaseConfig = {
-          projectId: "tscenping",
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
         const messagesCol = collection(db, myData.nickname);
         const q = query(
           messagesCol,
@@ -55,18 +52,51 @@ const ChatUserLists = (): JSX.Element => {
     }
   };
 
+  async function getUserCount(db: Firestore) {
+    if (myData.nickname) {
+      const messagesCol = collection(db, "chat");
+      const orderMessage = query(messagesCol);
+      const messageSnapshot = await getDocs(orderMessage);
+      const messageData = messageSnapshot.docs.find((doc) => {
+        return doc.data().channelId === inChatInfo.inChat;
+      });
+      return messageData?.data().userCount;
+    }
+  }
+
   const exitChatHandler = async () => {
     try {
       const response = await instance.patch("/channels/exit", {
         channelId: inChatInfo.inChat,
       });
       if (response.status === 200) {
+        try {
+          const userCollectionRef = collection(db, "chat");
+          const q = query(
+            userCollectionRef,
+            where("channelId", "==", inChatInfo.inChat)
+          );
+          const querySnapshot = await getDocs(q);
+          const result = (await getUserCount(db)) - 1;
+          if (result === 0) {
+            querySnapshot.forEach(async (doc) => {
+              const docRef = doc.ref;
+              await deleteDoc(docRef);
+            });
+          } else {
+            querySnapshot.forEach(async (doc) => {
+              const docRef = doc.ref;
+              await updateDoc(docRef, {
+                userCount: result,
+              });
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        }
         setModalName(null);
-        const parseChatLog = chatLog.filter((message) => {
-          return message.channelId !== inChatInfo.inChat;
-        });
         deleteMessageData();
-        setParseChatLog(parseChatLog);
+        setParseChatLog([]);
         setEmptyInChatInfo();
       }
     } catch (error) {
@@ -171,14 +201,14 @@ const ChatUserLists = (): JSX.Element => {
                 <section className="flex items-end">
                   <img
                     src={inChatInfo.channelType === "PROTECTED" ? lock : unlock}
-                    className="cursor-pointer w-4"
+                    className="cursor-pointer w-[28px]"
                     alt="Change chat mode password"
                   />
                   <img
                     src={
                       inChatInfo.channelType === "PROTECTED" ? password : open
                     }
-                    className="ml-4 cursor-pointer w-6"
+                    className="ml-4 cursor-pointer w-[36px]"
                     alt="Change chat mode"
                   />
                 </section>
