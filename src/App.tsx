@@ -15,6 +15,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Game from "./pages/Game";
 import GoogleCallbackPage from "./pages/GoogleCallback";
 import ChannelSocketConnectHandler from "components/Socket/ChannelSocketConnectHandler";
+import GameSocketHandler from "components/Socket/GameSocketConnectHandler";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,8 +32,9 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ChannelSocketConnectHandler />
       <BrowserRouter>
+        <ChannelSocketConnectHandler />
+        <GameSocketHandler />
         <Routes>
           <Route path="/" element={<Main />}></Route>
           <Route path="/login" element={<Login />} />

@@ -11,11 +11,17 @@ import {
   Timestamp,
 } from "firebase/firestore/lite";
 import { useMyData } from "store/profile";
+import { GameInviteType, GameMatchType } from "types/GameTypes";
+import { useGameInviteState, useGameMatchState } from "store/game";
+import { useNavigate } from "react-router-dom";
 
 const ChannelSocketHandler = () => {
   const { inChatInfo } = useChat();
   const { setChatLog } = useMessage();
+  const navigation = useNavigate();
   const { myData } = useMyData();
+  const { invitationId, setGameInviteState } = useGameInviteState();
+  const {setGameMatchState} = useGameMatchState();
 
   const firebaseConfig = {
     projectId: "tscenping",
@@ -112,16 +118,43 @@ const ChannelSocketHandler = () => {
     }
   };
 
+  const gameInviteHandler = (inviteData: GameInviteType) => {
+    if (invitationId === -1) {
+      setGameInviteState(inviteData);
+      console.log("ㅋㅌㅊ");
+    }
+    console.log("퓨퓨");
+  };
+
+  const gameInviteResponseHandler = (gameData: GameMatchType) => {
+    if (gameData.isAccepted === true) {
+      setGameMatchState(gameData);
+      navigation("/game")
+    }
+  }
+
+
   useEffect(() => {
     if (channelSocket.connected) {
+      // channelSocket.on("gameInvitation", gameInviteHandler);
       channelSocket.on("message", receiveMessageSocketHandler);
       channelSocket.on("notice", receiveChatNoticeSocketHandler);
       return () => {
         channelSocket.off("message", receiveMessageSocketHandler);
         channelSocket.off("notice", receiveChatNoticeSocketHandler);
+        // channelSocket.off("gameInvitation", gameInviteHandler);
       };
     }
   }, [receiveMessageSocketHandler, receiveChatNoticeSocketHandler]);
+
+  useEffect(() => {
+    channelSocket.on("gameInvitation", gameInviteHandler);
+    channelSocket.on("gameInvitationReply", gameInviteResponseHandler);
+    return () => {
+      channelSocket.off("gameInvitation", gameInviteHandler);
+      channelSocket.off("gameInvitationReply", gameInviteResponseHandler);
+    };
+  }, [gameInviteHandler]);
   // 채널소켓 "message" "on" 핸들러
   return <></>;
 };

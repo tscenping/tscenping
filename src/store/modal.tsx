@@ -4,6 +4,7 @@ import {
   useNoticeModalStateProps,
   useCreateChatModeProps,
 } from "../types/ModalTypes";
+import { useMatchEndProps } from "types/GameTypes";
 
 export const useModalState = create<useModalStateProps>((set, get) => ({
   modalName: null,
@@ -27,4 +28,9 @@ export const useNoticeModalState = create<useNoticeModalStateProps>((set) => ({
 export const useCreateChatModeState = create<useCreateChatModeProps>((set) => ({
   createChatType: "",
   setCreateChatType: (createChatType) => set({ createChatType }),
+}));
+
+export const useMatchEndState = create<useMatchEndProps>((set) => ({
+  matchEndData: null,
+  setMatchEndData: (matchEndData) => set({ matchEndData }),
 }));
