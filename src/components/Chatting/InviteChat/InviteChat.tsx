@@ -9,6 +9,8 @@ import useAxios from "hooks/useAxios";
 import { useModalState } from "store/modal";
 import { useChatSetting, useChat } from "store/chat";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import firebaseSetting from "func/settingFirebase";
+import { collection, addDoc } from "firebase/firestore/lite";
 
 interface selectUserInfoTypes {
   nickname?: string;
@@ -33,6 +35,16 @@ const InviteChat = (): JSX.Element => {
   const { setInChatInfo, inChatInfo } = useChat();
   const queryClient = useQueryClient();
   const instance = useAxios();
+  const { db } = firebaseSetting();
+
+  const addFireStore = async (channelId: number) => {
+    const userCollectionRef = collection(db, "chat");
+    await addDoc(userCollectionRef, {
+      channelId: channelId,
+      userCount: 2,
+      messages: [],
+    });
+  };
 
   const createOneOnOneApiHandler = async () => {
     try {
@@ -52,6 +64,7 @@ const InviteChat = (): JSX.Element => {
           myChannelUserType: "OWNER",
           chatUsersCount: response.data.channelUsers.length,
         });
+        addFireStore(response.data.channelId);
         setMode(false);
         setModalName(null);
       }

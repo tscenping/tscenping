@@ -1,5 +1,6 @@
 import userCheck from "img/Main/SpecialCheck.svg";
 import userUncheck from "img/Main/SpecialUncheck.svg";
+import defaultProfile from "img/Login/defaultProfileImage.svg";
 
 interface selectUserInfoTypes {
   nickname?: string;
@@ -37,7 +38,10 @@ const UserList = (props: UserListProps): JSX.Element => {
       }}
     >
       <label className="flex items-center" htmlFor="user1">
-        <img src={props.avatar} className="rounded-full w-10 mr-3" />
+        <img
+          src={props.avatar ? props.avatar : defaultProfile}
+          className="rounded-full w-10 mr-3"
+        />
         <span className="text-base">{props.nickname}</span>
       </label>
       <section>

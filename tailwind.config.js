@@ -29,6 +29,7 @@ module.exports = {
         "screen-95": "95vw",
         "screen-75": "75vw",
         "1/10": "10%",
+        "9/10": "90%",
       },
       maxWidth: {
         "3/5": "60%",

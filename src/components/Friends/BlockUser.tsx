@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useModalState } from "../../store/modal";
 import { useChatSetting } from "../../store/chat";
 import { useChat } from "../../store/chat";
+import defaultProfile from "img/Login/defaultProfileImage.svg";
+
 interface BlockUserProps {
   nickname: string;
   avatar: string;
@@ -54,8 +56,8 @@ const BlockUser = (props: BlockUserProps): JSX.Element => {
     >
       <section className="flex items-center">
         <img
-          src={props.avatar}
-          className="w-10 rounded-full"
+          src={props.avatar ? props.avatar : defaultProfile}
+          className="w-10 h-10 object-cover rounded-full"
           alt="block user profile"
         />
         <strong className="ml-[16px] font-[Pretendard] text-base">

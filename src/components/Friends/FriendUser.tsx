@@ -28,7 +28,6 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
 
   useEffect(() => {
     updateUserStatus(props.status);
-
     channelSocket.on("userStatus", (data) => {
       if (channelSocket.connected) {
         if (data.userId === props.id) {
@@ -54,7 +53,7 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
         <section className="relative">
           <img
             src={props.avatar ? props.avatar : defaultProfile}
-            className="w-10 rounded-full"
+            className="w-10 h-10 object-cover rounded-full"
             alt="friend user profile"
           />
           <section

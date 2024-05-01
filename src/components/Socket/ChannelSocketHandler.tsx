@@ -1,124 +1,91 @@
 import { channelSocket } from "socket/ChannelSocket";
 import { MessageType } from "types/ChatTypes";
-import { useChat } from "store/chat";
 import { useMessage } from "store/chat";
-import { useEffect } from "react";
-import { initializeApp } from "firebase/app";
+import { useEffect, useCallback } from "react";
 import {
-  getFirestore,
   collection,
-  addDoc,
-  Timestamp,
+  updateDoc,
+  getDocs,
+  query,
+  where,
 } from "firebase/firestore/lite";
 import { useMyData } from "store/profile";
 import { GameInviteType, GameMatchType } from "types/GameTypes";
 import { useGameInviteState, useGameMatchState } from "store/game";
 import { useNavigate } from "react-router-dom";
 import { useToastState } from "store/toast";
+import firebaseSetting from "func/settingFirebase";
+import { useBlocks } from "store/friend";
 
 const ChannelSocketHandler = () => {
-  const { inChatInfo } = useChat();
   const { setChatLog } = useMessage();
   const navigation = useNavigate();
   const { myData } = useMyData();
+  const { db } = firebaseSetting();
+  const { blockUsers } = useBlocks();
   const { invitationId, setGameInviteState } = useGameInviteState();
   const { setToastState } = useToastState();
   const {setGameMatchState} = useGameMatchState();
 
-  const firebaseConfig = {
-    projectId: "tscenping",
-    //...
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
 
   // 채널소켓 "message" "on" 핸들러
-  const receiveMessageSocketHandler = async (message: MessageType) => {
-    //밑에 주석 해제하면 해당 채널에 메세지만 저장 메세지 받음
-    if (inChatInfo.inChat !== message.channelId) return;
-    //위에 주석 해제하면 입장한 해당 채널에 메세지만 저장
-    const time = new Date();
-    const hour = String(time.getHours()).padStart(2, "0");
-    const minute = String(time.getMinutes()).padStart(2, "0");
+  const receiveMessageSocketHandler = useCallback(
+    async (message: MessageType) => {
+      const time = new Date();
+      const hour = String(time.getHours()).padStart(2, "0");
+      const minute = String(time.getMinutes()).padStart(2, "0");
+      const resultTime = `${Number(hour) < 12 ? "오전" : "오후"} ${
+        Number(hour) < 24 && Number(hour) > 12 ? Number(hour) - 12 : hour
+      }:${minute}`;
 
-    const resultTime = `${Number(hour) < 12 ? "오전" : "오후"} ${
-      Number(hour) < 24 && Number(hour) > 12 ? Number(hour) - 12 : hour
-    }:${minute}`;
-
-    const user = inChatInfo.chatUsers.find(
-      (user) => user.nickname === message.nickname
-    );
-
-    if (!user || user.isBlocked) {
-      if (!user) return;
-      setChatLog({
-        nickname: "차단된 유저",
-        message: user
-          ? "차단된 유저의 메세지 입니다."
-          : "알 수 없는 유저의 메시지 입니다.",
-        time: resultTime,
-        channelId: message.channelId,
-      });
-      try {
-        if (myData.nickname) {
-          const docRef = await addDoc(collection(db, myData.nickname), {
-            nickname: user ? "차단된 유저" : message.nickname,
-            message: user
-              ? "차단된 유저의 메세지 입니다."
-              : "알 수 없는 유저의 메시지 입니다.",
-            time: resultTime,
-            channelId: message.channelId,
-            createAt: Timestamp.now(),
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      setChatLog({
+      const chatLogData = {
         nickname: message.nickname,
-        avatar: user && user.avatar,
+        avatar: message.avatar,
         message: message.message,
         time: resultTime,
         channelId: message.channelId,
-      });
+      };
+      setChatLog(chatLogData);
+    },
+    [myData.nickname, setChatLog, db, blockUsers]
+  );
+
+  const receiveChatNoticeSocketHandler = useCallback(
+    async (notice: MessageType) => {
+      const noticeData = {
+        nickname: notice.nickname,
+        channelId: notice.channelId,
+        eventType: notice.eventType,
+      };
+      setChatLog(noticeData);
       try {
-        if (myData.nickname) {
-          const docRef = await addDoc(collection(db, myData.nickname), {
-            avatar: user && user.avatar,
-            nickname: message.nickname,
-            message: message.message,
-            time: resultTime,
-            channelId: message.channelId,
-            createAt: Timestamp.now(),
+        const userCollectionRef = collection(db, "chat");
+        const q = query(
+          userCollectionRef,
+          where("channelId", "==", notice.channelId)
+        );
+        const querySnapshot = await getDocs(q);
+        // if (querySnapshot.empty) {
+        //   await addDoc(userCollectionRef, {
+        //     messages: [noticeData],
+        //     channelId: notice.channelId,
+        //   });
+        // } else {
+        querySnapshot.forEach(async (doc) => {
+          const docRef = doc.ref;
+          const existingMessages = doc.data().messages || [];
+
+          await updateDoc(docRef, {
+            messages: [...existingMessages, noticeData],
           });
-        }
+        });
+        // }
       } catch (error) {
         console.log(error);
       }
-    }
-  };
-
-  const receiveChatNoticeSocketHandler = async (notice: MessageType) => {
-    // if (inChatInfo.inChat !== notice.channelId) return;
-    setChatLog({
-      nickname: notice.nickname,
-      channelId: notice.channelId,
-      eventType: notice.eventType,
-    });
-    try {
-      if (myData.nickname) {
-        const docRef = await addDoc(collection(db, myData.nickname), {
-          nickname: notice.nickname,
-          channelId: notice.channelId,
-          eventType: notice.eventType,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    },
+    [myData.nickname, setChatLog, db]
+  );
 
   const gameInviteHandler = (inviteData: GameInviteType) => {
     if (invitationId === -1) {
@@ -139,16 +106,13 @@ const ChannelSocketHandler = () => {
 
 
   useEffect(() => {
-    if (channelSocket.connected) {
-      // channelSocket.on("gameInvitation", gameInviteHandler);
-      channelSocket.on("message", receiveMessageSocketHandler);
-      channelSocket.on("notice", receiveChatNoticeSocketHandler);
-      return () => {
-        channelSocket.off("message", receiveMessageSocketHandler);
-        channelSocket.off("notice", receiveChatNoticeSocketHandler);
-        // channelSocket.off("gameInvitation", gameInviteHandler);
-      };
-    }
+    console.log("channelSocketHandler active.....");
+    channelSocket.on("message", receiveMessageSocketHandler);
+    channelSocket.on("notice", receiveChatNoticeSocketHandler);
+    return () => {
+      channelSocket.off("message", receiveMessageSocketHandler);
+      channelSocket.off("notice", receiveChatNoticeSocketHandler);
+    };
   }, [receiveMessageSocketHandler, receiveChatNoticeSocketHandler]);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import ChannelSocketHandler from "./ChannelSocketHandler";
 
 const ChannelSocketConnectHandler = () => {
   const { myData } = useMyData();
+  console.log("socket connect");
   useEffect(() => {
     console.log(222)
     if (
@@ -18,7 +19,11 @@ const ChannelSocketConnectHandler = () => {
       channelSocket.close();
     };
   }, [myData.nickname]);
-  return <></>;
+  return (
+    <>
+      <ChannelSocketHandler />
+    </>
+  );
 };
 
 export default ChannelSocketConnectHandler;
