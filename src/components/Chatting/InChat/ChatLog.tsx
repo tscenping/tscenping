@@ -116,7 +116,7 @@ const ChatLog = (): JSX.Element => {
                       message="차단된 유저의 메세지 입니다."
                       channelId={el.channelId}
                       time={el.time}
-                      avatar={null} // 차단된 유저의 아바타 정보를 전달할 수도 있음
+                      avatar="block" // 차단된 유저의 아바타 정보를 전달할 수도 있음
                       key={nanoid()}
                     />
                   );

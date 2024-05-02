@@ -10,6 +10,7 @@ import openPassword from "img/Footer/openPassword.svg";
 import inOpenPassword from "img/Footer/checkedOpenPassword.svg";
 import { useChat } from "store/chat";
 import { useMessage } from "store/chat";
+import { useInviteMode } from "store/chat";
 
 const Footer = (): JSX.Element => {
   const { setEmptyInChatInfo, inChatInfo } = useChat();
@@ -21,16 +22,20 @@ const Footer = (): JSX.Element => {
   );
 
   const { setParseChatLog } = useMessage();
-
-  const footerStyle =
-    pathName === "login" ||
-    pathName === "userinfo" ||
-    pathName === "logincallback" ||
-    pathName === "googlecallback"
-      ? "hidden"
-      : "z-5 bottom-0 p-6 w-full bg-[#3F3F3F]";
+  const { setMode, mode } = useInviteMode();
+  const hiddenPaths = [
+    "login",
+    "userinfo",
+    "logincallback",
+    "googlecallback",
+    "game",
+  ];
+  const footerStyle = hiddenPaths.includes(pathName)
+    ? "hidden"
+    : "z-5 bottom-0 p-6 w-full bg-[#3F3F3F]";
 
   const resetChatInfoHandler = () => {
+    if (mode) setMode(false);
     if (inChatInfo.inChat) {
       setEmptyInChatInfo();
       setParseChatLog([]);

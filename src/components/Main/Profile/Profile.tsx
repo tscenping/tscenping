@@ -10,7 +10,7 @@ export default function MainProfile() {
   const { myData } = useMyData();
 
   return (
-    <span className="relative  flex flex-col items-center justify-center gap-1.5 h-1/4 ">
+    <span className="relative flex flex-col items-center justify-center gap-1.5 h-1/4 mb-5">
       <img
         // src={defailtImg}
 
@@ -18,7 +18,7 @@ export default function MainProfile() {
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="object-cover rounded-full cursor-pointer h-[120px] w-[120px]"
+        className="object-cover rounded-[30px] cursor-pointer h-[70px] w-[70px] sm:h-[130px] sm:w-[130px] sm:rounded-[56px]"
         onClick={() => {
           // setModalProps({nickname: })
           setModalName("profile");

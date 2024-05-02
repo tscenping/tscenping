@@ -3,6 +3,8 @@ import {
   MessageType,
   useChatProps,
   useChatSettingProps,
+  InviteChatTypes,
+  useInviteChatProps,
 } from "../types/ChatTypes";
 
 interface useChatInfoProps {
@@ -85,4 +87,13 @@ export const useMessage = create<useMessageProps>((set) => ({
     }),
   setParseChatLog: (parseMessage: MessageType[]) =>
     set({ chatLog: parseMessage }),
+}));
+
+export const useInviteChat = create<useInviteChatProps>((set) => ({
+  inviteChatInfo: {
+    inviteChatId: -1,
+    inviteChatUserNickname: "",
+  },
+  setInviteChatInfo: (inviteChatInfo: InviteChatTypes) =>
+    set({ inviteChatInfo: inviteChatInfo }),
 }));

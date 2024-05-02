@@ -15,12 +15,18 @@ import { useChat } from "store/chat";
 import ModalSetting from "components/Modal/Setting/ModalSetting";
 import GameInviteModal from "components/Modal/Game/GameInviteModal";
 import MatchEndModal from "components/Modal/Game/MatchEndModal";
+import { useInviteMode } from "store/chat";
 
 const ModalLayout = (): JSX.Element => {
   const { inChatInfo } = useChat();
   const { setModalName, modalName } = useModalState();
+  const { mode } = useInviteMode();
 
   const modalLayoutHandler = () => {
+    if (mode) {
+      setModalName(null);
+      return;
+    }
     if (modalName === "chatSetting" && inChatInfo.inChat)
       setModalName("chatUserList");
     else setModalName(null);
