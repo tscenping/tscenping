@@ -77,3 +77,18 @@ export interface useChatSettingProps {
     onConfirm: () => Promise<void> | void
   ) => void;
 }
+
+export interface InviteChatSocketDataTypes {
+  invitationId: number;
+  invitingUserNickname: string;
+}
+
+export interface InviteChatTypes {
+  inviteChatId: number;
+  inviteChatUserNickname: string;
+}
+
+export interface useInviteChatProps {
+  inviteChatInfo: InviteChatTypes;
+  setInviteChatInfo: (inviteChatInfo: InviteChatTypes) => void;
+}

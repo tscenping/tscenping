@@ -1,10 +1,7 @@
 import { MessageType } from "types/ChatTypes";
 import defaultProfile from "img/Login/defaultProfileImage.svg";
-import { useBlocks } from "store/friend";
 
 const OpponentMessage = (props: MessageType): JSX.Element => {
-  const { blockUsers } = useBlocks();
-
   return (
     <li className={`flex mb-5 w-full`}>
       <section className="mr-2.5">
@@ -22,7 +19,7 @@ const OpponentMessage = (props: MessageType): JSX.Element => {
         <section className="flex">
           <span
             className={`text-[#3f3f3f] bg-white rounded-2xl py-2 px-3.5 mt-2 text-left break-words font-[Pretendard] whitespace-pre-line ${
-              !props.avatar ? "max-w-full" : "max-w-3/5"
+              props.nickname === "차단된 유저" ? "max-w-full" : "max-w-3/5"
             }`}
           >
             {props.message}

@@ -37,14 +37,14 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
     channelSocket.once("gameMatched", () => {});
   };
   return (
-    <div className="flex gap-2 w-full relative max-w-[520px] min-h-10 items-center justify-center">
+    <div className="flex gap-2 w-full relative max-w-[520px] min-h-10 items-center justify-center mt-4">
       <div
-        className={` absolute h-full w-3/4 flex items-center justify-center  ${
+        className={` absolute h-full w-full flex items-center justify-center  ${
           props.gameType === GameType.LADDER ? "visible" : "invisible"
         } `}
       >
         <button
-          className={`relative  rounded-[12px] w-2/3 h-12 bg-customGreen  text-black min-w-[220px] font-bold hover:scale-105 ${
+          className={`relative rounded-[20px] w-2/3 h-16 bg-customGreen text-[#2d2d2d] min-w-[320px] text-2xl hover:scale-105 font-[League-Spartan] ${
             props.gameType === GameType.LADDER ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
           onClick={startGame}
@@ -58,7 +58,7 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
         } `}
       >
         <button
-          className={`rounded-[12px] w-1/2 h-full bg-customGreen cursor-pointer text-black min-w-[100px] font-bold hover:scale-105 ${
+          className={`rounded-[12px] w-1/2 h-full bg-customGreen cursor-pointer text-[#2d2d2d] min-w-[100px] font-bold hover:scale-105 font-[League-Spartan] ${
             props.gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
           onClick={startGame}
@@ -66,7 +66,7 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
           Matching
         </button>
         <button
-          className={`rounded-[12px] w-1/2 h-full bg-customGreen cursor-pointer text-black min-w-[100px] font-bold hover:scale-105 ${
+          className={`rounded-[12px] w-1/2 h-full bg-customGreen cursor-pointer text-[#2d2d2d] min-w-[100px] font-bold hover:scale-105 font-[League-Spartan] ${
             props.gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
           onClick={startGame}

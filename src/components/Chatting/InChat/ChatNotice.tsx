@@ -66,26 +66,21 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
   };
 
   const kickBanChatHandler = async () => {
+    console.log(inChatInfo);
     if (props.channelId === inChatInfo.inChat) {
       try {
-        if (myData.nickname) {
-          try {
-            const userCollectionRef = collection(db, myData.nickname);
-            const q = query(
-              userCollectionRef,
-              where("channelId", "==", inChatInfo.inChat)
-            );
-            const querySnapshot = await getDocs(q);
-            if (!querySnapshot.empty) {
-              querySnapshot.forEach(async (doc) => {
-                await deleteDoc(doc.ref);
-              });
-            } else {
-              console.log("해당 문서 없음");
-            }
-          } catch (error) {
-            console.log(error);
-          }
+        const userCollectionRef = collection(db, "chat");
+        const q = query(
+          userCollectionRef,
+          where("channelId", "==", inChatInfo.inChat)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          querySnapshot.forEach(async (doc) => {
+            await deleteDoc(doc.ref);
+          });
+        } else {
+          console.log("해당 문서 없음");
         }
       } catch (error) {
         console.log(error);
