@@ -95,10 +95,8 @@ export default function ProfileImgEdit(props: ProfileImgEditProps) {
   };
 
   const putS3Image = async () => {
-    console.log(222);
     try {
       if (preSignedUrl !== null) {
-        console.log(333);
         console.log(preSignedUrl, "업로드");
         await axios
           .put(preSignedUrl, uploadImage)

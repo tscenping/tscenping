@@ -1,15 +1,41 @@
+import { instance } from "components/Util/axios";
 import { useModalState } from "../../../store/modal";
 import { GameType } from "./GameTypeSelector";
-
+import { channelSocket } from "socket/ChannelSocket";
+import { useMatchSerchState } from "store/game";
 
 interface GameTypeSelectorProps {
   gameType: "NORMAL" | "LADDER";
+  isSpecial: boolean;
 }
 export default function GameStartBtn(props: GameTypeSelectorProps) {
   const { setModalName } = useModalState();
-  const startGame = () => {
+  const { setMatchSerchState } = useMatchSerchState();
+
+  // 게임 매칭창
+  // 매칭 시 -> game 페이지
+  // 매칭 안될 시 -> 매칭 취소
+  // 매칭 취소 시 -> 매칭 취소
+
+  const startGame = async () => {
+    console.log("매칭 시작");
+
+    setMatchSerchState({
+      gameType: props.gameType === "NORMAL" ? "NORMAL_MATCHING" : "LADDER",
+    });
     setModalName("loding");
-  }
+    await instance
+      .post("/game/match", {
+        gameType:
+          props.gameType === "NORMAL"
+            ? props.isSpecial
+              ? "SPECIAL_MATCHING"
+              : "NORMAL_MATCHING"
+            : "LADDER",
+      })
+      .then(() => {});
+    channelSocket.once("gameMatched", () => {});
+  };
   return (
     <div className="flex gap-2 w-full relative max-w-[520px] min-h-10 items-center justify-center">
       <div

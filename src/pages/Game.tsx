@@ -36,7 +36,6 @@ export default function Game() {
       invitationId: -1,
       invitingUserNickname: "",
       gameType: "NORMAL_INVITE",
-      setGameInviteState: () => {},
     });
     if (gameId === -1) return;
     gameSocket.connect();

@@ -13,7 +13,7 @@ import { useGameInviteState } from "store/game";
 import ToastHandler from "components/Toast/ToastHandler";
 export default function Container({ children }: { children: ReactNode }) {
   const { modalName } = useModalState();
-  const { invitationId } = useGameInviteState();
+  const { inviteType } = useGameInviteState();
   const [viewToast, setViewToast] = useState(false);
   const { setBlockUsers, blockUsers } = useBlocks();
   const instance = useAxios();
@@ -32,11 +32,10 @@ export default function Container({ children }: { children: ReactNode }) {
     if (!blockUsers && myData.nickname) blockUsersApiHandler();
   }, []);
 
-  useEffect(() => {
-    if (invitationId !== -1) {
-      setViewToast(true);
-    }
-  }, [invitationId]);
+  useEffect(()=>{
+    console.log("invitationId", inviteType.invitationId)
+  },[inviteType.invitationId])
+
 
   return (
     <div className="relative flex flex-col items-center justify-between max-w-4xl min-w-[280px] mx-auto  bg-defaultBg h-screen text-sm sm:text-base min-h-[660px] md:text-lg lg:text-xl xl:text-2xl font-['Pretendard'] text-white ">
@@ -51,7 +50,7 @@ export default function Container({ children }: { children: ReactNode }) {
         토스트
       </button> */}
       {/* {invitationId !== -1 && <InviteGameToast setViewToast={setViewToast} />} */}
-      {invitationId !== -1 && <ToastHandler /> }
+      {inviteType.invitationId !== -1 && <ToastHandler />}
       <Main>{children}</Main>
       <Footer />
     </div>

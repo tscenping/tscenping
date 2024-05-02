@@ -10,7 +10,7 @@ import {
   where,
 } from "firebase/firestore/lite";
 import { useMyData } from "store/profile";
-import { GameInviteType, GameMatchType } from "types/GameTypes";
+import { GameInviteType, GameMatchType, InviteInType } from "types/GameTypes";
 import { useGameInviteState, useGameMatchState } from "store/game";
 import { useNavigate } from "react-router-dom";
 import { useToastState } from "store/toast";
@@ -23,10 +23,10 @@ const ChannelSocketHandler = () => {
   const { myData } = useMyData();
   const { db } = firebaseSetting();
   const { blockUsers } = useBlocks();
-  const { invitationId, setGameInviteState } = useGameInviteState();
-  const { setToastState } = useToastState();
-  const {setGameMatchState} = useGameMatchState();
-
+  const { inviteType, setGameInviteState } =
+    useGameInviteState();
+  const { toastName ,setToastState } = useToastState();
+  const { setGameMatchState } = useGameMatchState();
 
   // 채널소켓 "message" "on" 핸들러
   const receiveMessageSocketHandler = useCallback(
@@ -87,12 +87,12 @@ const ChannelSocketHandler = () => {
     [myData.nickname, setChatLog, db]
   );
 
-  const gameInviteHandler = (inviteData: GameInviteType) => {
-    if (invitationId === -1) {
-      console.log(inviteData, "inviteData")
+  const gameInviteHandler = (inviteData: InviteInType) => {
+    if (inviteType.invitationId === -1) {
+      console.log(inviteData, "inviteData", inviteType.invitingUserNickname);
       setGameInviteState(inviteData);
       setToastState("game");
-      console.log("ㅋㅌㅊ");
+      console.log("초대 받기 완료");
     }
     console.log("퓨퓨");
   };
@@ -100,30 +100,32 @@ const ChannelSocketHandler = () => {
   const gameInviteResponseHandler = (gameData: GameMatchType) => {
     if (gameData.isAccepted === true) {
       setGameMatchState(gameData);
-      navigation("/game")
+      navigation("/game");
     }
-  }
+  };
 
+  useEffect(
+    () => {
+      channelSocket.on("gameInvitation", gameInviteHandler);
+      channelSocket.on("gameInvitationReply", gameInviteResponseHandler);
+      channelSocket.on("message", receiveMessageSocketHandler);
+      channelSocket.on("notice", receiveChatNoticeSocketHandler);
 
-  useEffect(() => {
-    console.log("channelSocketHandler active.....");
-    channelSocket.on("message", receiveMessageSocketHandler);
-    channelSocket.on("notice", receiveChatNoticeSocketHandler);
-    return () => {
-      channelSocket.off("message", receiveMessageSocketHandler);
-      channelSocket.off("notice", receiveChatNoticeSocketHandler);
-    };
-  }, [receiveMessageSocketHandler, receiveChatNoticeSocketHandler]);
+      console.log("리랜더링");
+      return () => {
+        channelSocket.off("gameInvitation", gameInviteHandler);
+        channelSocket.off("gameInvitationReply", gameInviteResponseHandler);
+        channelSocket.off("message", receiveMessageSocketHandler);
+        channelSocket.off("notice", receiveChatNoticeSocketHandler);
+      };
+      // })
+    },
+    [
+      // receiveMessageSocketHandler,
+      // receiveChatNoticeSocketHandler
+    ]
+  );
 
-  useEffect(() => {
-    channelSocket.on("gameInvitation", gameInviteHandler);
-    channelSocket.on("gameInvitationReply", gameInviteResponseHandler);
-    return () => {
-      channelSocket.off("gameInvitation", gameInviteHandler);
-      channelSocket.off("gameInvitationReply", gameInviteResponseHandler);
-    };
-  }, [gameInviteHandler]);
-  // 채널소켓 "message" "on" 핸들러
   return <></>;
 };
 
