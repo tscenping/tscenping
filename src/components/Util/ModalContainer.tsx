@@ -16,6 +16,7 @@ import ModalSetting from "components/Modal/Setting/ModalSetting";
 import GameInviteModal from "components/Modal/Game/GameInviteModal";
 import MatchEndModal from "components/Modal/Game/MatchEndModal";
 import { useInviteMode } from "store/chat";
+import GameInvitingModal from "components/Modal/Game/GameInvitingModal";
 
 const ModalLayout = (): JSX.Element => {
   const { inChatInfo } = useChat();
@@ -66,6 +67,7 @@ const ModalContent = (): JSX.Element => {
     setting: <ModalSetting />,
     gameInvite: <GameInviteModal />,
     matchEnd: <MatchEndModal />,
+    gameInviting: <GameInvitingModal/>,
   };
   const modalStyle =
     modalName === null

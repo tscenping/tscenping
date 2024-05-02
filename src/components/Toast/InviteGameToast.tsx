@@ -33,7 +33,7 @@ export default function InviteGameToast() {
     console.log("invite toast");
 
     timeOut = setTimeout(() => {
-      console.log("inTimeOut ");
+      console.log("inTimeOut ")
       if (timeOut !== null) {
         console.log("game invite auto decline");
         declineGameInvite();
@@ -47,6 +47,7 @@ export default function InviteGameToast() {
       });
       // setIsVisible(false);
     }, viewTime - duration);
+
 
     return () => {
       console.log(timeOut, "timeoutId");

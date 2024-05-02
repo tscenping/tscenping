@@ -16,7 +16,6 @@ export default function ToastHandler() {
   };
   let timeout: NodeJS.Timeout;
   // useEffect(() => {
-  //   setIsVisible(true);
   //   const timeout = setTimeout(() => {
   //     setToastState(null);
   //     setIsVisible(false);
@@ -38,7 +37,9 @@ export default function ToastHandler() {
       }, viewTime - duration - duration);
       // }, viewTime - duration - duration);
     }
+    console.log("toastName", toastName);
     return () => {
+      console.log("clearTimeout", timeout);
       clearTimeout(timeout);
     };
   }, [toastName]);

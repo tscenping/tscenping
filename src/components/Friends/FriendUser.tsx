@@ -6,10 +6,12 @@ import { useEffect } from "react";
 import { channelSocket } from "socket/ChannelSocket";
 import { FriendUserInfoType } from "types/FriendTypes";
 import defaultProfile from "img/Login/defaultProfileImage.svg";
+import { useModalState } from "store/modal";
 
 const FriendUser = (props: FriendUserInfoType): JSX.Element => {
   const [dropDownType, setDropDownType] = useState<DropDownTypes>("NONE");
   const [userStatus, setUserStatus] = useState<string>("");
+  const { setModalName, setModalProps } = useModalState();
 
   //채널소켓 "userStatus" 연결
   const updateUserStatus = (status: string) => {
@@ -49,11 +51,15 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
         props.nickname === "" ? "hidden" : ""
       }`}
     >
-      <section className="flex items-center">
+      <section className="flex items-center" 
+      onClick={() => {
+        setModalProps({ nickname: props.nickname });
+        setModalName("profile");
+      }}>
         <section className="relative">
           <img
             src={props.avatar ? props.avatar : defaultProfile}
-            className="w-10 h-10 object-cover rounded-full"
+            className="object-cover w-10 h-10 rounded-full"
             alt="friend user profile"
           />
           <section
@@ -70,6 +76,7 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
         onClick={() => {
           if (dropDownType === "NONE") setDropDownType("NORMAL");
           if (dropDownType === "NORMAL") setDropDownType("NONE");
+          console.log(dropDownType)
         }}
       />
       {dropDownType !== "NONE" && (
