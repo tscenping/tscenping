@@ -19,9 +19,7 @@ const ChannelSocketConnectHandler = () => {
       channelSocket.close();
     };
   }, [myData.nickname]);
-  return <>
-  {/* <ChannelSocketHandler /> */}
-  </>;
+  return <>{/* <ChannelSocketHandler /> */}</>;
 };
 
 export default ChannelSocketConnectHandler;

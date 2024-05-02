@@ -116,7 +116,10 @@ const InviteChat = (): JSX.Element => {
                 : "text-base font-[Pretendard] text-[#404040]"
             }`}
             onClick={() => {
-              if (inChatInfo.channelType === "PRIVATE") {
+              if (
+                inChatInfo.channelType === "PRIVATE" &&
+                selectUserInfo.nickname
+              ) {
                 setChatSetting(
                   "",
                   `${selectUserInfo.nickname}님을 채팅방에 초대하시겠어요?`,

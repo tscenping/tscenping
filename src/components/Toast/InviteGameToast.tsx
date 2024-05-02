@@ -21,7 +21,7 @@ export default function InviteGameToast() {
         invitingUserNickname: "",
         gameType: "NORMAL_INVITE",
       });
-      console.log("inTimeOut ")
+      console.log("inTimeOut ");
     }, viewTime);
     return () => {
       console.log("clearTimeout Game1");
@@ -107,15 +107,19 @@ export default function InviteGameToast() {
     <>
       {inviteType.invitationId !== -1 && (
         <>
-          <p className="text-black text-Body">
-            {inviteType.invitingUserNickname} 님의{" "}
-            {inviteType.gameType === "NORMAL_INVITE"
-              ? "노말 게임"
-              : "스페셜 게임"}
+          <p className="text-black text-Body font-[Pretendard]">
+            <strong>{inviteType.invitingUserNickname}</strong> 님의{" "}
+            <strong>
+              {inviteType.gameType === "NORMAL_INVITE"
+                ? "노말 게임"
+                : "스페셜 게임"}
+            </strong>
             초대를 수락하시겠습니까?
           </p>
-          <button onClick={acceptGameInvite}>수락</button>
-          <button onClick={declineGameInvite}>거절</button>
+          <section className="flex w-full justify-evenly py-2 text-white">
+            <button onClick={acceptGameInvite}>수락</button>
+            <button onClick={declineGameInvite}>거절</button>
+          </section>
         </>
       )}
     </>

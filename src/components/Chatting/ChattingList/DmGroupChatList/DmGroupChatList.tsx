@@ -2,8 +2,8 @@ import useAxios from "hooks/useAxios";
 import { useChat, useMessage } from "store/chat";
 import { ChatType } from "types/ChatTypes";
 import { collection, getDocs, Firestore, query } from "firebase/firestore/lite";
-import { useMyData } from "store/profile";
 import firebaseSetting from "func/settingFirebase";
+import { useMyData } from "store/profile";
 
 interface InChattingListProps {
   channelId: number;
@@ -17,33 +17,41 @@ const DmGroupChatList = (props: InChattingListProps): JSX.Element => {
   const instance = useAxios();
   const { setInChatInfo, inChatInfo } = useChat();
   const { setParseChatLog } = useMessage();
-  const { myData } = useMyData();
   const { db } = firebaseSetting();
+  const { myData } = useMyData();
 
   async function getMessages(db: Firestore) {
-    if (myData.nickname) {
-      const messagesCol = collection(db, "chat");
-      const orderMessage = query(messagesCol);
-      const messageSnapshot = await getDocs(orderMessage);
-      const messageData = messageSnapshot.docs.find((doc) => {
-        return doc.data().channelId === props.channelId;
-      });
-      return messageData?.data().messages;
-    }
+    const messagesCol = collection(db, "chat");
+    const orderMessage = query(messagesCol);
+    const messageSnapshot = await getDocs(orderMessage);
+    const messageData = messageSnapshot.docs.find((doc) => {
+      return doc.data().channelId === props.channelId;
+    });
+    return messageData?.data().messages;
   }
 
   async function fetchData() {
     const result = await getMessages(db);
     if (result) {
-      const parsedResult = result.map((doc: any) => ({
-        avatar: doc.avatar,
-        nickname: doc.nickname,
-        message: doc.message,
-        time: doc.time,
-        eventType: doc.eventType,
-        channelId: doc.channelId,
-      }));
-      setParseChatLog(parsedResult);
+      const enterPoint = result.findLastIndex((message: any) => {
+        return (
+          message.nickname === myData.nickname && message.eventType === "JOIN"
+        );
+      });
+      const sliceMessages = result.slice(enterPoint > 0 ? enterPoint : 0);
+      if (sliceMessages) {
+        const parsedMessage = sliceMessages.map((message: any) => ({
+          avatar: message.avatar,
+          nickname: message.nickname,
+          message: message.message,
+          time: message.time,
+          eventType: message.eventType,
+          channelId: message.channelId,
+        }));
+        setParseChatLog(parsedMessage);
+      } else {
+        setParseChatLog([]);
+      }
     }
   }
 

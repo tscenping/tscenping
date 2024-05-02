@@ -15,6 +15,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Game from "./pages/Game";
 import GoogleCallbackPage from "./pages/GoogleCallback";
 import ChannelSocketConnectHandler from "components/Socket/ChannelSocketConnectHandler";
+import ChannelSocketHandler from "components/Socket/ChannelSocketHandler";
 
 const queryClient = new QueryClient({
   defaultOptions: {

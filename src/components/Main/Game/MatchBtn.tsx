@@ -15,7 +15,7 @@ export default function MatchBtn() {
   return (
     <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-4 mb-12 h-1/4 max-h-40">
       <GameTypeSelector gameType={gameType} setGameType={setGameType} />
-      <GameStartBtn gameType={gameType} isSpecial={isSpecial}/>
+      <GameStartBtn gameType={gameType} isSpecial={isSpecial} />
       <div
         className={`absolute -bottom-8 h-1/5 ${
           gameType === GameType.NORMAL ? "visible" : "invisible"

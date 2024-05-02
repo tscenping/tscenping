@@ -10,7 +10,7 @@ import group from "img/Chatting/group.svg";
 import checkedOneOnOne from "img/Chatting/checkedoneonone.svg";
 import checkedGroup from "img/Chatting/checkedGroup.svg";
 import { useInviteMode } from "store/chat";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 const CreateChatMode = (): JSX.Element => {
   const location = useLocation();
@@ -28,7 +28,7 @@ const CreateChatMode = (): JSX.Element => {
     if (createChatType) setModalName("createChatInfo");
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setCreateChatType("");
   }, []);
 

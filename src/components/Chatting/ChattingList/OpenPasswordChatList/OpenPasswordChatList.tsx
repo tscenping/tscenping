@@ -76,7 +76,6 @@ const OpenPasswordChatList = (props: AllChattingListProps): JSX.Element => {
   }
 
   async function fetchDataUser(userCount: number) {
-    console.log(userCount);
     const userCollectionRef = collection(db, "chat");
     const q = query(
       userCollectionRef,
