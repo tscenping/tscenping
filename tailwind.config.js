@@ -34,6 +34,9 @@ module.exports = {
       maxWidth: {
         "3/5": "60%",
       },
+      boxShadow: {
+        inner: 'inset 0 0 0 2px #FFFFFF'
+      }
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],

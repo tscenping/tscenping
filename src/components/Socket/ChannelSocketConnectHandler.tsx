@@ -20,7 +20,7 @@ const ChannelSocketConnectHandler = () => {
     };
   }, [myData.nickname]);
   return <>
-  <ChannelSocketHandler />
+  {/* <ChannelSocketHandler /> */}
   </>;
 };
 

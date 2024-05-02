@@ -17,6 +17,10 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
   // 매칭 안될 시 -> 매칭 취소
   // 매칭 취소 시 -> 매칭 취소
 
+  const invitingFrined = () => {
+    setModalName("gameInviting");
+  };
+
   const startGame = async () => {
     console.log("매칭 시작");
 
@@ -69,7 +73,9 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
           className={`rounded-[12px] w-1/2 h-full bg-customGreen cursor-pointer text-black min-w-[100px] font-bold hover:scale-105 ${
             props.gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } transition-opacity duration-500 ease-in-out`}
-          onClick={startGame}
+          onClick={() => {
+            setModalName("gameInviting");
+          }}
         >
           Inviting
         </button>

@@ -121,8 +121,8 @@ const ChannelSocketHandler = () => {
       // })
     },
     [
-      // receiveMessageSocketHandler,
-      // receiveChatNoticeSocketHandler
+      receiveMessageSocketHandler,
+      receiveChatNoticeSocketHandler
     ]
   );
 

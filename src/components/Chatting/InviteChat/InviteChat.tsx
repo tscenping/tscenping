@@ -97,7 +97,7 @@ const InviteChat = (): JSX.Element => {
   return (
     <>
       <section className="px-4 py-7">
-        <section className="flex w-full justify-between items-center pb-3">
+        <section className="flex items-center justify-between w-full pb-3">
           <img
             src={back}
             alt="back"
@@ -139,7 +139,7 @@ const InviteChat = (): JSX.Element => {
           </span>
         </section>
         <section className="relative flex flex-col items-center">
-          <section className="w-full flex items-center">
+          <section className="flex items-center w-full">
             <input
               type="text"
               className="text-white bg-[#ffffff1a] w-full rounded-[16px] py-3 outline-none focus:placeholder-transparent my-4 pl-10"

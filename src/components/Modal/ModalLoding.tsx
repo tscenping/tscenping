@@ -1,4 +1,3 @@
-import ModalHeader from "./ModalHeader";
 import lodingImg from "../../img/Modal/ModalLoading.svg";
 import { useModalState } from "../../store/modal";
 import { useGameMatchState, useMatchSerchState } from "store/game";
@@ -11,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 export default function ModalLoding() {
   const { setModalName } = useModalState();
   const { setMatchSerchState, matchSerchProps } = useMatchSerchState();
-  const {setGameMatchState} =useGameMatchState();
+  const { setGameMatchState } = useGameMatchState();
   const navigation = useNavigate();
 
   const matchCancelHandler = async () => {
