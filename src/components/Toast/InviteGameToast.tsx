@@ -9,26 +9,25 @@ const viewTime = 10000;
 const duration = 500;
 
 export default function InviteGameToast() {
-  const { invitationId, invitingUserNickname, gameType, setGameInviteState } =
+  const { inviteType, setGameInviteState } =
     useGameInviteState();
   const { setToastState } = useToastState();
   // const [viewToast, setViewToast] = useState(true);
   const navigate = useNavigate();
   const [timeOutId, setTimeOutId] = useState<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    if (invitationId === -1) return;
+    if (inviteType.invitationId === -1) return;
     const timer = setTimeout(() => {
       setGameInviteState({
         invitationId: -1,
         invitingUserNickname: "",
         gameType: "NORMAL_INVITE",
-        setGameInviteState: () => {},
       });
     }, viewTime);
     return () => {
       clearTimeout(timer);
     };
-  }, [invitationId]);
+  }, [inviteType.invitationId]);
 
   useEffect(() => {
     console.log("invite toast");
@@ -44,7 +43,6 @@ export default function InviteGameToast() {
         invitationId: -1,
         invitingUserNickname: "",
         gameType: "NORMAL_INVITE",
-        setGameInviteState: () => {},
       });
       // setIsVisible(false);
     }, viewTime - duration);
@@ -60,13 +58,12 @@ export default function InviteGameToast() {
 
   const acceptGameInvite = async () => {
     await instance
-      .post("game/accept", { gameInvitationId: invitationId })
+      .post("game/accept", { gameInvitationId: inviteType.invitationId })
       .then((res) => {
         setGameInviteState({
           invitationId: -1,
           invitingUserNickname: "",
           gameType: "NORMAL_INVITE",
-          setGameInviteState: () => {},
         });
         navigate("/game");
         console.log("invite accept");
@@ -79,14 +76,13 @@ export default function InviteGameToast() {
       invitationId: -1,
       invitingUserNickname: "",
       gameType: "NORMAL_INVITE",
-      setGameInviteState: () => {},
     });
     setToastState(null);
     // setViewToast(false);
   };
 
   const declineGameInvite = async () => {
-    await instance.delete(`/game/refuse/${invitationId}`).then((res) => {
+    await instance.delete(`/game/refuse/${inviteType.invitationId}`).then((res) => {
       console.log("invite decline");
     });
 
@@ -97,19 +93,23 @@ export default function InviteGameToast() {
       invitationId: -1,
       invitingUserNickname: "",
       gameType: "NORMAL_INVITE",
-      setGameInviteState: () => {},
+
     });
     setToastState(null);
     // setViewToast(false);
   };
 
+  useEffect(() => {
+    console.log("invitationId222", inviteType.invitationId);
+  });
+
   return (
     <>
-      {invitationId !== -1 && (
+      {inviteType.invitationId !== -1 && (
         <>
           <p className="text-black text-Body">
-            {invitingUserNickname} 님의{" "}
-            {gameType === "NORMAL_INVITE" ? "노말 게임" : "스페셜 게임"} 초대를
+            {inviteType.invitingUserNickname} 님의{" "}
+            {inviteType.gameType === "NORMAL_INVITE" ? "노말 게임" : "스페셜 게임"} 초대를
             수락하시겠습니까?
           </p>
           <button onClick={acceptGameInvite}>수락</button>

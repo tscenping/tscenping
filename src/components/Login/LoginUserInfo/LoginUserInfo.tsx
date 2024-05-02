@@ -55,7 +55,6 @@ const LoginUserInfo = (): JSX.Element => {
   };
 
   const putS3Image = async () => {
-    console.log(222);
     try {
       if (preSignedUrl !== null) {
         console.log(preSignedUrl, "업로드");

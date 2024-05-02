@@ -5,25 +5,23 @@ import ChannelSocketHandler from "./ChannelSocketHandler";
 
 const ChannelSocketConnectHandler = () => {
   const { myData } = useMyData();
-  console.log("socket connect");
+
   useEffect(() => {
-    console.log(222)
     if (
       myData.nickname !== null &&
       myData.nickname !== "" &&
       !myData.isMfaEnabled
     ) {
+      console.log("socket connect");
       channelSocket.connect();
     }
     return () => {
       channelSocket.close();
     };
   }, [myData.nickname]);
-  return (
-    <>
-      <ChannelSocketHandler />
-    </>
-  );
+  return <>
+  <ChannelSocketHandler />
+  </>;
 };
 
 export default ChannelSocketConnectHandler;

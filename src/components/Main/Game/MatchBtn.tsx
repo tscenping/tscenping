@@ -4,24 +4,18 @@ import GameStartBtn from "./GameStartBtn";
 import SpecialCheck from "../../../img/Main/SpecialCheck.svg";
 import SpecialUncheck from "../../../img/Main/SpecialUncheck.svg";
 
-
-
 export default function MatchBtn() {
-  const [gameType, setGameType] = useState<GameType>(GameType.NORMAL);
+  const [gameType, setGameType] = useState<GameType>(GameType.LADDER);
   const [isSpecial, setIsSpecial] = useState<boolean>(false);
-  
-  
 
   const changeSpecial = () => {
     setIsSpecial((prev) => !prev);
   };
 
-  
-
   return (
     <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-4 mb-12 h-1/4 max-h-40">
       <GameTypeSelector gameType={gameType} setGameType={setGameType} />
-      <GameStartBtn gameType={gameType} />
+      <GameStartBtn gameType={gameType} isSpecial={isSpecial}/>
       <div
         className={`absolute -bottom-8 h-1/5 ${
           gameType === GameType.NORMAL ? "visible" : "invisible"

@@ -1,13 +1,17 @@
 export interface GameInviteType {
+  inviteType: InviteInType;
+  setGameInviteState: (gameInvite: InviteInType) => void;
+}
+
+export interface InviteInType {
   invitationId: number;
   invitingUserNickname: string;
   gameType: "SPECIAL_INVITE" | "NORMAL_INVITE";
-  setGameInviteState: (gameInvite: GameInviteType) => void;
 }
 
 export interface GameMatchType {
-  isAccepted: boolean;
   gameId: number;
+  isAccepted?: boolean;
   setGameMatchState: (gameMatch: GameMatchType) => void;
 }
 
@@ -17,7 +21,7 @@ export interface ObjectType {
 }
 
 export interface MatchEndType {
-  gameType: "NORMAL" | "SPECIAL" | "LADDER" | "NONE" | null; // NONE은 얘기치 않은 종료 or무효 
+  gameType: "NORMAL" | "SPECIAL" | "LADDER" | "NONE" | null; // NONE은 얘기치 않은 종료 or무효
   rivalScore: number;
   myScore: number;
   isWin: boolean;
@@ -37,7 +41,16 @@ export interface MatchDataType {
   // setMatchData: (matchData: MatchDataType) => void,
 }
 
-export interface useMatchEndProps{
+export interface useMatchEndProps {
   matchEndData: MatchEndType | null;
   setMatchEndData: (matchEndData: MatchEndType | null) => void;
+}
+
+export interface useMatchSerchProps {
+  gameType: "LADDER" | "NORMAL_MATCHING" | "SPECIAL_MATCHING" | null;
+}
+
+export interface useMatchSerch {
+  matchSerchProps: useMatchSerchProps | null;
+  setMatchSerchState: (matchSerchState: useMatchSerchProps | null) => void;
 }
