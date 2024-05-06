@@ -173,10 +173,13 @@ export default function GameFrame({ props }: { props: MatchDataType }) {
       if (parentRef.current) {
         setCanvasWidth(parentRef.current.clientWidth);
         setCanvasHeight(parentRef.current.clientHeight);
+        //eslint-disable-next-line react-hooks/exhaustive-deps
         racketHeight = parentRef.current.clientHeight * 0.025;
+        //eslint-disable-next-line react-hooks/exhaustive-deps
         racketWidth = parentRef.current.clientWidth * 0.25;
       }
     }, 100);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentRef.current]);
 
   useEffect(() => {
@@ -225,6 +228,7 @@ export default function GameFrame({ props }: { props: MatchDataType }) {
       document.removeEventListener("keydown", keyDownEventHandler);
       document.removeEventListener("keyup", keyUpEventHandler);
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canvasWidth, canvasHeight]);
 
   const touchStartHandler = (value: "LEFT" | "RIGHT") => () => {

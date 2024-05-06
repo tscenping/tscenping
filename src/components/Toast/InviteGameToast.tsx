@@ -1,5 +1,5 @@
 import { instance } from "components/Util/axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGameInviteState } from "store/game";
 import { useToastState } from "store/toast";
@@ -27,11 +27,12 @@ export default function InviteGameToast() {
       console.log("clearTimeout Game1");
       clearTimeout(timer);
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inviteType.invitationId]);
 
   useEffect(() => {
     console.log("invite toast");
-
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     timeOut = setTimeout(() => {
       console.log("inTimeOut ")
       if (timeOut !== null) {
@@ -116,7 +117,7 @@ export default function InviteGameToast() {
             </strong>
             초대를 수락하시겠습니까?
           </p>
-          <section className="flex w-full justify-evenly py-2 text-white">
+          <section className="flex w-full py-2 text-white justify-evenly">
             <button onClick={acceptGameInvite}>수락</button>
             <button onClick={declineGameInvite}>거절</button>
           </section>

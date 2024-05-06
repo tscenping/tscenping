@@ -72,6 +72,7 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
       </section>
       <img
         className="w-1 cursor-pointer"
+        alt="user setting icon"
         src={userSetting}
         onClick={() => {
           if (dropDownType === "NONE") setDropDownType("NORMAL");

@@ -15,12 +15,7 @@ import { instance } from "../../Util/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-interface RankingUserList {
-  nickname: string;
-  avatar: string;
-  ladderScore: number;
-  ranking: number;
-}
+
 
 interface RankingDataChunk {
   avatar: string;
@@ -54,7 +49,7 @@ export default function RankingList() {
     }
   };
 
-  const { isPending, error, data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["rankingData"],
     queryFn: getRanking,
   });

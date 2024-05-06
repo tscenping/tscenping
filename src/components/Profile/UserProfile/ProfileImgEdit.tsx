@@ -112,8 +112,10 @@ export default function ProfileImgEdit(props: ProfileImgEditProps) {
   };
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     putS3Image();
     console.log("useEffect");
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preSignedUrl]);
 
   return (

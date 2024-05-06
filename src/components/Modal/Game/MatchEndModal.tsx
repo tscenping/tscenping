@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 import { useMatchEndState, useModalState } from "store/modal";
 import defaultImg from "../../../img/Main/DefaultPorfileImg.svg";
 import ModalHeader from "../ModalHeader";

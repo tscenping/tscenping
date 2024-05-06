@@ -1,5 +1,5 @@
 import blockUsers from "../../img/Friends/blockUsers.svg";
-import { FormEvent, useState, useRef, useEffect } from "react";
+import { FormEvent, useState, useRef } from "react";
 import useAxios from "../../hooks/useAxios";
 import FriendUser from "./FriendUser";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -9,7 +9,6 @@ import { useMyData } from "store/profile";
 import { useModalState, useNoticeModalState } from "store/modal";
 import { FriendUserInfoType } from "types/FriendTypes";
 import { useSearchUser } from "store/friend";
-import { channelSocket } from "socket/ChannelSocket";
 
 interface FriendUsersProps {
   setPageSection: (v: string) => void;
@@ -67,7 +66,7 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
 
   return (
     <>
-      <section className="p-5 py-7 w-full h-full">
+      <section className="w-full h-full p-5 py-7">
         <form
           className="relative flex flex-col items-center"
           onSubmit={searchUserApiHandler}
@@ -81,8 +80,8 @@ const FriendUsers = (props: FriendUsersProps): JSX.Element => {
           />
         </form>
         <section className="flex flex-col h-full ">
-          <section className="flex justify-between pt-3 pb-2 items-center">
-            <strong className="md:text-2xl text-base">
+          <section className="flex items-center justify-between pt-3 pb-2">
+            <strong className="text-base md:text-2xl">
               {searchUserInput ? "검색한 유저" : "전체친구"}
             </strong>
             <section className="cursor-pointer">

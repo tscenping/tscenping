@@ -1,5 +1,5 @@
 import { useModalState } from "store/modal";
-import { useChatSetting, useChat } from "store/chat";
+import { useChatSetting } from "store/chat";
 
 const ChatSetting = (): JSX.Element => {
   const { title, content, confirmComment, onConfirm } = useChatSetting();
@@ -13,7 +13,7 @@ const ChatSetting = (): JSX.Element => {
       <span className="text-base md:text-lg lg:text-xl xl:text-2xl font-[Pretendard-SemiBold]">
         {content}
       </span>
-      <section className="pt-7 pb-1 flex ">
+      <section className="flex pb-1 pt-7 ">
         <button
           className="bg-customGreen text-[#404040] w-1/2 rounded-[20px] py-2 text-base mr-5"
           onClick={onConfirm}

@@ -1,11 +1,10 @@
 import RecentMatchContent from "./RecentMatchContent";
 import winIcon from "../../../img/Profile/Win.svg";
 import loseIcon from "../../../img/Profile/Lose.svg";
-import { useMyData, useUserProfileState } from "../../../store/profile";
+import { useUserProfileState } from "../../../store/profile";
 import React, { useEffect, useState } from "react";
 import { instance } from "../../Util/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useModalState } from "../../../store/modal";
 
 interface GameHistory {
   rivalname: string;
@@ -18,8 +17,6 @@ interface RecentMatchData {
   gameHistories: GameHistory[];
   totalItemCount: number;
 }
-
-const pageDataNum = 5;
 
 export default function RecentMatch() {
   const { userProfileState } = useUserProfileState();
@@ -36,10 +33,10 @@ export default function RecentMatch() {
 
   const {
     data,
-    isLoading,
-    isError,
+    // isLoading,
+    // isError,
     fetchNextPage,
-    isFetchingNextPage,
+    // isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery({
     queryKey: ["matchData", { nickname }],

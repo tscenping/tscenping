@@ -5,7 +5,6 @@ import { useChat } from "store/chat";
 import firebaseSetting from "func/settingFirebase";
 import {
   collection,
-  addDoc,
   updateDoc,
   getDocs,
   query,
@@ -84,7 +83,7 @@ const MessageInput = (props: MessageInputProps): JSX.Element => {
       id="message"
     >
       <textarea
-        className="bg-transparent pl-5 pr-4 outline-none resize-none w-9/10 scrollbar-hide"
+        className="pl-5 pr-4 bg-transparent outline-none resize-none w-9/10 scrollbar-hide"
         maxLength={500}
         form="message"
         ref={props.messageRef}

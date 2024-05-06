@@ -29,7 +29,7 @@ interface FriendUserProps {
 const InviteChat = (): JSX.Element => {
   const [selectUserInfo, setSelectUserInfo] = useState<selectUserInfoTypes>({});
   const { data, hasNextPage, fetchNextPage } = useGetUsers("FRIEND");
-  const { setMode, mode } = useInviteMode();
+  const { setMode } = useInviteMode();
   const { setModalName } = useModalState();
   const { setChatSetting } = useChatSetting();
   const { setInChatInfo, inChatInfo } = useChat();

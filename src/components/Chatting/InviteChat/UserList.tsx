@@ -32,7 +32,7 @@ const UserList = (props: UserListProps): JSX.Element => {
 
   return (
     <li
-      className="flex justify-between mb-7 items-center cursor-pointer"
+      className="flex items-center justify-between cursor-pointer mb-7"
       onClick={() => {
         selectUserHandler(props.nickname);
       }}
@@ -40,7 +40,8 @@ const UserList = (props: UserListProps): JSX.Element => {
       <label className="flex items-center" htmlFor="user1">
         <img
           src={props.avatar ? props.avatar : defaultProfile}
-          className="rounded-full w-10 mr-3"
+          alt="UserImage"
+          className="w-10 mr-3 rounded-full"
         />
         <span className="text-base">{props.nickname}</span>
       </label>

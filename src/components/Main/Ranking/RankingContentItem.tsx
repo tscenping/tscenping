@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+
 import { useModalState } from "../../../store/modal";
 
 interface RankingUserList {

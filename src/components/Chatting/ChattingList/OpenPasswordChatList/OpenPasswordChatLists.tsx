@@ -15,6 +15,7 @@ const OpenPasswordChatLists = (props: AllChattingListsProps): JSX.Element => {
     if (props.tabState === "ENTERED" && hasNextPage) {
       fetchNextPage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasNextPage]);
 
   return (

@@ -17,9 +17,7 @@ export default function GameStartBtn(props: GameTypeSelectorProps) {
   // 매칭 안될 시 -> 매칭 취소
   // 매칭 취소 시 -> 매칭 취소
 
-  const invitingFrined = () => {
-    setModalName("gameInviting");
-  };
+  
 
   const startGame = async () => {
     console.log("매칭 시작");
