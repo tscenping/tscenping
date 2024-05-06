@@ -28,6 +28,9 @@ const LoginCheck = (): JSX.Element => {
   };
 
   useEffect(() => {
+    if (pathName === "login") {
+      return ;
+    }
     if (pathName === "logincallback" || pathName === "googlecallback") {
       return;
     }
@@ -38,11 +41,7 @@ const LoginCheck = (): JSX.Element => {
     if (!cookies.get("accessToken")) {
       navigate("/login");
     }
-    if (
-      myData?.nickname === "" ||
-      myData?.nickname === null ||
-      myData.avatar === undefined
-    ) {
+    if (myData?.nickname === "" || myData?.nickname === null) {
       console.log("getMyData");
       console.log(pathName);
       getMyData();
