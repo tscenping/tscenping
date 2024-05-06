@@ -78,7 +78,9 @@ export default function RecentMatch() {
                 </React.Fragment>
               ))
             ) : (
-              <p>전적이 없습니다.</p>
+              <p className="flex items-center justify-center h-full">
+                전적이 없습니다.
+              </p>
             ))}
           {hasNextPage && (
             <button

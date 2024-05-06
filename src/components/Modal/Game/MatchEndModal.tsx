@@ -35,7 +35,7 @@ export default function MatchEndModal() {
                   : matchEndData.rivalAvatar
               }
               alt="rivalImg"
-              className="rounded-full h-15 w-15"
+              className="border-[3px] border-solid rounded-full border-customGreen shadow-winInner h-15 w-15 border-opacity-70"
             />
             <p>{matchEndData.rivalName}</p>
           </div>
