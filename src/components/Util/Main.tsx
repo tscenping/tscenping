@@ -1,10 +1,7 @@
 import { ReactNode } from "react";
 import LoginCheck from "./LoginCheck";
-import useAxios from "hooks/useAxios";
 
 const Main = ({ children }: { children: ReactNode }): JSX.Element => {
-  const instance = useAxios();
-
   return (
     // <main className="min-w-[280px] max-w-[720px] w-full overflow-x-scroll scrollbar-hide mb-[70px] min-h-[667px]">
     <main
