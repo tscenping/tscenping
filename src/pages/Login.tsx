@@ -12,7 +12,7 @@ export default function Login(): React.ReactElement {
         </div>
         <div className="flex flex-col itemts-center max-w-full gap-3 min-w-[320px]">
           <LoginButton loginTarget="42" />
-          <LoginButton loginTarget="Google" />
+          {/* <LoginButton loginTarget="Google" /> */}
         </div>
       </section>
     </Container>
