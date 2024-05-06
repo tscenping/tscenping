@@ -24,7 +24,6 @@ jobs:
       - name: Generate Environment
         run: |
          echo "REACT_APP_REDIRECTION_URL_42=${{ secrets.REACT_APP_REDIRECTION_URL_42 }}" >> .env
-         echo "REACT_APP_DEFAULT_PROFILE=${{ secrets.REACT_APP_DEFAULT_PROFILE }}" >> .env
          echo "REACT_APP_REDIRECTION_URL_GOOGLE=${{ secrets.REACT_APP_REDIRECTION_URL_GOOGLE }}" >> .env
          echo "REACT_APP_PUBLIC_ENDPOINT=${{ secrets.REACT_APP_PUBLIC_ENDPOINT }}" >> .env
          echo "REACT_APP_BASEURL=${{ secrets.REACT_APP_BASEURL }}" >> .env
