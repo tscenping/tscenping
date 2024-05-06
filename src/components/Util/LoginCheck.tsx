@@ -16,8 +16,12 @@ const LoginCheck = (): JSX.Element => {
 
   const getMyData = async () => {
     try {
-      const response = await instance.get(`users/me`);
-      setMyData(response.data);
+      await instance.get(`users/me`).then((res) => {
+        setMyData(res.data);
+        if (res.data.nickname === "" || res.data.nickname === null) {
+          navigate("/login/userinfo");
+        }
+      });
     } catch (e) {
       console.log(e);
     }
@@ -28,13 +32,17 @@ const LoginCheck = (): JSX.Element => {
       return;
     }
     if (pathName === "userinfo" && cookies.get("accessToken")) {
-      if (myData?.nickname === null) return;
+      if (myData?.nickname === null || myData?.nickname === "") return;
       else navigate("/");
     }
     if (!cookies.get("accessToken")) {
       navigate("/login");
     }
-    if (myData?.nickname === "" || myData?.nickname === null || myData.avatar === undefined) {
+    if (
+      myData?.nickname === "" ||
+      myData?.nickname === null ||
+      myData.avatar === undefined
+    ) {
       console.log("getMyData");
       console.log(pathName);
       getMyData();
