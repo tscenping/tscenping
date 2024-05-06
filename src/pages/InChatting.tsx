@@ -1,83 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "../components/Util/Container";
-import createChatting from "../img/InChatting/createChatting.svg";
+import ChattingListHeader from "../components/Chatting/ChattingList/ChattingListHeader";
+import InChattingNaviList from "../components/Chatting/ChattingList/ChattingNaviList";
+import { useChat } from "../store/chat";
+import ChatLog from "../components/Chatting/InChat/ChatLog";
+import InviteChat from "../components/Chatting/InviteChat/InviteChat";
+import { useInviteMode } from "../store/chat";
+import DmGroupChatLists from "components/Chatting/ChattingList/DmGroupChatList/DmGroupChatLists";
+import { ChatTabStateType } from "types/ChatTypes";
 
 const InChattingPage = (): JSX.Element => {
-  const [tabState, setTabState] = useState("GROUP");
+  const [tabState, setTabState] = useState<ChatTabStateType>("GROUP");
+  const { mode } = useInviteMode();
+  const { inChatInfo, setInChatInfo } = useChat();
 
-  const inChattingListStyle = "bg-[#424242] p-5 rounded-[20px] my-[24px]";
+  useEffect(() => {
+    setInChatInfo({ ...inChatInfo, inChat: 0 });
+  }, []);
+
   return (
     <Container>
-      <section>
-        <section className="flex w-full justify-between p-7 items-center">
-          <span className="text-[16px] font-bold md:text-[24px]">
-            전체 채팅방
-          </span>
-          <img
-            src={createChatting}
-            alt="create chatting room"
-            className="w-[40px]"
-          />
-        </section>
-        <nav>
-          <ul className="flex justify-around px-10 text-[16px] font-bold md:text-[20px]">
-            <li
-              className={`py-2 w-1/2 text-center cursor-pointer ${
-                tabState === "GROUP" ? "border-b border-customGreen" : ""
-              }`}
-              onClick={() => {
-                setTabState("GROUP");
-              }}
-            >
-              참여중인 그룹 채팅
-            </li>
-            <li
-              className={`py-2 w-1/2 text-center cursor-pointer ${
-                tabState === "ONETOONE" ? "border-b border-customGreen" : ""
-              }`}
-              onClick={() => {
-                setTabState("ONETOONE");
-              }}
-            >
-              참여중인 1:1 채팅
-            </li>
-          </ul>
-        </nav>
-      </section>
-      <section className="px-3 py-3">
-        <ul>
-          {tabState === "GROUP" && (
-            <>
-              <li className={inChattingListStyle}>
-                <span>지우, Wonlim, Kota</span>
-                <span className="ml-[8px] text-[#939393]">3</span>
-              </li>
-              <li className={inChattingListStyle}>
-                <span>지우, Wonlim, Kota</span>
-                <span className="ml-[8px] text-[#939393]">3</span>
-              </li>
-              <li className={inChattingListStyle}>
-                <span>지우, Wonlim, Kota</span>
-                <span className="ml-[8px] text-[#939393]">3</span>
-              </li>
-              <li className={inChattingListStyle}>
-                <span>지우, Wonlim, Kota</span>
-                <span className="ml-[8px] text-[#939393]">3</span>
-              </li>
-              <li className={inChattingListStyle}>
-                <span>지우, Wonlim, Kota</span>
-                <span className="ml-[8px] text-[#939393]">3</span>
-              </li>
-            </>
-          )}
-          {tabState === "ONETOONE" && (
-            <>
-              <li className={inChattingListStyle}>
-                <span>지우</span>
-              </li>
-            </>
-          )}
-        </ul>
+      <section className="h-full w-full">
+        <div id="chatUserListModal" />
+        {mode ? (
+          <InviteChat />
+        ) : !inChatInfo.inChat ? (
+          <>
+            <ChattingListHeader />
+            <nav>
+              <ul className="flex justify-around px-4 text-[16px] font-bold md:text-[20px] ">
+                <InChattingNaviList
+                  tabState={tabState}
+                  setTabState={setTabState}
+                  tabName="참여중인 그룹 채팅"
+                  tabTitle="GROUP"
+                />
+                <InChattingNaviList
+                  tabState={tabState}
+                  setTabState={setTabState}
+                  tabName="참여중인 1:1 채팅"
+                  tabTitle="DM"
+                />
+              </ul>
+            </nav>
+            <DmGroupChatLists tabState={tabState} />
+          </>
+        ) : (
+          <ChatLog />
+        )}
       </section>
     </Container>
   );

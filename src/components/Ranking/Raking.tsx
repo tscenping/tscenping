@@ -6,155 +6,114 @@ import {
   // Navigation,
   // Scrollbar,
   EffectCoverflow,
-  Mousewheel,
   Autoplay,
 } from "swiper/modules";
+import { useEffect, useState } from "react";
+import { instance } from "../Util/axios";
+import { useQuery } from "@tanstack/react-query";
 
-interface RankingUserList {
-  nickname: string;
+interface RankingDataChunk {
   avatar: string;
   ladderScore: number;
+  nickname: string;
   ranking: number;
 }
-
-const dummyData: RankingUserList[] = [
-  {
-    nickname: "닉네임1",
-    avatar: "아바타1",
-    ladderScore: 1000,
-    ranking: 1,
-  },
-  {
-    nickname: "닉네임2",
-    avatar: "아바타2",
-    ladderScore: 900,
-    ranking: 2,
-  },
-  {
-    nickname: "닉네임3",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 3,
-  },
-  {
-    nickname: "닉네임4",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 4,
-  },
-  {
-    nickname: "닉네임5",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 5,
-  },
-  {
-    nickname: "닉네임1",
-    avatar: "아바타1",
-    ladderScore: 1000,
-    ranking: 6,
-  },
-  {
-    nickname: "닉네임2",
-    avatar: "아바타2",
-    ladderScore: 900,
-    ranking: 7,
-  },
-  {
-    nickname: "닉네임3",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 8,
-  },
-  {
-    nickname: "닉네임4",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 9,
-  },
-  {
-    nickname: "닉네임5",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 10,
-  },
-  {
-    nickname: "닉네임1",
-    avatar: "아바타1",
-    ladderScore: 1000,
-    ranking: 11,
-  },
-  {
-    nickname: "닉네임2",
-    avatar: "아바타2",
-    ladderScore: 900,
-    ranking: 12,
-  },
-  {
-    nickname: "닉네임3",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 13,
-  },
-  {
-    nickname: "닉네임4",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 14,
-  },
-  {
-    nickname: "닉네임5",
-    avatar: "아바타3",
-    ladderScore: 800,
-    ranking: 15,
-  },
-];
+interface RankingDataType {
+  rankUsers: RankingDataChunk[];
+  totalItemCount: number;
+}
 
 export default function Ranking() {
-  const paginatedItems = chunkArray(dummyData, 10);
+  const [rankingData, setRankingData] = useState<RankingDataType>();
+  const [rankingDataChunks, setRankingDataChunks] = useState<
+    RankingDataChunk[][] | null
+  >();
+
+  const getRanking = async () => {
+    try {
+      const response = await instance.get(`users/rank`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["rankingData"],
+    queryFn: getRanking,
+  });
+  useEffect(() => {
+    setRankingData(data);
+    if (!rankingData?.rankUsers) return;
+    const paginatedItems = chunkArray(rankingData?.rankUsers, 10);
+    if (!paginatedItems) return;
+    setRankingDataChunks(paginatedItems);
+  }, [data]);
+
+  useEffect(() => {
+    if (!rankingData?.rankUsers) return;
+    const paginatedItems = chunkArray(rankingData?.rankUsers, 10);
+    setRankingDataChunks(paginatedItems);
+  }, [rankingData]);
 
   return (
-    <>
-      <div className="flex justify-between w-full font-bold">
-        <p>User Ranking</p>
+    <div className="relative flex flex-col w-full self-start mt-24">
+      <div className="flex justify-between items-center w-full font-bold mb-8">
+        <p className="font-[League-Spartan] text-2xl">User Ranking</p>
         <p className="opacity-40">2024.03.01 기준</p>
       </div>
-      <Swiper
-        style={{
-          // @ts-ignore
-          "--swiper-pagination-color": "#6DFCAF",
-          "--swiper-pagination-bullet-inactive-color": "#D9D9D9",
-        }}
-        slidesPerView={1}
-        modules={[Mousewheel, Autoplay, Pagination, EffectCoverflow]}
-        loop={true}
-        pagination={{ clickable: true }}
-        centeredSlides={true}
-        grabCursor={true}
-        mousewheel={{
-          invert: false,
-        }}
-        autoplay={{
-          delay: 3000,
-          stopOnLastSlide: false,
-          disableOnInteraction: false,
-        }}
-        // effect={"coverflow"}
-      >
-        {paginatedItems.map((item, i) => (
-          <SwiperSlide key={i} className="relative w-full mb-10">
-            {item.map((user, index) => (
-              <RankingContentItem
-                key={index}
-                ranking={user.ranking}
-                avatar={user.avatar}
-                ladderScore={user.ladderScore}
-                nickname={user.nickname}
-              />
-            ))}
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
+      {rankingDataChunks && rankingDataChunks.length > 1 ? (
+        <Swiper
+          style={{
+            // @ts-ignore
+            "--swiper-pagination-color": "#6DFCAF",
+            "--swiper-pagination-bullet-inactive-color": "#D9D9D9",
+          }}
+          slidesPerView={1}
+          modules={[Autoplay, Pagination, EffectCoverflow]}
+          loop={true}
+          pagination={{ clickable: true }}
+          centeredSlides={true}
+          grabCursor={true}
+          className="w-full"
+          autoplay={{
+            delay: 3000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false,
+          }}
+          // effect={"coverflow"}
+        >
+          {rankingDataChunks?.slice(0, 5).map((item, i) => (
+            <SwiperSlide key={i} className="relative w-full mb-10">
+              {item.map((user, index) => (
+                <RankingContentItem
+                  key={index}
+                  ranking={user.ranking}
+                  avatar={user.avatar}
+                  ladderScore={user.ladderScore}
+                  nickname={user.nickname}
+                />
+              ))}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <>
+          {rankingDataChunks?.map((item, i) => (
+            <SwiperSlide key={i} className="relative w-full mb-10">
+              {item.map((user, index) => (
+                <RankingContentItem
+                  key={index}
+                  ranking={user.ranking}
+                  avatar={user.avatar}
+                  ladderScore={user.ladderScore}
+                  nickname={user.nickname}
+                />
+              ))}
+            </SwiperSlide>
+          ))}
+        </>
+      )}
+    </div>
   );
 }

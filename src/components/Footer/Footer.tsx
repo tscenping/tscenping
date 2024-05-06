@@ -1,27 +1,52 @@
 import { NavLink, useLocation } from "react-router-dom";
-import main from "../../img/Footer/main.svg";
-import friends from "../../img/Footer/friends.svg";
-import chatting from "../../img/Footer/chatting.svg";
-import chatting2 from "../../img/Footer/chatting2.svg";
-import notice from "../../img/Footer/notice.svg";
-import inMain from "../../img/Footer/inMain.svg";
-import inFriends from "../../img/Footer/inFriends.svg";
-import inChatting from "../../img/Footer/inChatting.svg";
-import inChatting2 from "../../img/Footer/inChatting2.svg";
+import main from "img/Footer/main.svg";
+import friends from "img/Footer/friends.svg";
+import chatting from "img/Footer/chatting.svg";
+import notice from "img/Footer/notice.svg";
+import inMain from "img/Footer/inMain.svg";
+import inFriends from "img/Footer/inFriends.svg";
+import inChatting from "img/Footer/inChatting.svg";
+import openPassword from "img/Footer/openPassword.svg";
+import inOpenPassword from "img/Footer/checkedOpenPassword.svg";
+import { useChat } from "store/chat";
+import { useMessage } from "store/chat";
+import { useInviteMode } from "store/chat";
 
 const Footer = (): JSX.Element => {
+  const { setEmptyInChatInfo, inChatInfo } = useChat();
   const footerIconStyle =
-    "w-[28px] sm:w-[28px] md:w-[32px] lg:w-[36px] xl:w-[40px] 2xl:w-[44px]";
+    "w-[28px] h-[28px] sm:w-[28px] sm:h-[28px] md:w-[32px] md:h-[32px] lg:w-[36px] lg:h-[36px] xl:w-[40px] xl:h-[40px] 2xl:w-[44px] 2xl:w-[44px]";
   const location = useLocation();
   const pathName = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
   );
 
+  const { setParseChatLog } = useMessage();
+  const { setMode, mode } = useInviteMode();
+  const hiddenPaths = [
+    "login",
+    "userinfo",
+    "logincallback",
+    "googlecallback",
+    "game",
+  ];
+  const footerStyle = hiddenPaths.includes(pathName)
+    ? "hidden"
+    : "z-5 bottom-0 p-6 w-full bg-[#3F3F3F]";
+
+  const resetChatInfoHandler = () => {
+    if (mode) setMode(false);
+    if (inChatInfo.inChat) {
+      setEmptyInChatInfo();
+      setParseChatLog([]);
+    }
+  };
+
   return (
-    <footer className=" z-20 absolute bottom-0 p-6 w-full bg-[#3F3F3F] ">
-      <nav>
-        <ul className="flex justify-around">
-          <li>
+    <footer className={footerStyle}>
+      <nav className="h-full">
+        <ul className="flex justify-around h-full text-center">
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/">
               <img
                 src={pathName === "" ? inMain : main}
@@ -30,7 +55,7 @@ const Footer = (): JSX.Element => {
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/friends">
               <img
                 src={pathName === "friends" ? inFriends : friends}
@@ -39,7 +64,7 @@ const Footer = (): JSX.Element => {
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/inchatting">
               <img
                 src={pathName === "inchatting" ? inChatting : chatting}
@@ -48,16 +73,16 @@ const Footer = (): JSX.Element => {
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <NavLink to="/chatting">
               <img
-                src={pathName === "chatting" ? inChatting2 : chatting2}
+                src={pathName === "chatting" ? inOpenPassword : openPassword}
                 alt=""
                 className={footerIconStyle}
               />
             </NavLink>
           </li>
-          <li>
+          <li onClick={resetChatInfoHandler}>
             <img src={notice} alt="" className={footerIconStyle} />
           </li>
         </ul>
