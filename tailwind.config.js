@@ -35,7 +35,8 @@ module.exports = {
         "3/5": "60%",
       },
       boxShadow: {
-        inner: 'inset 0 0 0 2px #FFFFFF'
+        inner: 'inset 0 0 0 2px #FFFFFF',
+        winInner: 'inset 0 0 0 1px black'
       }
     },
   },

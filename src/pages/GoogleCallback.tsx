@@ -6,6 +6,7 @@ import Loading from "../img/Login/Loading.svg";
 import { useModalState, useNoticeModalState } from "../store/modal";
 import { useMyData } from "store/profile";
 import Mfa from "components/Login/Mfa";
+import { instance } from "components/Util/axios";
 
 const GoogleCallbackPage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ const GoogleCallbackPage = (): JSX.Element => {
           withCredentials: true,
         };
 
-        const response = await axios.post(
-          "https://localhost:3000/auth/signin-google",
+        const response = await instance.post(
+          "auth/signin-google",
           JSON.stringify(codeValue),
           config
         );

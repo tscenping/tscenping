@@ -43,7 +43,7 @@ export default function RecentMatchContent({
 
   return (
     <li className="relative flex items-center justify-around w-full h-auto px-3 ">
-      <img src={winIcon} alt="loseIcon" className="absolute left-0" width={8} />
+      {leftscore > rightscore ? <img src={winIcon} alt="loseIcon" className="absolute left-0" width={8} /> : <img src={loseIcon} alt="loseIcon" className="absolute left-0" width={8} />}
 
       <img
         src={defailtImg}

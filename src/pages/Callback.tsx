@@ -22,7 +22,7 @@ const LoginCallbackPage = (): JSX.Element => {
     const loginAuthHandler = async () => {
       try {
         const response = await instance.post(
-          "https://localhost:3000/auth/signin",
+          "auth/signin",
           JSON.stringify(codeValue)
         );
         if (response.status === 201) {
