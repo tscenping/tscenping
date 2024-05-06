@@ -11,7 +11,6 @@ import {
   Firestore,
   query,
   where,
-  orderBy,
   updateDoc,
 } from "firebase/firestore/lite";
 import { useMyData } from "store/profile";
