@@ -19,7 +19,7 @@ const OpenPasswordChatLists = (props: AllChattingListsProps): JSX.Element => {
 
   return (
     <ul
-      className="px-3 py-3 h-5/6 overflow-y-scroll flex flex-col scrollbar-hide"
+      className="flex flex-col px-3 py-3 overflow-y-scroll h-5/6 scrollbar-hide"
       id="ul"
     >
       <InfiniteScroll

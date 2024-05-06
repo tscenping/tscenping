@@ -8,8 +8,6 @@ import { useMyData } from "store/profile";
 import { collection, addDoc } from "firebase/firestore/lite";
 import firebaseSetting from "func/settingFirebase";
 
-const defaultImage = process.env.REACT_APP_DEFAULT_PROFILE;
-
 const LoginUserInfo = (): JSX.Element => {
   const instance = useAxios();
   const [uploadImage, setUploadImage] = useState<File | null>(null);
