@@ -100,15 +100,17 @@ const ChannelSocketHandler = () => {
     }
   };
 
+  const dupLoginCheck = (data: string) => {
+    navigation("/login");
+  };
+
   useEffect(() => {
     channelSocket.on("gameInvitation", gameInviteHandler);
     channelSocket.on("gameInvitationReply", gameInviteResponseHandler);
     channelSocket.on("message", receiveMessageSocketHandler);
     channelSocket.on("notice", receiveChatNoticeSocketHandler);
     channelSocket.on("privateAlert", chatInviteHandler);
-    channelSocket.on("error", (data) => {
-      console.log(data);
-    });
+    channelSocket.on("error", dupLoginCheck);
     // console.log("리랜더링");
     return () => {
       channelSocket.off("gameInvitation", gameInviteHandler);
@@ -116,7 +118,7 @@ const ChannelSocketHandler = () => {
       channelSocket.off("message", receiveMessageSocketHandler);
       channelSocket.off("notice", receiveChatNoticeSocketHandler);
       channelSocket.off("privateAlert", chatInviteHandler);
-      channelSocket.off("error");
+      channelSocket.off("error", dupLoginCheck);
     };
     // })
     //eslint-disable-next-line react-hooks/exhaustive-deps
