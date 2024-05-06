@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useMyData } from "store/profile";
 import { channelSocket } from "socket/ChannelSocket";
-import ChannelSocketHandler from "./ChannelSocketHandler";
 
 const ChannelSocketConnectHandler = () => {
   const { myData } = useMyData();
@@ -18,6 +17,7 @@ const ChannelSocketConnectHandler = () => {
     return () => {
       channelSocket.close();
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [myData.nickname]);
   return <>{/* <ChannelSocketHandler /> */}</>;
 };

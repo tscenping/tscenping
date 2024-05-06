@@ -1,11 +1,9 @@
 import { useUserProfileState } from "../../../store/profile";
 import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
 import imgEditBtn from "../../../img/Profile/EditBtn.svg";
-import textEditBtn from "../../../img/Profile/editTextBtn.svg";
 
 import { useEffect, useRef, useState } from "react";
 import { instance } from "../../Util/axios";
-import { useQueryClient } from "@tanstack/react-query";
 import ProfileImgEdit from "./ProfileImgEdit";
 
 const svgWidth = 60;
@@ -19,7 +17,6 @@ export default function ProfileMe(props: MyProfileProps) {
   const { userProfileState, setUserProfile } = useUserProfileState();
   const [isMsgEdit, setIsMsgEdit] = useState(false);
   const [isImgEdit, setIsImgEdit] = useState(false);
-  const [imgUrl, setImgUrl] = useState<string>("");
   const [statusMsg, setStatusMsg] = useState<string>(
     userProfileState.statusMessage
   );
@@ -43,7 +40,6 @@ export default function ProfileMe(props: MyProfileProps) {
   function isWithinThreeDays(fileName: string) {
     // 파일명에서 날짜 부분을 추출
     const dateString = fileName.slice(-11, -5); // 파일명에서 년월일 부분 추출
-    const fileDate = new Date(dateString);
 
     // 오늘 날짜와의 차이를 계산
     const today = new Date();

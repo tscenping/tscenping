@@ -3,7 +3,7 @@ import { useChat } from "store/chat";
 import { useEffect } from "react";
 import useAxios from "hooks/useAxios";
 import { useMyData } from "store/profile";
-import { useModalState, useNoticeModalState } from "store/modal";
+import { useModalState } from "store/modal";
 import {
   getDocs,
   collection,
@@ -25,7 +25,6 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
   const { myData } = useMyData();
   const instance = useAxios();
   const { setModalName } = useModalState();
-  const { setContent } = useNoticeModalState();
   const { setParseChatLog } = useMessage();
   const { db } = firebaseSetting();
 
@@ -138,6 +137,7 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
 
       setInChatInfo({ ...inChatInfo, isJoined: false }); //entered이후에는 해당 값을 false로 바꿔줘서 동작하게 되는 것이다
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

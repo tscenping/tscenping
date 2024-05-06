@@ -29,7 +29,7 @@ const ChatUserLists = (): JSX.Element => {
   const queryClient = useQueryClient();
   const { setContent } = useNoticeModalState();
   const { setMode } = useInviteMode();
-  const { setParseChatLog, chatLog } = useMessage();
+  const { setParseChatLog } = useMessage();
   const { myData } = useMyData();
   const { db } = firebaseSetting();
 
@@ -171,7 +171,7 @@ const ChatUserLists = (): JSX.Element => {
             inChatInfo.channelType !== "DM" &&
             inChatInfo.channelType !== "PRIVATE" && (
               <li
-                className="cursor-pointer mb-5 sm:mb-7 lg:mb-9 xl:mb-11 flex justify-between "
+                className="flex justify-between mb-5 cursor-pointer sm:mb-7 lg:mb-9 xl:mb-11 "
                 onClick={() => {
                   if (inChatInfo.channelType === "PROTECTED") {
                     setModalName("chatSetting");
@@ -195,7 +195,7 @@ const ChatUserLists = (): JSX.Element => {
                   }
                 }}
               >
-                <span className="text-sm  sm:text-base lg:text-lg xl:text-2xl">
+                <span className="text-sm sm:text-base lg:text-lg xl:text-2xl">
                   채팅 모드 변경
                 </span>
                 <section className="flex items-end">
@@ -217,7 +217,7 @@ const ChatUserLists = (): JSX.Element => {
           {inChatInfo.myChannelUserType === "OWNER" &&
             inChatInfo.channelType === "PROTECTED" && (
               <li
-                className="cursor-pointer text-sm mb-5 sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
+                className="mb-5 text-sm cursor-pointer sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
                 onClick={() => {
                   setModalName("changeChatPassword");
                 }}
@@ -228,7 +228,7 @@ const ChatUserLists = (): JSX.Element => {
           {inChatInfo.myChannelUserType === "OWNER" &&
             inChatInfo.channelType === "PRIVATE" && (
               <li
-                className="cursor-pointer text-sm mb-5 sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
+                className="mb-5 text-sm cursor-pointer sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
                 onClick={() => {
                   setMode(true);
                   setModalName(null);
@@ -238,7 +238,7 @@ const ChatUserLists = (): JSX.Element => {
               </li>
             )}
           <li
-            className="flex justify-between items-center cursor-pointer"
+            className="flex items-center justify-between cursor-pointer"
             onClick={() => {
               setChatSetting(
                 inChatInfo.chatTitle,
@@ -254,7 +254,7 @@ const ChatUserLists = (): JSX.Element => {
             <span className="text-sm cursor-pointer sm:text-base lg:text-lg xl:text-2xl">
               채팅방 나가기
             </span>
-            <img src={exitChat} className="w-6 sm:w-7 md:w-8 lg:w-9" />
+            <img src={exitChat} className="w-6 sm:w-7 md:w-8 lg:w-9" alt="exitImg" />
           </li>
         </ul>
       </section>

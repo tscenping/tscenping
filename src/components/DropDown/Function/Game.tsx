@@ -1,4 +1,4 @@
-import { DropDownProps, DropDownTypes } from "types/DropDownTypes";
+import { DropDownProps } from "types/DropDownTypes";
 import useDorpDownIcon from "../../../hooks/useDropDownIcon";
 import { dropDownStyle } from "../Normal/NormalDropDown";
 import { useModalState } from "store/modal";

@@ -2,8 +2,7 @@ import backFriends from "img/Friends/backUsers.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
 import BlockUser from "./BlockUser";
 import useGetUsers from "hooks/useApiFunction/useGetUsers";
-import { channelSocket } from "socket/ChannelSocket";
-import { useEffect } from "react";
+
 
 interface BlockUsersProps {
   setPageSection: (v: string) => void;
@@ -21,12 +20,12 @@ const BlockUsers = (props: BlockUsersProps): JSX.Element => {
 
   return (
     <>
-      <section className="p-5 w-full h-full">
-        <section className="relative flex justify-center items-center">
+      <section className="w-full h-full p-5">
+        <section className="relative flex items-center justify-center">
           <img
             src={backFriends}
             alt="go back friend users icon"
-            className="absolute left-0 cursor-pointer w-2 md:w-3"
+            className="absolute left-0 w-2 cursor-pointer md:w-3"
             onClick={() => {
               props.setPageSection("friend");
             }}

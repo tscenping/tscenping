@@ -7,9 +7,8 @@ const viewTime = 10000;
 const duration = 500;
 
 export default function ToastHandler() {
-  const { toastName, setToastState } = useToastState();
+  const { toastName} = useToastState();
   const [isVisible, setIsVisible] = useState(false);
-  const [timeOutId, setTimeOutId] = useState<NodeJS.Timeout | null>(null);
   const toastContent: { [key: string]: JSX.Element | null } = {
     game: <InviteGameToast />,
     chat: <InviteChatToast />,
@@ -31,6 +30,7 @@ export default function ToastHandler() {
       setIsVisible(false);
     } else {
       setIsVisible(true);
+      //eslint-disable-next-line react-hooks/exhaustive-deps
       timeout = setTimeout(() => {
         // setToastState(null);
         setIsVisible(false);
@@ -42,6 +42,7 @@ export default function ToastHandler() {
       console.log("clearTimeout", timeout);
       clearTimeout(timeout);
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toastName]);
 
   return (

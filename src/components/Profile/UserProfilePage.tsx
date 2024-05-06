@@ -4,12 +4,9 @@ import ProfileMatchData from "./MatchData/ProfileMatchData";
 import MatchHistory from "./MatchHistory/MatchHistory";
 import Setting from "./Setting/Setting";
 import ProfileUser from "./UserProfile/ProfileUser";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useMyData, useUserProfileState } from "../../store/profile";
 import ProfileMe from "./UserProfile/ProfileMe";
-
-const svgWidth = 60;
-const svgHeight = 60;
 
 interface UserProps {
   nickname: string | undefined;
@@ -29,15 +26,18 @@ export default function UserProfilePage({ nickname }: UserProps) {
     }
   };
 
-  const { isPending, error, data, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["profileData", { nickname }],
     queryFn: getProfileData,
     staleTime: 1000 * 1,
   });
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     if (!data) return;
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     setUserProfile(data);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

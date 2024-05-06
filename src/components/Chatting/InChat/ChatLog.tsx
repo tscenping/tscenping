@@ -84,26 +84,25 @@ const ChatLog = (): JSX.Element => {
         setInChatInfo({ ...inChatInfo, isMute: false });
       }, 30 * 1000);
     }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inChatInfo.isMute]);
 
   return (
-    <section className="flex flex-col justify-between h-full w-full">
-      <section className="h-9/10 xs:h-5/6 xxs:h-4/5 md:h-5/6 lg:h-9/10 relative">
+    <section className="flex flex-col justify-between w-full h-full">
+      <section className="relative h-9/10 xs:h-5/6 xxs:h-4/5 md:h-5/6 lg:h-9/10">
         <InChatHeader />
-        <section className="p-3 h-full">
-          <ul className="flex flex-col overflow-y-auto h-full scrollbar-hide ">
+        <section className="h-full p-3">
+          <ul className="flex flex-col h-full overflow-y-auto scrollbar-hide ">
+            {/* eslint-disable-next-line array-callback-return */}
             {chatLog.map((el, index) => {
               if (el.eventType && el.channelId === inChatInfo.inChat) {
-                return (
-                  <ChatNotice
-                    nickname={el.nickname}
-                    noticeType={el.eventType}
-                    channelId={el.channelId}
-                    key={index}
-                  />
-                );
-              }
-              if (el.channelId === inChatInfo.inChat) {
+                <ChatNotice
+                  nickname={el.nickname}
+                  noticeType={el.eventType}
+                  channelId={el.channelId}
+                  key={index}
+                />;
+              } else if (el.channelId === inChatInfo.inChat) {
                 // blockUsers 배열에서 현재 메시지의 닉네임이 있는지 확인
                 const blockedUser =
                   blockUsers &&
@@ -119,10 +118,11 @@ const ChatLog = (): JSX.Element => {
                       avatar="block" // 차단된 유저의 아바타 정보를 전달할 수도 있음
                       key={nanoid()}
                     />
+                    //eslint-disable-next-line array-callback-return
                   );
                 } else {
                   // 차단되지 않은 유저인 경우 메시지를 렌더링
-                  return el.nickname === myData.nickname ? (
+                  el.nickname === myData.nickname ? (
                     <MyMessage
                       nickname={el.nickname}
                       message={el.message}
@@ -142,6 +142,7 @@ const ChatLog = (): JSX.Element => {
                   );
                 }
               }
+              return null;
             })}
             <div ref={messageEndRef}></div>
           </ul>

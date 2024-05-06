@@ -4,9 +4,6 @@ import axios from "axios";
 import NickNameInput from "./NicknameInput";
 import ProfileImageInput from "./ProfileImageInput";
 import useAxios from "../../../hooks/useAxios";
-import { useMyData } from "store/profile";
-import { collection, addDoc } from "firebase/firestore/lite";
-import firebaseSetting from "func/settingFirebase";
 
 const LoginUserInfo = (): JSX.Element => {
   const instance = useAxios();
@@ -14,17 +11,6 @@ const LoginUserInfo = (): JSX.Element => {
   const navigate = useNavigate();
   const nicknameRef = useRef<HTMLInputElement>(null);
   // const { handleUploadImage, imageUrl } = useImage();
-  const { setMyData, myData } = useMyData();
-  const { db } = firebaseSetting();
-
-  const addDataToCollection = async (nickname: string) => {
-    try {
-      const docRef = await addDoc(collection(db, nickname), {});
-      console.log("Document create success : ", docRef.id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const [preSignedUrl, setPreSignedUrl] = useState<string | null>(null);
 
@@ -34,7 +20,7 @@ const LoginUserInfo = (): JSX.Element => {
       avatar: uploadImage === null ? false : true,
     };
     try {
-      const response = await instance
+      await instance
         .patch("/auth/signup", JSON.stringify(data))
         .then((res) => {
           // if (nicknameRef.current) {
@@ -69,8 +55,9 @@ const LoginUserInfo = (): JSX.Element => {
   };
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     putS3Image();
-    console.log("useEffect");
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preSignedUrl]);
 
   return (

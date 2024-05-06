@@ -1,5 +1,3 @@
-import userCheck from "img/Main/SpecialCheck.svg";
-import userUncheck from "img/Main/SpecialUncheck.svg";
 import defaultProfile from "img/Login/defaultProfileImage.svg";
 import { useEffect, useState } from "react";
 import { channelSocket } from "socket/ChannelSocket";
@@ -61,6 +59,7 @@ const GameInviteUserList = (props: UserListProps): JSX.Element => {
       <label className="flex items-center " htmlFor="user1">
         <img
           src={props.avatar ? props.avatar : defaultProfile}
+          alt="UserImage"
           className="w-10 mr-3 rounded-full"
         />
         <span className="text-base">{props.nickname}</span>
