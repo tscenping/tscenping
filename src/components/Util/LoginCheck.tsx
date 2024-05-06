@@ -31,17 +31,19 @@ const LoginCheck = (): JSX.Element => {
     if (pathName === "login") {
       return ;
     }
-    if (pathName === "logincallback" || pathName === "googlecallback") {
+    else if (pathName === "logincallback" || pathName === "googlecallback") {
       return;
     }
-    if (pathName === "userinfo" && cookies.get("accessToken")) {
+    else if (pathName === "userinfo" && cookies.get("accessToken")) {
       if (myData?.nickname === null || myData?.nickname === "") return;
       else navigate("/");
     }
-    if (!cookies.get("accessToken")) {
+    else if (!cookies.get("accessToken")) {
+      console.log(cookies.get("accessToken"), "쿠키 없음")
       navigate("/login");
     }
-    if (myData?.nickname === "" || myData?.nickname === null) {
+    else if (myData?.nickname === "" || myData?.nickname === null ) {
+      console.log(myData, "myDataNickname 없음")
       console.log("getMyData");
       console.log(pathName);
       getMyData();
