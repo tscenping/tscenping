@@ -1,4 +1,3 @@
-import { useUserProfileState } from "../../../store/profile";
 
 interface ProfileMatchDataProps {
   ladderRank?: number;

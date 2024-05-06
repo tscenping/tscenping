@@ -1,8 +1,6 @@
 import profileImageBtn from "../../../img/Login/profileImageBtn.svg";
-import Resizer from "react-image-file-resizer";
 import defaultImg from "../../../img/Login/defaultProfileImage.svg";
-import { useEffect, useState } from "react";
-import { instance } from "components/Util/axios";
+import { useState } from "react";
 import { resizeImage } from "components/Util/ImageResizing";
 
 interface ProfileImageInputProps {

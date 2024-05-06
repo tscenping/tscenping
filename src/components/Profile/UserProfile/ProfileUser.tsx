@@ -1,9 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
 import { useModalState } from "../../../store/modal";
 import { useUserProfileState } from "../../../store/profile";
 import { instance } from "components/Util/axios";
-import { useEffect, useState } from "react";
 
 const svgWidth = 100;
 const svgHeight = 100;

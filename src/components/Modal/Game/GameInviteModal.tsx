@@ -1,7 +1,6 @@
 import SpecialCheck from "../../../img/Main/SpecialCheck.svg";
 import SpecialUncheck from "../../../img/Main/SpecialUncheck.svg";
 import { useState } from "react";
-import ModalHeader from "../ModalHeader";
 import { instance } from "components/Util/axios";
 import { useModalState } from "store/modal";
 

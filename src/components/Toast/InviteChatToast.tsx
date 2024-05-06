@@ -30,6 +30,7 @@ const InviteChatToast = (): JSX.Element => {
     return () => {
       clearTimeout(timerChatInvite);
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inviteChatInfo.inviteChatId]);
 
   async function getUserCount(db: Firestore, channelId: number) {
@@ -51,7 +52,7 @@ const InviteChatToast = (): JSX.Element => {
         const enterResponse = await instance.get(
           `/channels/enter/${response.data.channelId}`
         );
-        if (enterResponse.status == 200) {
+        if (enterResponse.status === 200) {
           setInChatInfo({
             ...inChatInfo,
             inChat: response.data.channelId,
@@ -85,7 +86,7 @@ const InviteChatToast = (): JSX.Element => {
   };
 
   const refuseChatInvite = async () => {
-    const response = await instance.delete(
+    await instance.delete(
       `/channels/refuse/${inviteChatInfo.inviteChatId}`
     );
     setInviteChatInfo({ inviteChatId: -1, inviteChatUserNickname: "" });
@@ -100,7 +101,7 @@ const InviteChatToast = (): JSX.Element => {
             <strong>{inviteChatInfo.inviteChatUserNickname}</strong> 님의 그룹방
             초대를 수락하시겠습니까?
           </p>
-          <section className="flex w-full justify-evenly py-2 text-white">
+          <section className="flex w-full py-2 text-white justify-evenly">
             <button onClick={acceptChatInvite}>수락</button>
             <button onClick={refuseChatInvite}>거절</button>
           </section>

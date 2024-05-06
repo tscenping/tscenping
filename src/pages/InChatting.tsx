@@ -16,11 +16,12 @@ const InChattingPage = (): JSX.Element => {
 
   useEffect(() => {
     setInChatInfo({ ...inChatInfo, inChat: 0 });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Container>
-      <section className="h-full w-full">
+      <section className="w-full h-full">
         <div id="chatUserListModal" />
         {mode ? (
           <InviteChat />

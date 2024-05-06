@@ -2,7 +2,7 @@ import { DropDownProps } from "types/DropDownTypes";
 import { dropDownStyle } from "../Normal/NormalDropDown";
 import useDorpDownIcon from "hooks/useDropDownIcon";
 import { useModalState } from "store/modal";
-import { useChat, useChatSetting } from "store/chat";
+import { useChatSetting } from "store/chat";
 import useAxios from "hooks/useAxios";
 
 interface Props {

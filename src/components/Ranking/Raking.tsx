@@ -38,7 +38,7 @@ export default function Ranking() {
     }
   };
 
-  const { isPending, error, data } = useQuery({
+  const {  data } = useQuery({
     queryKey: ["rankingData"],
     queryFn: getRanking,
   });
@@ -48,6 +48,7 @@ export default function Ranking() {
     const paginatedItems = chunkArray(rankingData?.rankUsers, 10);
     if (!paginatedItems) return;
     setRankingDataChunks(paginatedItems);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   useEffect(() => {
@@ -57,8 +58,8 @@ export default function Ranking() {
   }, [rankingData]);
 
   return (
-    <div className="relative flex flex-col w-full self-start mt-24">
-      <div className="flex justify-between items-center w-full font-bold mb-8">
+    <div className="relative flex flex-col self-start w-full mt-24">
+      <div className="flex items-center justify-between w-full mb-8 font-bold">
         <p className="font-[League-Spartan] text-2xl">User Ranking</p>
         <p className="opacity-40">2024.03.01 기준</p>
       </div>

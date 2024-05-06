@@ -1,11 +1,7 @@
 import { channelSocket } from "socket/ChannelSocket";
-import {
-  MessageType,
-  InviteChatTypes,
-  InviteChatSocketDataTypes,
-} from "types/ChatTypes";
+import { MessageType, InviteChatSocketDataTypes } from "types/ChatTypes";
 import { useMessage, useInviteChat } from "store/chat";
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import {
   collection,
   updateDoc,
@@ -13,22 +9,20 @@ import {
   query,
   where,
 } from "firebase/firestore/lite";
-import { useMyData } from "store/profile";
-import { GameInviteType, GameMatchType, InviteInType } from "types/GameTypes";
+import { GameMatchType, InviteInType } from "types/GameTypes";
 import { useGameInviteState, useGameMatchState } from "store/game";
 import { useNavigate } from "react-router-dom";
 import { useToastState } from "store/toast";
 import firebaseSetting from "func/settingFirebase";
-import { useBlocks } from "store/friend";
 
 const ChannelSocketHandler = () => {
   const { setChatLog } = useMessage();
   const navigation = useNavigate();
-  const { myData } = useMyData();
+
   const { db } = firebaseSetting();
-  const { blockUsers } = useBlocks();
+
   const { inviteType, setGameInviteState } = useGameInviteState();
-  const { toastName, setToastState } = useToastState();
+  const { setToastState } = useToastState();
   const { setGameMatchState } = useGameMatchState();
   const { setInviteChatInfo, inviteChatInfo } = useInviteChat();
 
@@ -125,6 +119,7 @@ const ChannelSocketHandler = () => {
       channelSocket.off("error");
     };
     // })
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <></>;

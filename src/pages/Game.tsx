@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect,  useState } from "react";
 import Container from "../components/Util/Container";
 import GameFrame from "../components/Game/GameFrame";
 import Score from "../components/Game/Score";
@@ -59,6 +59,7 @@ export default function Game() {
       gameSocket.off("serverGameReady", gameInitHandler);
       gameSocket.off("matchEnd", matchEndHandler);
     };
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Container>
