@@ -35,7 +35,7 @@ export default function Main() {
       {inChatInfo.inChat ? (
         <ChatLog />
       ) : (
-        <div className="relative flex flex-col justify-around w-full gap-4">
+        <div className="relative flex flex-col justify-around w-full gap-4 self-start mt-24">
           <MainProfile />
           <MatchBtn />
           <Ranking />

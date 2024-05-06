@@ -57,9 +57,9 @@ export default function Ranking() {
   }, [rankingData]);
 
   return (
-    <div className="relative flex flex-col w-full">
-      <div className="flex justify-between w-full font-bold">
-        <p>User Ranking</p>
+    <div className="relative flex flex-col w-full self-start mt-24">
+      <div className="flex justify-between items-center w-full font-bold mb-8">
+        <p className="font-[League-Spartan] text-2xl">User Ranking</p>
         <p className="opacity-40">2024.03.01 기준</p>
       </div>
       {rankingDataChunks && rankingDataChunks.length > 1 ? (
