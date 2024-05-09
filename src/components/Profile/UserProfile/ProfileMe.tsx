@@ -38,6 +38,7 @@ export default function ProfileMe(props: MyProfileProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   function isWithinThreeDays(fileName: string) {
+    if (userProfileState.avatar === null) return false;
     // 파일명에서 날짜 부분을 추출
     const dateString = fileName.slice(-11, -5); // 파일명에서 년월일 부분 추출
 
