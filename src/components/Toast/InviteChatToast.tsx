@@ -86,9 +86,7 @@ const InviteChatToast = (): JSX.Element => {
   };
 
   const refuseChatInvite = async () => {
-    await instance.delete(
-      `/channels/refuse/${inviteChatInfo.inviteChatId}`
-    );
+    await instance.delete(`/channels/refuse/${inviteChatInfo.inviteChatId}`);
     setInviteChatInfo({ inviteChatId: -1, inviteChatUserNickname: "" });
     setToastState(null);
   };
