@@ -111,7 +111,6 @@ const ChannelSocketHandler = () => {
     channelSocket.on("notice", receiveChatNoticeSocketHandler);
     channelSocket.on("privateAlert", chatInviteHandler);
     channelSocket.on("error", dupLoginCheck);
-    // console.log("리랜더링");
     return () => {
       channelSocket.off("gameInvitation", gameInviteHandler);
       channelSocket.off("gameInvitationReply", gameInviteResponseHandler);

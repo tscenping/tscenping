@@ -96,12 +96,14 @@ const ChatLog = (): JSX.Element => {
             {/* eslint-disable-next-line array-callback-return */}
             {chatLog.map((el, index) => {
               if (el.eventType && el.channelId === inChatInfo.inChat) {
-                <ChatNotice
-                  nickname={el.nickname}
-                  noticeType={el.eventType}
-                  channelId={el.channelId}
-                  key={index}
-                />;
+                return (
+                  <ChatNotice
+                    nickname={el.nickname}
+                    noticeType={el.eventType}
+                    channelId={el.channelId}
+                    key={index}
+                  />
+                );
               } else if (el.channelId === inChatInfo.inChat) {
                 // blockUsers 배열에서 현재 메시지의 닉네임이 있는지 확인
                 const blockedUser =
@@ -122,7 +124,7 @@ const ChatLog = (): JSX.Element => {
                   );
                 } else {
                   // 차단되지 않은 유저인 경우 메시지를 렌더링
-                  el.nickname === myData.nickname ? (
+                  return el.nickname === myData.nickname ? (
                     <MyMessage
                       nickname={el.nickname}
                       message={el.message}
@@ -142,7 +144,7 @@ const ChatLog = (): JSX.Element => {
                   );
                 }
               }
-              return null;
+              return <></>;
             })}
             <div ref={messageEndRef}></div>
           </ul>
