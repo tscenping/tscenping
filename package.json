@@ -34,7 +34,7 @@
     "zustand": "^4.5.2"
   },
   "scripts": {
-    "start": "export PORT=3003 && HTTPS=true SSL_KEY_FILE=./.cert/localhost-key.pem SSL_CRT_FILE=./.cert/localhost.pem react-scripts start",
+    "start": "export PORT=3003 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
