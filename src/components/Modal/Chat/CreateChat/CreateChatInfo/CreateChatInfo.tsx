@@ -65,7 +65,8 @@ const CreateChatInfo = (): JSX.Element => {
         "/channels",
         JSON.stringify(sendData)
       );
-      if (response.statusText === "Created") {
+      console.log(response);
+      if (response.status === 201) {
         addFireStore(response.data.channelId);
         setModalName(null);
         setInChatInfo({

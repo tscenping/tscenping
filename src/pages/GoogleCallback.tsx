@@ -15,6 +15,7 @@ const GoogleCallbackPage = (): JSX.Element => {
   const { setMyData, myData } = useMyData();
 
   useEffect(() => {
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     const urlParams = new URLSearchParams(window.location.search);
     const codeValue = { code: urlParams.get("code") };
 
@@ -52,7 +53,6 @@ const GoogleCallbackPage = (): JSX.Element => {
         }
       }
     };
-
     loginAuthHandler();
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
