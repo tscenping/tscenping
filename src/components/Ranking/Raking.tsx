@@ -38,7 +38,7 @@ export default function Ranking() {
     }
   };
 
-  const {  data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["rankingData"],
     queryFn: getRanking,
   });
@@ -58,7 +58,7 @@ export default function Ranking() {
   }, [rankingData]);
 
   return (
-    <div className="relative flex flex-col self-start w-full mt-24">
+    <div className="relative flex flex-col self-start w-full mt-14">
       <div className="flex items-center justify-between w-full mb-8 font-bold">
         <p className="font-[League-Spartan] text-2xl">User Ranking</p>
         <p className="opacity-40">2024.03.01 기준</p>
