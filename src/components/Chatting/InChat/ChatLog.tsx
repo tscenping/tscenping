@@ -40,7 +40,7 @@ const ChatLog = (): JSX.Element => {
 
     const chatLogData = {
       nickname: myData.nickname,
-      avatar: myData.avatar,
+      avatar: myData.avatar ? myData.avatar : null,
       message: trimmedMessage,
       time: resultTime,
       channelId: inChatInfo.inChat,
