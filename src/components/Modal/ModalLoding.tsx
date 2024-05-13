@@ -41,7 +41,7 @@ export default function ModalLoding() {
         <img src={lodingImg} alt="loding" className="items-center w-1/3" />
         <div>게임을 찾는중</div>
         <button
-          className="rounded-[12px] w-1/2 bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105"
+          className="rounded-[12px] min-h-7 w-1/2 bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105"
           onClick={() => {
             matchCancelHandler();
           }}

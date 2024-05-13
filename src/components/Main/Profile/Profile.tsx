@@ -8,9 +8,8 @@ const svgHeight = 60;
 export default function MainProfile() {
   const { setModalName, setModalProps } = useModalState();
   const { myData } = useMyData();
-
   return (
-    <span className="relative flex flex-col items-center justify-center gap-1.5 h-1/4 mb-5">
+    <span className="relative flex flex-col items-center justify-center gap-1.5 h-1/4">
       <img
         // src={defailtImg}
 
