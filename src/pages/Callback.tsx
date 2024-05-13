@@ -27,13 +27,6 @@ const LoginCallbackPage = (): JSX.Element => {
           JSON.stringify(codeValue)
         );
         if (response.status === 201) {
-          setMyData({
-            nickname: response.data.nickname,
-            id: response.data.userId,
-            isMfaEnabled: response.data.isMfaEnabled,
-            mfaCode: response.data.mfaUrl,
-            avatar: response.data.avatar,
-          });
           if (response.data.isFirstLogin) navigate("/login/userinfo");
           if (!response.data.isFirstLogin && !response.data.isMfaEnabled)
             navigate("/");
