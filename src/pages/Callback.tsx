@@ -13,7 +13,7 @@ const LoginCallbackPage = (): JSX.Element => {
   const { setModalName } = useModalState();
   const { setContent } = useNoticeModalState();
   const instance = useAxios();
-  const { setMyData, myData } = useMyData();
+  const {myData } = useMyData();
 
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
