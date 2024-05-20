@@ -2,7 +2,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import main from "img/Footer/main.svg";
 import friends from "img/Footer/friends.svg";
 import chatting from "img/Footer/chatting.svg";
-import notice from "img/Footer/notice.svg";
 import inMain from "img/Footer/inMain.svg";
 import inFriends from "img/Footer/inFriends.svg";
 import inChatting from "img/Footer/inChatting.svg";
