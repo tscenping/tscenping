@@ -89,7 +89,7 @@ const ChatLog = (): JSX.Element => {
 
   return (
     <section className="flex flex-col justify-between w-full h-full">
-      <section className="relative h-9/10 xs:h-5/6 xxs:h-4/5 md:h-5/6 lg:h-9/10">
+      <section className="relative h-ratio-94 xs:h-ratio-92 md:h-ratio-91 lg:h-ratio-92 xl:h-ratio-91">
         <InChatHeader />
         <section className="h-full p-3">
           <ul className="flex flex-col h-full overflow-y-auto scrollbar-hide ">

@@ -142,9 +142,11 @@ const ChatUserLists = (): JSX.Element => {
   });
 
   return (
-    <section className="pl-6 pt-14 pb-10 text-base md:font-lg font-[Pretendard-SemiBold] flex flex-col justify-between h-full">
+    <section className="pl-6 pt-6 sm:pt-10 md:pt-14 pb-6 sm:pb-8 md:pb-10 text-base md:font-lg font-[Pretendard-SemiBold] flex flex-col justify-between h-full">
       <section>
-        <header className="pb-10">채팅 상대</header>
+        <header className="pb-8 sm:pb-9 md:pb-10 text-lg sm:text-xl md:text-2xl">
+          채팅 상대
+        </header>
         <ul className="pr-5">
           {inChatInfo.chatUsers &&
             inChatInfo.chatUsers.map((el) => (
@@ -163,7 +165,7 @@ const ChatUserLists = (): JSX.Element => {
         </ul>
       </section>
       <section className="pt-5 pr-5">
-        <h1 className="font-[Pretendard-SemiBold] text-base sm:text-lg lg:text-xl xl:text-3xl pb-5 sm:pb-7 lg:pb-9 xl:pb-11">
+        <h1 className="font-[Pretendard-SemiBold] text-base sm:text-lg lg:text-xl xl:text-2xl pb-5 sm:pb-7 lg:pb-9 xl:pb-11">
           채팅방 설정
         </h1>
         <ul>
@@ -195,7 +197,7 @@ const ChatUserLists = (): JSX.Element => {
                   }
                 }}
               >
-                <span className="text-sm sm:text-base lg:text-lg xl:text-2xl">
+                <span className="text-sm sm:text-base md:text-lg lg:text-xl">
                   채팅 모드 변경
                 </span>
                 <section className="flex items-end">
@@ -217,7 +219,7 @@ const ChatUserLists = (): JSX.Element => {
           {inChatInfo.myChannelUserType === "OWNER" &&
             inChatInfo.channelType === "PROTECTED" && (
               <li
-                className="mb-5 text-sm cursor-pointer sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
+                className="mb-5 cursor-pointer sm:mb-7 lg:mb-9 xl:mb-11 text-sm sm:text-base md:text-lg lg:text-xl"
                 onClick={() => {
                   setModalName("changeChatPassword");
                 }}
@@ -228,7 +230,7 @@ const ChatUserLists = (): JSX.Element => {
           {inChatInfo.myChannelUserType === "OWNER" &&
             inChatInfo.channelType === "PRIVATE" && (
               <li
-                className="mb-5 text-sm cursor-pointer sm:mb-7 lg:mb-9 xl:mb-11 sm:text-base lg:text-lg xl:text-2xl"
+                className="mb-5 cursor-pointer sm:mb-7 lg:mb-9 xl:mb-11 text-sm sm:text-base md:text-lg lg:text-xl"
                 onClick={() => {
                   setMode(true);
                   setModalName(null);
@@ -251,7 +253,7 @@ const ChatUserLists = (): JSX.Element => {
               setModalName("chatSetting");
             }}
           >
-            <span className="text-sm cursor-pointer sm:text-base lg:text-lg xl:text-2xl">
+            <span className="cursor-pointer text-sm sm:text-base md:text-lg lg:text-xl">
               채팅방 나가기
             </span>
             <img

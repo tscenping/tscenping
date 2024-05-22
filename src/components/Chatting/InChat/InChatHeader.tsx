@@ -11,7 +11,7 @@ const InChatHeader = (): JSX.Element => {
 
   return (
     <>
-      <header className="flex w-full justify-between items-center px-4 py-4">
+      <header className="flex w-full justify-between items-center">
         <img
           src={back}
           alt=""
@@ -21,10 +21,10 @@ const InChatHeader = (): JSX.Element => {
             setParseChatLog([]);
           }}
         />
-        <section className="font-[Pretendard-SemiBold] text-lg sm:text-xl md:text-2xl">
-          <strong className="mr-4">{inChatInfo.chatTitle}</strong>
+        <section className="font-[Pretendard-SemiBold] xxs:text-base xs:text-lg sm:text-xl md:text-2xl">
+          <strong>{inChatInfo.chatTitle}</strong>
           {inChatInfo.channelType !== "DM" && (
-            <span className="text-[#9e9e9e]">
+            <span className="ml-4 text-[#9e9e9e]">
               {inChatInfo.chatUsersCount}/10
             </span>
           )}
@@ -32,7 +32,7 @@ const InChatHeader = (): JSX.Element => {
         <img
           src={setting}
           alt=""
-          className="w-8 md:w-10 cursor-pointer"
+          className="w-5 xxs:w-6 xs:w-7 sm:w-8 md:w-10 cursor-pointer"
           onClick={() => {
             setModalName("chatUserList");
           }}
