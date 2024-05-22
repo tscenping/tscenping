@@ -25,6 +25,7 @@ export default function Main() {
 
   return (
     <Container>
+      <div id="chatUserListModal" />
       {inChatInfo.inChat ? (
         <ChatLog />
       ) : (

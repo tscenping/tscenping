@@ -1,5 +1,5 @@
 import DropDown from "../DropDown/DropDown";
-import userSetting from "../../img/Friends/user3dot.svg";
+import userSetting from "../../img/Friends/3dot.svg";
 import { DropDownTypes } from "../../types/DropDownTypes";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -51,11 +51,13 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
         props.nickname === "" ? "hidden" : ""
       }`}
     >
-      <section className="flex items-center" 
-      onClick={() => {
-        setModalProps({ nickname: props.nickname });
-        setModalName("profile");
-      }}>
+      <section
+        className="flex items-center"
+        onClick={() => {
+          setModalProps({ nickname: props.nickname });
+          setModalName("profile");
+        }}
+      >
         <section className="relative">
           <img
             src={props.avatar ? props.avatar : defaultProfile}
@@ -71,13 +73,13 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
         </span>
       </section>
       <img
-        className="w-1 cursor-pointer"
+        className="w-6 sm:w-7 md:w-8 cursor-pointer"
         alt="user setting icon"
         src={userSetting}
         onClick={() => {
           if (dropDownType === "NONE") setDropDownType("NORMAL");
           if (dropDownType === "NORMAL") setDropDownType("NONE");
-          console.log(dropDownType)
+          console.log(dropDownType);
         }}
       />
       {dropDownType !== "NONE" && (

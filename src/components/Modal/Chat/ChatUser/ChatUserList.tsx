@@ -1,5 +1,5 @@
 import { useState } from "react";
-import userSetting from "img/Chatting/setting.svg";
+import userSetting from "img/Friends/3dot.svg";
 import { ChatUsersInfoTypes } from "types/ChatTypes";
 import { DropDownTypes } from "types/DropDownTypes";
 import DropDown from "components/DropDown/DropDown";
@@ -20,9 +20,10 @@ const ChatUserList = (props: ChatUsersInfoTypes): JSX.Element => {
         <img
           src={props.avatar ? props.avatar : defaultProfile}
           alt="profile"
-          className="object-cover w-10 h-10 mr-3 rounded-full sm:w-12 sm:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
+          // className="object-cover w-10 h-10 mr-3 rounded-full sm:w-12 sm:h-12 lg:w-13 lg:h-13 xl:w-16 xl:h-16"
+          className="object-cover mr-3 rounded-full h-full w-1/4 sm:w-1/3"
         />
-        <span className="font-[Pretendard] text-sm sm:text-base lg:text-lg xl:text-2xl">
+        <span className="font-[Pretendard] text-sm sm:text-base lg:text-lg xl:text-xl">
           {props.nickname}
         </span>
       </section>
@@ -30,7 +31,7 @@ const ChatUserList = (props: ChatUsersInfoTypes): JSX.Element => {
         inChatInfo.channelType !== "DM" && (
           <img
             src={userSetting}
-            className="cursor-pointer w-0.5 sm:w-1"
+            className="cursor-pointer w-6 sm:w-7 md:w-8"
             alt="img"
             onClick={() => {
               if (dropDownType === "NONE") setDropDownType("CHAT");

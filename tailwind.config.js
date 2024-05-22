@@ -8,8 +8,8 @@ module.exports = {
         defaultBg: "#2D2D2D",
       },
       screens: {
-        xxs: { min: "320px", max: "360px" },
-        xs: { min: "360px", max: "432px" },
+        xxs: { min: "320px", max: "380px" },
+        xs: { min: "381px", max: "432px" },
       },
       height: {
         "screen-80": "80vh",
@@ -17,9 +17,16 @@ module.exports = {
         "screen-90": "90vh",
         "screen-95": "95vh",
         "screen-75": "75vh",
-        "5/6": "85%",
-        "9/10": "90%",
         "4/5": "80%",
+        "ratio-82": "82%",
+        "5/6": "86%",
+        "ratio-87": "87%",
+        "ratio-88": "88%",
+        "ratio-90": "90%",
+        "ratio-91": "91%",
+        "ratio-92": "92%",
+        "ratio-93": "93%",
+        "ratio-94": "94%",
       },
       width: {
         "screen-50": "50vw",
@@ -35,9 +42,9 @@ module.exports = {
         "3/5": "60%",
       },
       boxShadow: {
-        inner: 'inset 0 0 0 2px #FFFFFF',
-        winInner: 'inset 0 0 0 1px black'
-      }
+        inner: "inset 0 0 0 2px #FFFFFF",
+        winInner: "inset 0 0 0 1px black",
+      },
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],
