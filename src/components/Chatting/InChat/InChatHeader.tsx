@@ -1,5 +1,6 @@
 import back from "img/Friends/backUsers.svg";
-import setting from "img/Chatting/setting.svg";
+// import setting from "img/Chatting/setting.svg";
+import setting from "img/Friends/3dot.svg";
 import { useModalState } from "store/modal";
 import { useChat, useMessage } from "store/chat";
 
@@ -14,7 +15,7 @@ const InChatHeader = (): JSX.Element => {
         <img
           src={back}
           alt=""
-          className="w-3 sm:w-3 md:w-4 cursor-pointer"
+          className="w-3 md:w-4 cursor-pointer"
           onClick={() => {
             setEmptyInChatInfo();
             setParseChatLog([]);
@@ -31,7 +32,7 @@ const InChatHeader = (): JSX.Element => {
         <img
           src={setting}
           alt=""
-          className="w-1 cursor-pointer"
+          className="w-8 md:w-10 cursor-pointer"
           onClick={() => {
             setModalName("chatUserList");
           }}

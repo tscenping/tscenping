@@ -201,14 +201,14 @@ const ChatUserLists = (): JSX.Element => {
                 <section className="flex items-end">
                   <img
                     src={inChatInfo.channelType === "PROTECTED" ? lock : unlock}
-                    className="cursor-pointer w-[28px]"
+                    className="cursor-pointer w-5 sm:w-6 md:w-7"
                     alt="Change chat mode password"
                   />
                   <img
                     src={
                       inChatInfo.channelType === "PROTECTED" ? password : open
                     }
-                    className="ml-4 cursor-pointer w-[36px]"
+                    className="ml-4 cursor-pointer w-7 sm:w-8 md:w-9"
                     alt="Change chat mode"
                   />
                 </section>
@@ -254,7 +254,11 @@ const ChatUserLists = (): JSX.Element => {
             <span className="text-sm cursor-pointer sm:text-base lg:text-lg xl:text-2xl">
               채팅방 나가기
             </span>
-            <img src={exitChat} className="w-6 sm:w-7 md:w-8 lg:w-9" alt="exitImg" />
+            <img
+              src={exitChat}
+              className="w-6 sm:w-7 md:w-8 lg:w-9"
+              alt="exitImg"
+            />
           </li>
         </ul>
       </section>
