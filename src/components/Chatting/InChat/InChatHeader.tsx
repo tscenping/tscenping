@@ -1,5 +1,6 @@
 import back from "img/Friends/backUsers.svg";
-import setting from "img/Chatting/setting.svg";
+// import setting from "img/Chatting/setting.svg";
+import setting from "img/Friends/3dot.svg";
 import { useModalState } from "store/modal";
 import { useChat, useMessage } from "store/chat";
 
@@ -10,20 +11,20 @@ const InChatHeader = (): JSX.Element => {
 
   return (
     <>
-      <header className="flex w-full justify-between items-center px-4 py-4">
+      <header className="flex w-full justify-between items-center">
         <img
           src={back}
           alt=""
-          className="w-3 sm:w-3 md:w-4 cursor-pointer"
+          className="w-3 md:w-4 cursor-pointer"
           onClick={() => {
             setEmptyInChatInfo();
             setParseChatLog([]);
           }}
         />
-        <section className="font-[Pretendard-SemiBold] text-lg sm:text-xl md:text-2xl">
-          <strong className="mr-4">{inChatInfo.chatTitle}</strong>
+        <section className="font-[Pretendard-SemiBold] xxs:text-base xs:text-lg sm:text-xl md:text-2xl">
+          <strong>{inChatInfo.chatTitle}</strong>
           {inChatInfo.channelType !== "DM" && (
-            <span className="text-[#9e9e9e]">
+            <span className="ml-4 text-[#9e9e9e]">
               {inChatInfo.chatUsersCount}/10
             </span>
           )}
@@ -31,7 +32,7 @@ const InChatHeader = (): JSX.Element => {
         <img
           src={setting}
           alt=""
-          className="w-1 cursor-pointer"
+          className="w-5 xxs:w-6 xs:w-7 sm:w-8 md:w-10 cursor-pointer"
           onClick={() => {
             setModalName("chatUserList");
           }}

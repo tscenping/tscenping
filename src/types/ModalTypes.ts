@@ -25,7 +25,7 @@ export interface ModalProps {
   isFriend?: boolean;
   isBlocked?: boolean;
   id?: number;
-  acceptFunction?: () => void;
+  acceptFunction?: () => Promise<void> | void;
   declineFunction?: () => void;
   mutate?: () => void;
 }
