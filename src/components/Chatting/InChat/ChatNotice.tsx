@@ -141,7 +141,7 @@ const ChatNotice = (props: ChatNoticeProps): JSX.Element => {
   }, []);
 
   return (
-    <section className="my-2 flex font-[Pretendard-Regular] text-[#dadada] text-xs xs:text-sm md:text-base justify-center w-full">
+    <section className="pb-4 sm:pb-6 md:pb-7 flex font-[Pretendard-Regular] text-[#dadada] text-xs xs:text-sm md:text-base justify-center w-full">
       {props.nickname}님이 {eventType}
     </section>
   );
