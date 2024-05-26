@@ -60,8 +60,7 @@ export default function Ranking() {
   return (
     <div className="relative flex flex-col self-start w-full mt-6 sm:mt-10 md:mt-14">
       <div className="flex items-center justify-between w-full mb-8 font-bold">
-        <p className="font-[League-Spartan] text-2xl">User Ranking</p>
-        <p className="opacity-40">2024.03.01 기준</p>
+        <p className="font-[League-Spartan] subtitle-text">User Ranking</p>
       </div>
       {rankingDataChunks && rankingDataChunks.length > 1 ? (
         <Swiper

@@ -1,5 +1,3 @@
-
-
 interface ImageResizingProps {
   file: File;
   maxWidth: number;
@@ -24,6 +22,13 @@ export function resizeImage({
         const canvas = document.createElement("canvas");
         let width = img.width;
         let height = img.height;
+
+        // 이미지를 정사각형으로 리사이징
+        if (width > height) {
+          width = height;
+        } else {
+          height = width;
+        }
 
         // 이미지 크기 조절
         if (width > maxWidth) {

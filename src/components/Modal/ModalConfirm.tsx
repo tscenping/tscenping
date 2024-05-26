@@ -4,7 +4,7 @@ export default function ModalConfirm() {
   const { prevName, setModalName, modalProps } = useModalState();
   return (
     <div className="flex flex-col w-full h-full gap-10 p-5">
-      <pre className="text-xl">{modalProps?.confirmMsg}</pre>
+      <div className="text-xl">{modalProps?.confirmMsg}</div>
       <div className="flex flex-row gap-5 cursor-pointer">
         <button
           className="rounded-[12px] w-1/2 bg-customGreen min-h-[40px]  

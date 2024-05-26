@@ -20,7 +20,7 @@ interface RecentMatchData {
 
 export default function RecentMatch() {
   const { userProfileState } = useUserProfileState();
-  const { nickname } = userProfileState;
+  const { nickname, avatar } = userProfileState;
   const [matchData, setMatchData] = useState<RecentMatchData[]>();
 
   const fetchPage = async (page: unknown) => {
@@ -65,9 +65,11 @@ export default function RecentMatch() {
                     dataChunk.gameHistories.map((data, i) => (
                       <RecentMatchContent
                         leftname={nickname}
+                        leftavatar={avatar}
                         leftscore={data.myscore}
                         rightname={data.rivalname}
                         rightscore={data.rivalscore}
+                        rightavatar={data.rivalavatar}
                         // isWinner={data.isWinner}
                         key={`${data.rivalname}${i} `}
                       />

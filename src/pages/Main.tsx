@@ -28,11 +28,11 @@ export default function Main() {
       {inChatInfo.inChat ? (
         <ChatLog />
       ) : (
-        <div className="relative flex flex-col self-start justify-around w-full gap-4 mt-6 sm:mt-10 md:mt-14">
+        <section className="relative flex flex-col w-full h-full pt-5">
           <MainProfile />
           <MatchBtn />
           <Ranking />
-        </div>
+        </section>
       )}
     </Container>
   );
