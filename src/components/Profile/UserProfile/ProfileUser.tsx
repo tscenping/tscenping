@@ -1,8 +1,8 @@
-
 import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
 import { useModalState } from "../../../store/modal";
 import { useUserProfileState } from "../../../store/profile";
 import { instance } from "components/Util/axios";
+import { useChat } from "store/chat";
 
 const svgWidth = 100;
 const svgHeight = 100;
@@ -10,7 +10,7 @@ const svgHeight = 100;
 export default function ProfileUser({ refetch }: { refetch: Function }) {
   const { setModalName, setModalProps } = useModalState();
   const { userProfileState } = useUserProfileState();
-
+  const { inChatInfo, setInChatInfo } = useChat();
   // 친구면
   // 친구삭제, 차단하기
   // 차단이면
@@ -32,7 +32,30 @@ export default function ProfileUser({ refetch }: { refetch: Function }) {
       console.log(e);
     }
   };
-  console.log(userProfileState)
+
+  const createOneToOneChatApiHandler = async () => {
+    try {
+      const response = await instance.post("/channels", {
+        name: userProfileState.nickname,
+        channelType: "DM",
+        password: null,
+        userId: userProfileState.id,
+      });
+      if (response.status === 201) {
+        setInChatInfo({
+          ...inChatInfo,
+          inChat: response.data.channelId,
+          chatTitle: userProfileState.nickname,
+          chatUsersCount: 2,
+          channelType: "DM",
+          chatUsers: response.data.channelUsers,
+        });
+        setModalName(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="flex flex-row items-center gap-4 justify-normal">
@@ -78,8 +101,11 @@ export default function ProfileUser({ refetch }: { refetch: Function }) {
             onClick={() => {
               setModalName("confirm");
               setModalProps({
+                nickname: userProfileState?.nickname,
                 confirmType: "chat",
                 confirmMsg: "1:1 채팅을 시작하시겠습니까?",
+                acceptFunction: createOneToOneChatApiHandler,
+                declineFunction: () => setModalName(null),
               });
             }}
           >

@@ -42,7 +42,7 @@ const ChattingListHeader = (): JSX.Element => {
   };
 
   return (
-    <section className="px-4 py-7">
+    <section className="px-4 pb-5 sm:pb-6 md:pb-7 pt-4 sm:pt-5 md:pt-6">
       <section className="flex w-full justify-between items-center">
         <span className="text-[20px] font-bold md:text-[24px]">
           {pathName === "inchatting" ? "참여중인 전체 채팅방" : "오픈 채팅방"}
@@ -51,7 +51,7 @@ const ChattingListHeader = (): JSX.Element => {
           <img
             src={listRefresh}
             alt="chat list refresh"
-            className={`w-10 mr-5 cursor-pointer ${
+            className={`w-8 sm:w-9 md:w-10 mr-5 cursor-pointer ${
               refreshDisabled ? "opacity-50" : ""
             }`}
             onClick={refreshListApiHandler}
@@ -59,7 +59,7 @@ const ChattingListHeader = (): JSX.Element => {
           <img
             src={createChatting}
             alt="create chatting room"
-            className="w-10 cursor-pointer"
+            className="w-8 sm:w-9 md:w-10 cursor-pointer"
             onClick={() => setModalName("createChatMode")}
           />
         </section>

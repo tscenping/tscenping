@@ -3,12 +3,13 @@ import { useModalState } from "../../store/modal";
 export default function ModalConfirm() {
   const { prevName, setModalName, modalProps } = useModalState();
   return (
-    <div className="flex flex-col w-full h-full gap-10 p-5">
-      <div className="text-xl">{modalProps?.confirmMsg}</div>
-      <div className="flex flex-row gap-5 cursor-pointer">
+    <>
+      <pre className="text-base md:text-lg lg:text-xl xl:text-2xl font-[Pretendard-SemiBold] pt-5 mb-1">
+        {modalProps?.confirmMsg}
+      </pre>
+      <div className="flex pt-7">
         <button
-          className="rounded-[12px] w-1/2 bg-customGreen min-h-[40px]  
-          text-black min-w-[100px] font-bold hover:scale-105 cursor-pointer"
+          className="bg-customGreen text-[#404040] w-1/2 rounded-[20px] py-1.5 text-base mr-5 cursor-pointer"
           onClick={() => {
             modalProps?.acceptFunction!();
             if (prevName) setModalName(prevName);
@@ -18,8 +19,7 @@ export default function ModalConfirm() {
           Yes
         </button>
         <button
-          className="rounded-[12px] w-1/2 bg-[#FFFFFF] min-h-[40px]
-          text-black min-w-[100px] font-bold hover:scale-105 cursor-pointer"
+          className="bg-white w-1/2 text-[#404040] rounded-[20px] py-1.5 text-base cursor-pointer"
           onClick={() => {
             if (prevName) setModalName(prevName);
             else setModalName(null);
@@ -28,6 +28,6 @@ export default function ModalConfirm() {
           No
         </button>
       </div>
-    </div>
+    </>
   );
 }

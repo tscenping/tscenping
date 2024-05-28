@@ -19,7 +19,6 @@ export default function UserProfilePage({ nickname }: UserProps) {
   const getProfileData = async () => {
     try {
       const response = await instance.get(`users/profile/${nickname}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
