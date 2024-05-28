@@ -4,9 +4,11 @@ import loseIcon from "../../../img/Profile/Lose.svg";
 
 interface RecentMatchContentProps {
   leftname: string;
+  leftavatar: string;
   leftscore: number;
   rightname: string;
   rightscore: number;
+  rightavatar: string;
 }
 
 const svgWidth = 24;
@@ -15,9 +17,11 @@ const contentStyle = "w-1/4 flex items-center justify-center";
 
 export default function RecentMatchContent({
   leftname,
+  leftavatar,
   leftscore,
   rightname,
   rightscore,
+  rightavatar,
 }: RecentMatchContentProps) {
   const truncateText = function (str: string, maxLength: number) {
     if (!str) return;
@@ -42,15 +46,29 @@ export default function RecentMatchContent({
   };
 
   return (
-    <li className="relative flex items-center justify-around w-full h-auto px-3 ">
-      {leftscore > rightscore ? <img src={winIcon} alt="loseIcon" className="absolute left-0" width={8} /> : <img src={loseIcon} alt="loseIcon" className="absolute left-0" width={8} />}
+    <li className="relative flex items-center justify-around w-full px-3 h-1/6 ">
+      {leftscore > rightscore ? (
+        <img
+          src={winIcon}
+          alt="loseIcon"
+          className="absolute left-0"
+          width={8}
+        />
+      ) : (
+        <img
+          src={loseIcon}
+          alt="loseIcon"
+          className="absolute left-0"
+          width={8}
+        />
+      )}
 
       <img
-        src={defailtImg}
+        src={leftavatar === null ? defailtImg : leftavatar}
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="min-w-[24px] max-w-[48px] w-1/10"
+        className="object-cover w-auto rounded-full h-7/10 aspect-auto"
       />
       <p className={`${contentStyle}`}>{truncateText(leftname, 8)}</p>
       {/* <p className="w-1/6"></p> */}
@@ -60,11 +78,11 @@ export default function RecentMatchContent({
       {/* <p className="w-1/6"></p> */}
       <p className={`${contentStyle}`}>{truncateText(rightname, 8)}</p>
       <img
-        src={defailtImg}
+        src={rightavatar === null ? defailtImg : rightavatar}
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="min-w-[24px] max-w-[48px] w-1/10"
+        className="object-cover rounded-full h-7/10 aspect-auto"
       />
     </li>
   );

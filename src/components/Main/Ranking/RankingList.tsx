@@ -11,9 +11,9 @@ import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
 import "swiper/css/grid";
 import "swiper/swiper-bundle.css";
-import { instance } from "../../Util/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import useAxios from "hooks/useAxios";
 
 
 
@@ -39,7 +39,7 @@ export default function RankingList() {
   const [rankingDataChunks, setRankingDataChunks] = useState<
     RankingDataChunk[][] | null
   >();
-
+  const instance = useAxios();
   const getRanking = async () => {
     try {
       const response = await instance.get(`users/rank`);

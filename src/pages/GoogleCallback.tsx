@@ -6,13 +6,14 @@ import Loading from "../img/Login/Loading.svg";
 import { useModalState, useNoticeModalState } from "../store/modal";
 import { useMyData } from "store/profile";
 import Mfa from "components/Login/Mfa";
-import { instance } from "components/Util/axios";
+import useAxios from "hooks/useAxios";
 
 const GoogleCallbackPage = (): JSX.Element => {
   const navigate = useNavigate();
   const { setModalName } = useModalState();
   const { setContent } = useNoticeModalState();
   const { setMyData, myData } = useMyData();
+  const instance = useAxios();
 
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps

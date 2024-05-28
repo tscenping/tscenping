@@ -3,8 +3,8 @@ import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
 import imgEditBtn from "../../../img/Profile/EditBtn.svg";
 
 import { useEffect, useRef, useState } from "react";
-import { instance } from "../../Util/axios";
 import ProfileImgEdit from "./ProfileImgEdit";
+import useAxios from "hooks/useAxios";
 
 const svgWidth = 60;
 const svgHeight = 60;
@@ -20,6 +20,7 @@ export default function ProfileMe(props: MyProfileProps) {
   const [statusMsg, setStatusMsg] = useState<string>(
     userProfileState.statusMessage
   );
+  const instance = useAxios();
 
   useEffect(() => {
     setStatusMsg(userProfileState.statusMessage);
@@ -106,7 +107,7 @@ export default function ProfileMe(props: MyProfileProps) {
             alt="profileImg"
             width={svgWidth}
             height={svgHeight}
-            className="rounded-full md:rounded-[40px] object-cover w-[70px] h-[70px]"
+            className="rounded-full object-cover w-[70px] h-[70px]"
           />
           <img
             src={imgEditBtn}

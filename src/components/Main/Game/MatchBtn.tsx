@@ -13,17 +13,17 @@ export default function MatchBtn() {
   };
 
   return (
-    <div className="relative flex flex-col items-center justify-center w-full max-w-5xl gap-4 mb-12 h-1/4 max-h-40">
+    <div className="relative flex flex-col items-center justify-center w-full max-w-5xl h-3/10 max-h-[300px]">
       <GameTypeSelector gameType={gameType} setGameType={setGameType} />
       <GameStartBtn gameType={gameType} isSpecial={isSpecial} />
       <div
-        className={`absolute -bottom-8 h-1/5 ${
+        className={`absolute -bottom-1 h-1/5 ${
           gameType === GameType.NORMAL ? "visible" : "invisible"
         } `}
       >
         <label
           htmlFor="SpecialMode"
-          className={`flex gap-3 hover:scale-130 cursor-pointer min-h-5 items-center justify-center transition-all duration-300 ease-in-out ${
+          className={`flex gap-3 hover:scale-130 cursor-pointer items-center justify-center transition-all duration-300 ease-in-out ${
             gameType === GameType.NORMAL ? "opacity-100" : "opacity-0"
           } `}
         >

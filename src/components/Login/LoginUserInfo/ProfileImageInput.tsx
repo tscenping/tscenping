@@ -31,7 +31,7 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
       if (!file) return;
       if (!supportedFormats.includes(file.type)) {
         alert(
-          "지원되지 않은 이미지 형식입니다. JPEG, PNG형식의 이미지를 업로드해주세요."
+          "지원되지 않은 이미지 형식입니다. JPEG 형식의 이미지를 업로드해주세요."
         );
         return;
       }
@@ -80,7 +80,7 @@ const ProfileImageInput = (props: ProfileImageInputProps): JSX.Element => {
         onChange={profileImageHandler}
       />
       <strong className="text-customGreen font-[Pretendard-Regular]">
-        사진은 1장, JPEG, PNG, SVG파일만 가능해요
+        사진은 1장, JPEG 파일만 가능해요
       </strong>
     </section>
   );

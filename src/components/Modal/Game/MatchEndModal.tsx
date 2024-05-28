@@ -17,7 +17,7 @@ export default function MatchEndModal() {
     <>
       <ModalHeader title="게임종료" />
       {matchEndData !== null && (
-        <section className="flex justify-evenly items-center mb-8">
+        <section className="flex items-center mb-8 justify-evenly">
           <div className="flex flex-col items-center gap-2">
             <section
               className={`${
@@ -40,7 +40,7 @@ export default function MatchEndModal() {
               {myData.nickname}
             </p>
           </div>
-          <div className="flex items-center justify-center gap-3 text-3xl aspect-ratio font-[League-Spartan] self-start mt-2">
+          <div className="flex items-center justify-center gap-3 text-3xl aspect-auto font-[League-Spartan] self-start mt-2">
             <h2
               className={`${
                 matchEndData.isWin ? "text-[#6DFCAF]" : ""

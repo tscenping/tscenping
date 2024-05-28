@@ -1,17 +1,18 @@
 import lodingImg from "../../img/Modal/ModalLoading.svg";
 import { useModalState } from "../../store/modal";
 import { useGameMatchState, useMatchSerchState } from "store/game";
-import { instance } from "components/Util/axios";
 import { useEffect } from "react";
 import { channelSocket } from "socket/ChannelSocket";
 import { GameMatchType } from "types/GameTypes";
 import { useNavigate } from "react-router-dom";
+import useAxios from "hooks/useAxios";
 
 export default function ModalLoding() {
   const { setModalName } = useModalState();
   const { setMatchSerchState, matchSerchProps } = useMatchSerchState();
   const { setGameMatchState } = useGameMatchState();
   const navigation = useNavigate();
+  const instance = useAxios();
 
   const matchCancelHandler = async () => {
     console.log("매칭 취소");
@@ -32,6 +33,9 @@ export default function ModalLoding() {
     channelSocket.once("gameMatched", matchSuccessHandler);
     return () => {
       channelSocket.off("gameMatched", matchSuccessHandler);
+      if (matchSerchProps) {
+        instance.delete(`/game/match/${matchSerchProps.gameType}`);
+      }
     };
   });
 

@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { instance } from "../Util/axios";
 import ProfileMatchData from "./MatchData/ProfileMatchData";
 import MatchHistory from "./MatchHistory/MatchHistory";
 import Setting from "./Setting/Setting";
@@ -7,6 +6,7 @@ import ProfileUser from "./UserProfile/ProfileUser";
 import { useEffect } from "react";
 import { useMyData, useUserProfileState } from "../../store/profile";
 import ProfileMe from "./UserProfile/ProfileMe";
+import useAxios from "hooks/useAxios";
 
 interface UserProps {
   nickname: string | undefined;
@@ -15,6 +15,7 @@ interface UserProps {
 export default function UserProfilePage({ nickname }: UserProps) {
   const { myData } = useMyData();
   const { setUserProfile } = useUserProfileState();
+  const instance = useAxios();
 
   const getProfileData = async () => {
     try {

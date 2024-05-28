@@ -3,8 +3,8 @@ import winIcon from "../../../img/Profile/Win.svg";
 import loseIcon from "../../../img/Profile/Lose.svg";
 import { useUserProfileState } from "../../../store/profile";
 import React, { useEffect, useState } from "react";
-import { instance } from "../../Util/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import useAxios from "hooks/useAxios";
 
 interface GameHistory {
   rivalname: string;
@@ -20,8 +20,9 @@ interface RecentMatchData {
 
 export default function RecentMatch() {
   const { userProfileState } = useUserProfileState();
-  const { nickname } = userProfileState;
+  const { nickname, avatar } = userProfileState;
   const [matchData, setMatchData] = useState<RecentMatchData[]>();
+  const instance = useAxios();
 
   const fetchPage = async (page: unknown) => {
     if (!nickname) return;
@@ -65,9 +66,11 @@ export default function RecentMatch() {
                     dataChunk.gameHistories.map((data, i) => (
                       <RecentMatchContent
                         leftname={nickname}
+                        leftavatar={avatar}
                         leftscore={data.myscore}
                         rightname={data.rivalname}
                         rightscore={data.rivalscore}
+                        rightavatar={data.rivalavatar}
                         // isWinner={data.isWinner}
                         key={`${data.rivalname}${i} `}
                       />
