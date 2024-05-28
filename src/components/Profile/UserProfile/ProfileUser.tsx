@@ -2,7 +2,6 @@ import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
 import useAxios from "hooks/useAxios";
 import { useModalState } from "../../../store/modal";
 import { useUserProfileState } from "../../../store/profile";
-import { instance } from "components/Util/axios";
 import { useChat } from "store/chat";
 
 const svgWidth = 100;
