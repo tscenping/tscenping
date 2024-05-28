@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate, useLocation } from "react-router-dom";
-import { instance } from "./axios";
 import { useMyData } from "../../store/profile";
+import useAxios from "hooks/useAxios";
 
 const LoginCheck = (): JSX.Element => {
   const { myData, setMyData } = useMyData();
   const navigate = useNavigate();
   const cookies = new Cookies();
-
+  const instance = useAxios();
   const location = useLocation();
   const pathName = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
@@ -29,21 +29,17 @@ const LoginCheck = (): JSX.Element => {
 
   useEffect(() => {
     if (pathName === "login") {
-      return ;
-    }
-    else if (pathName === "logincallback" || pathName === "googlecallback") {
       return;
-    }
-    else if (pathName === "userinfo" && cookies.get("accessToken")) {
+    } else if (pathName === "logincallback" || pathName === "googlecallback") {
+      return;
+    } else if (pathName === "userinfo" && cookies.get("accessToken")) {
       if (myData?.nickname === null || myData?.nickname === "") return;
       else navigate("/");
-    }
-    else if (!cookies.get("accessToken")) {
-      console.log(cookies.get("accessToken"), "쿠키 없음")
+    } else if (!cookies.get("accessToken")) {
+      console.log(cookies.get("accessToken"), "쿠키 없음");
       navigate("/login");
-    }
-    else if (myData?.nickname === "" || myData?.nickname === null ) {
-      console.log(myData, "myDataNickname 없음")
+    } else if (myData?.nickname === "" || myData?.nickname === null) {
+      console.log(myData, "myDataNickname 없음");
       console.log("getMyData");
       console.log(pathName);
       getMyData();
