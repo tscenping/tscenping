@@ -1,4 +1,4 @@
-import { instance } from "components/Util/axios";
+import useAxios from "hooks/useAxios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGameInviteState } from "store/game";
@@ -10,6 +10,7 @@ const duration = 500;
 export default function InviteGameToast() {
   const { inviteType, setGameInviteState } = useGameInviteState();
   const { setToastState } = useToastState();
+  const instance = useAxios();
   // const [viewToast, setViewToast] = useState(true);
   const navigate = useNavigate();
   let timeOut: NodeJS.Timeout;
@@ -34,7 +35,7 @@ export default function InviteGameToast() {
     console.log("invite toast");
     //eslint-disable-next-line react-hooks/exhaustive-deps
     timeOut = setTimeout(() => {
-      console.log("inTimeOut ")
+      console.log("inTimeOut ");
       if (timeOut !== null) {
         console.log("game invite auto decline");
         declineGameInvite();
@@ -48,7 +49,6 @@ export default function InviteGameToast() {
       });
       // setIsVisible(false);
     }, viewTime - duration);
-
 
     return () => {
       console.log(timeOut, "timeoutId");

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import defaultImg from "../../../img/Login/defaultProfileImage.svg";
 import profileImageBtn from "../../../img/Login/profileImageBtn.svg";
-import { instance } from "components/Util/axios";
 import axios from "axios";
 import { resizeImage } from "components/Util/ImageResizing";
+import useAxios from "hooks/useAxios";
 
 interface ProfileImgEditProps {
   refetch: Function;
@@ -16,6 +16,7 @@ export default function ProfileImgEdit(props: ProfileImgEditProps) {
   const [imgString, setImgString] = useState<string | null>(null);
   const [uploadImage, setUploadImage] = useState<File | null>(null);
   const [preSignedUrl, setPreSignedUrl] = useState<string | null>(null);
+  const instance = useAxios();
 
   const profileImageStyle =
     "w-[69px] h-[69px] mb-2 md:w-[88px] md:h-[88px] cursor-pointer rounded-[30px] md:rounded-[40px] object-cover";

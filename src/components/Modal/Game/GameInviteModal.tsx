@@ -1,7 +1,7 @@
+import useAxios from "hooks/useAxios";
 import SpecialCheck from "../../../img/Main/SpecialCheck.svg";
 import SpecialUncheck from "../../../img/Main/SpecialUncheck.svg";
 import { useState } from "react";
-import { instance } from "components/Util/axios";
 import { useModalState } from "store/modal";
 
 export default function GameInviteModal() {
@@ -10,7 +10,7 @@ export default function GameInviteModal() {
   const changeSpecial = () => {
     setIsSpecial((prev) => !prev);
   };
-
+  const instance = useAxios();
   const acceptHandler = async () => {
     console.log(modalProps?.id);
     try {

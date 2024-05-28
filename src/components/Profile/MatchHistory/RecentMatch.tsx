@@ -3,8 +3,8 @@ import winIcon from "../../../img/Profile/Win.svg";
 import loseIcon from "../../../img/Profile/Lose.svg";
 import { useUserProfileState } from "../../../store/profile";
 import React, { useEffect, useState } from "react";
-import { instance } from "../../Util/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import useAxios from "hooks/useAxios";
 
 interface GameHistory {
   rivalname: string;
@@ -22,6 +22,7 @@ export default function RecentMatch() {
   const { userProfileState } = useUserProfileState();
   const { nickname, avatar } = userProfileState;
   const [matchData, setMatchData] = useState<RecentMatchData[]>();
+  const instance = useAxios();
 
   const fetchPage = async (page: unknown) => {
     if (!nickname) return;

@@ -5,8 +5,8 @@ import SpecialCheck from "../../../img/Main/SpecialCheck.svg";
 import SpecialUncheck from "../../../img/Main/SpecialUncheck.svg";
 import { useState } from "react";
 import GameInviteUserList from "components/Game/GameInviteUserList";
-import { instance } from "components/Util/axios";
 import { useModalState } from "store/modal";
+import useAxios from "hooks/useAxios";
 
 interface selectUserInfoTypes {
   nickname?: string;
@@ -27,6 +27,7 @@ export default function GameInvitingModal() {
   const [selectUserInfo, setSelectUserInfo] = useState<selectUserInfoTypes | null>(null);
   const [isSpecial, setIsSpecial] = useState<boolean>(false);
   const { setModalName } = useModalState();
+  const instance = useAxios();
   const changeSpecial = () => {
     setIsSpecial((prev) => !prev);
   };
@@ -101,14 +102,14 @@ export default function GameInvitingModal() {
       </label>
       <button
         onClick={() => {
-          console.log(selectUserInfo?.nickname === undefined);
-          acceptHandler();
+          
+          {selectUserInfo && acceptHandler();}
           // setModalName(null);
           // setMatchEndData(null);
         }}
-        className="w-full py-2 text-[#404040] bg-[#6DFCAF] rounded-full mt-3"
+        className={`w-full py-2 text-[#404040] ${selectUserInfo ? "bg-[#6DFCAF]" : "bg-[#ffffff]"} rounded-full mt-3`}
       >
-        확인
+        초대하기
       </button>
     </>
   );

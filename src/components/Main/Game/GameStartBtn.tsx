@@ -1,4 +1,4 @@
-import { instance } from "components/Util/axios";
+import useAxios from "hooks/useAxios";
 import { useModalState } from "../../../store/modal";
 import { GameType } from "./GameTypeSelector";
 import { channelSocket } from "socket/ChannelSocket";
@@ -11,6 +11,7 @@ interface GameTypeSelectorProps {
 export default function GameStartBtn(props: GameTypeSelectorProps) {
   const { setModalName } = useModalState();
   const { setMatchSerchState } = useMatchSerchState();
+  const instance = useAxios();
 
   // 게임 매칭창
   // 매칭 시 -> game 페이지

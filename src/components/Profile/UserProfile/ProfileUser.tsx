@@ -1,4 +1,5 @@
 import defaultImg from "../../../../src/img/Main/DefaultPorfileImg.svg";
+import useAxios from "hooks/useAxios";
 import { useModalState } from "../../../store/modal";
 import { useUserProfileState } from "../../../store/profile";
 import { instance } from "components/Util/axios";
@@ -10,6 +11,7 @@ const svgHeight = 100;
 export default function ProfileUser({ refetch }: { refetch: Function }) {
   const { setModalName, setModalProps } = useModalState();
   const { userProfileState } = useUserProfileState();
+  const instance = useAxios();
   const { inChatInfo, setInChatInfo } = useChat();
   // 친구면
   // 친구삭제, 차단하기

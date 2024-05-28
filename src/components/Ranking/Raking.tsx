@@ -9,8 +9,8 @@ import {
   Autoplay,
 } from "swiper/modules";
 import { useEffect, useState } from "react";
-import { instance } from "../Util/axios";
 import { useQuery } from "@tanstack/react-query";
+import useAxios from "hooks/useAxios";
 
 interface RankingDataChunk {
   avatar: string;
@@ -28,6 +28,7 @@ export default function Ranking() {
   const [rankingDataChunks, setRankingDataChunks] = useState<
     RankingDataChunk[][] | null
   >();
+  const instance = useAxios();
 
   const getRanking = async () => {
     try {
