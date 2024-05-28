@@ -103,7 +103,7 @@ export default function GameInvitingModal() {
       <button
         onClick={() => {
           
-          {selectUserInfo && acceptHandler();}
+          {selectUserInfo && acceptHandler()}
           // setModalName(null);
           // setMatchEndData(null);
         }}

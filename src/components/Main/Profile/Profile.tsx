@@ -17,7 +17,7 @@ export default function MainProfile() {
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="object-cover rounded-[30px] cursor-pointer h-2/3 w-auto aspect-auto"
+        className="object-cover rounded-[40%] cursor-pointer h-2/3 w-auto aspect-square"
         onClick={() => {
           // setModalProps({nickname: })
           setModalName("profile");
