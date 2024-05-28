@@ -24,11 +24,11 @@ export function resizeImage({
         let height = img.height;
 
         // 이미지를 정사각형으로 리사이징
-        if (width > height) {
-          width = height;
-        } else {
-          height = width;
-        }
+        // if (width > height) {
+        //   width = height;
+        // } else {
+        //   height = width;
+        // }
 
         // 이미지 크기 조절
         if (width > maxWidth) {
@@ -39,6 +39,7 @@ export function resizeImage({
           width *= maxHeight / height;
           height = maxHeight;
         }
+        
 
         canvas.width = width;
         canvas.height = height;
