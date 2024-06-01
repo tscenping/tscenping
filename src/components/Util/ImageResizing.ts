@@ -30,7 +30,7 @@ export function resizeImage({
         //   height = width;
         // }
 
-        // 이미지 크기 조절
+        // 이미지 크기 조절 500 300 / 200 200      /    
         if (width > maxWidth) {
           height *= maxWidth / width;
           width = maxWidth;
@@ -39,7 +39,7 @@ export function resizeImage({
           width *= maxHeight / height;
           height = maxHeight;
         }
-        
+
 
         canvas.width = width;
         canvas.height = height;

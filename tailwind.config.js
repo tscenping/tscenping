@@ -73,7 +73,7 @@ module.exports = {
         ".main-button-text": {
           "@apply text-base sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl": {},
         },
-        ".subtitle-text" :{
+        ".subtitle-text": {
           "@apply text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl": {},
         },
       });

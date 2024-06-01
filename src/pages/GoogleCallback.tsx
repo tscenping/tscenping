@@ -42,6 +42,7 @@ const GoogleCallbackPage = (): JSX.Element => {
             mfaCode: response.data.mfaUrl,
             avatar: response.data.avatar,
           });
+          console.log(response);
           if (response.data.isFirstLogin) navigate("/login/userinfo");
           if (!response.data.isFirstLogin && !response.data.isMfaEnabled)
             navigate("/");
@@ -57,6 +58,7 @@ const GoogleCallbackPage = (): JSX.Element => {
     loginAuthHandler();
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
 
   return (
     <Container>

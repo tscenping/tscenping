@@ -14,11 +14,12 @@ import { useGameInviteState, useGameMatchState } from "store/game";
 import { useNavigate } from "react-router-dom";
 import { useToastState } from "store/toast";
 import firebaseSetting from "func/settingFirebase";
+import { useModalState } from "store/modal";
 
 const ChannelSocketHandler = () => {
   const { setChatLog } = useMessage();
   const navigation = useNavigate();
-
+  const {setModalName} = useModalState();
   const { db } = firebaseSetting();
 
   const { inviteType, setGameInviteState } = useGameInviteState();
@@ -28,6 +29,7 @@ const ChannelSocketHandler = () => {
 
   // 채널소켓 "message" "on" 핸들러
   const receiveMessageSocketHandler = async (message: MessageType) => {
+    
     const time = new Date();
     const hour = String(time.getHours()).padStart(2, "0");
     const minute = String(time.getMinutes()).padStart(2, "0");
@@ -87,6 +89,9 @@ const ChannelSocketHandler = () => {
     if (gameData.isAccepted === true) {
       setGameMatchState(gameData);
       navigation("/game");
+    } else {
+      setGameInviteState({ invitationId: -1 });
+      setModalName(null);
     }
   };
 

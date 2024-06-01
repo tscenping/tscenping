@@ -15,7 +15,6 @@ export default function ModalLoding() {
   const instance = useAxios();
 
   const matchCancelHandler = async () => {
-    console.log("매칭 취소");
     await instance.delete(`/game/match/${matchSerchProps?.gameType}`);
     setMatchSerchState(null);
     setModalName(null);
@@ -33,9 +32,6 @@ export default function ModalLoding() {
     channelSocket.once("gameMatched", matchSuccessHandler);
     return () => {
       channelSocket.off("gameMatched", matchSuccessHandler);
-      if (matchSerchProps) {
-        instance.delete(`/game/match/${matchSerchProps.gameType}`);
-      }
     };
   });
 

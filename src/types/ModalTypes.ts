@@ -16,6 +16,7 @@ export type ModalTypes =
   | "gameInvite"
   | "matchEnd"
   | "gameInviting"
+  | "waitInvite"
   | null;
 export type confirmTypes = "friend" | "block" | "chat" | "game" | "";
 export interface ModalProps {
