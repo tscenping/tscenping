@@ -17,17 +17,35 @@ import GameInviteModal from "components/Modal/Game/GameInviteModal";
 import MatchEndModal from "components/Modal/Game/MatchEndModal";
 import { useInviteMode } from "store/chat";
 import GameInvitingModal from "components/Modal/Game/GameInvitingModal";
+import { useGameInviteState, useMatchSerchState } from "store/game";
+import useAxios from "hooks/useAxios";
+import WaitInvite from "components/Modal/Game/WaitInvite";
 
 const ModalLayout = (): JSX.Element => {
   const { inChatInfo } = useChat();
   const { setModalName, modalName } = useModalState();
+  const { setMatchSerchState, matchSerchProps } = useMatchSerchState();
+  const { inviteType, setGameInviteState } = useGameInviteState();
   const { mode } = useInviteMode();
+  const instance = useAxios();
+
+  const gameCancelHandler = () => {
+    if (inviteType.invitationId !== -1) {
+      instance.delete(`game/invite/${inviteType.invitationId}`);
+      setGameInviteState({ invitationId: -1 });
+    }
+    if (matchSerchProps !== null) {
+      instance.delete(`/game/match/${matchSerchProps?.gameType}`);
+      setMatchSerchState(null);
+    }
+  };
 
   const modalLayoutHandler = () => {
     if (mode) {
       setModalName(null);
       return;
     }
+    gameCancelHandler();
     if (modalName === "chatSetting" && inChatInfo.inChat)
       setModalName("chatUserList");
     else setModalName(null);
@@ -67,7 +85,8 @@ const ModalContent = (): JSX.Element => {
     setting: <ModalSetting />,
     gameInvite: <GameInviteModal />,
     matchEnd: <MatchEndModal />,
-    gameInviting: <GameInvitingModal/>,
+    gameInviting: <GameInvitingModal />,
+    waitInvite: <WaitInvite />,
   };
   const modalStyle =
     modalName === null

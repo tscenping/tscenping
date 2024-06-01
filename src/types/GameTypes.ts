@@ -5,8 +5,8 @@ export interface GameInviteType {
 
 export interface InviteInType {
   invitationId: number;
-  invitingUserNickname: string;
-  gameType: "SPECIAL_INVITE" | "NORMAL_INVITE";
+  invitingUserNickname?: string;
+  gameType?: "SPECIAL_INVITE" | "NORMAL_INVITE";
 }
 
 export interface GameMatchType {

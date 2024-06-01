@@ -68,7 +68,7 @@ export default function RecentMatchContent({
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="object-cover w-auto rounded-full h-7/10 aspect-auto"
+        className="object-cover w-auto rounded-[40%] h-9/10 aspect-square"
       />
       <p className={`${contentStyle}`}>{truncateText(leftname, 8)}</p>
       {/* <p className="w-1/6"></p> */}
@@ -82,7 +82,7 @@ export default function RecentMatchContent({
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="object-cover rounded-full h-7/10 aspect-auto"
+        className="object-cover w-auto rounded-[40%] h-9/10 aspect-square"
       />
     </li>
   );

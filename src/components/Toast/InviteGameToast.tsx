@@ -22,7 +22,6 @@ export default function InviteGameToast() {
         invitingUserNickname: "",
         gameType: "NORMAL_INVITE",
       });
-      console.log("inTimeOut ");
     }, viewTime);
     return () => {
       console.log("clearTimeout Game1");
@@ -35,12 +34,10 @@ export default function InviteGameToast() {
     console.log("invite toast");
     //eslint-disable-next-line react-hooks/exhaustive-deps
     timeOut = setTimeout(() => {
-      console.log("inTimeOut ");
       if (timeOut !== null) {
         console.log("game invite auto decline");
-        declineGameInvite();
+        // declineGameInvite();
       }
-      // setViewToast(false);
       setToastState(null);
       setGameInviteState({
         invitationId: -1,

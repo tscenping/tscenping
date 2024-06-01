@@ -7,6 +7,7 @@ import { useState } from "react";
 import GameInviteUserList from "components/Game/GameInviteUserList";
 import { useModalState } from "store/modal";
 import useAxios from "hooks/useAxios";
+import { useGameInviteState } from "store/game";
 
 interface selectUserInfoTypes {
   nickname?: string;
@@ -24,9 +25,11 @@ interface FriendUserProps {
 
 export default function GameInvitingModal() {
   const { data, hasNextPage, fetchNextPage } = useGetUsers("FRIEND");
-  const [selectUserInfo, setSelectUserInfo] = useState<selectUserInfoTypes | null>(null);
+  const [selectUserInfo, setSelectUserInfo] =
+    useState<selectUserInfoTypes | null>(null);
   const [isSpecial, setIsSpecial] = useState<boolean>(false);
   const { setModalName } = useModalState();
+  const { setGameInviteState } = useGameInviteState();
   const instance = useAxios();
   const changeSpecial = () => {
     setIsSpecial((prev) => !prev);
@@ -40,7 +43,8 @@ export default function GameInvitingModal() {
           gameType: isSpecial ? "SPECIAL_INVITE" : "NORMAL_INVITE",
         })
         .then((res) => {
-          setModalName(null);
+          setGameInviteState({ invitationId: res.data.gameInvitationId });
+          setModalName("waitInvite");
           console.log(res.data);
         });
     } catch (e) {
@@ -102,12 +106,11 @@ export default function GameInvitingModal() {
       </label>
       <button
         onClick={() => {
-          
-          {selectUserInfo && acceptHandler()}
-          // setModalName(null);
-          // setMatchEndData(null);
+          selectUserInfo && acceptHandler();
         }}
-        className={`w-full py-2 text-[#404040] ${selectUserInfo ? "bg-[#6DFCAF]" : "bg-[#ffffff]"} rounded-full mt-3`}
+        className={`w-full py-2 text-[#404040] ${
+          selectUserInfo ? "bg-[#6DFCAF]" : "bg-[#ffffff]"
+        } rounded-full mt-3`}
       >
         초대하기
       </button>

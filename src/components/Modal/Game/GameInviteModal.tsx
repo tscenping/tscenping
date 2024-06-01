@@ -3,10 +3,12 @@ import SpecialCheck from "../../../img/Main/SpecialCheck.svg";
 import SpecialUncheck from "../../../img/Main/SpecialUncheck.svg";
 import { useState } from "react";
 import { useModalState } from "store/modal";
+import { useGameInviteState } from "store/game";
 
 export default function GameInviteModal() {
   const [isSpecial, setIsSpecial] = useState<boolean>(false);
   const { setModalName, modalProps } = useModalState();
+  const {setGameInviteState} = useGameInviteState();
   const changeSpecial = () => {
     setIsSpecial((prev) => !prev);
   };
@@ -20,8 +22,8 @@ export default function GameInviteModal() {
           gameType: isSpecial ? "SPECIAL_INVITE" : "NORMAL_INVITE",
         })
         .then((res) => {
-          setModalName(null);
-          console.log(res.data);
+          setGameInviteState({invitationId: res.data.gameInvitationId})
+          setModalName("waitInvite");
         });
     } catch (e) {
       console.log(e);
