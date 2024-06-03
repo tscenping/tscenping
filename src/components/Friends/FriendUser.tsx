@@ -12,7 +12,6 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
   const [dropDownType, setDropDownType] = useState<DropDownTypes>("NONE");
   const [userStatus, setUserStatus] = useState<string>("");
   const { setModalName, setModalProps } = useModalState();
-
   //채널소켓 "userStatus" 연결
   const updateUserStatus = (status: string) => {
     switch (status) {
@@ -79,7 +78,6 @@ const FriendUser = (props: FriendUserInfoType): JSX.Element => {
         onClick={() => {
           if (dropDownType === "NONE") setDropDownType("NORMAL");
           if (dropDownType === "NORMAL") setDropDownType("NONE");
-          console.log(dropDownType);
         }}
       />
       {dropDownType !== "NONE" && (

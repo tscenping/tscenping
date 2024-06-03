@@ -13,7 +13,7 @@ const LoginCallbackPage = (): JSX.Element => {
   const { setModalName } = useModalState();
   const { setContent } = useNoticeModalState();
   const instance = useAxios();
-  const {myData } = useMyData();
+  const { myData, setMyData } = useMyData();
 
   useEffect(() => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,6 +27,13 @@ const LoginCallbackPage = (): JSX.Element => {
           JSON.stringify(codeValue)
         );
         if (response.status === 201) {
+          setMyData({
+            nickname: response.data.nickname,
+            id: response.data.userId,
+            isMfaEnabled: response.data.isMfaEnabled,
+            mfaCode: response.data.mfaUrl,
+            avatar: response.data.avatar,
+          });
           if (response.data.isFirstLogin) navigate("/login/userinfo");
           if (!response.data.isFirstLogin && !response.data.isMfaEnabled)
             navigate("/");

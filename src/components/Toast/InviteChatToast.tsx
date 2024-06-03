@@ -52,13 +52,14 @@ const InviteChatToast = (): JSX.Element => {
         const enterResponse = await instance.get(
           `/channels/enter/${response.data.channelId}`
         );
+        console.log(enterResponse);
         if (enterResponse.status === 200) {
           setInChatInfo({
             ...inChatInfo,
             inChat: response.data.channelId,
             channelType: "PRIVATE",
             chatTitle: response.data.channelName,
-            chatUsers: response.data.channelUsers,
+            chatUsers: enterResponse.data.channelUsers,
             chatUsersCount: enterResponse.data.channelUsers.length,
             myChannelUserType: "MEMBER",
             isJoined: true,

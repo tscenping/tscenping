@@ -37,11 +37,11 @@ export default function ModalLoding() {
 
   return (
     <>
-      <div className="flex flex-col items-center w-full gap-5 mt-5 justify-normal">
-        <img src={lodingImg} alt="loding" className="items-center w-1/3" />
-        <div>게임을 찾는중</div>
+      <div className="flex flex-col items-center w-full gap-5 justify-normal">
+        <div className="text-base xs:text-lg lg:text-xl">게임을 찾는중</div>
+        <img src={lodingImg} alt="loding" className="items-center w-1/4" />
         <button
-          className="rounded-[12px] min-h-7 w-1/2 bg-customGreen  text-black min-w-[100px] font-bold hover:scale-105"
+          className="rounded-[12px] min-h-7 w-1/2 bg-customGreen  text-[#404040] min-w-[100px] font-[Pretendard-SemiBold] hover:scale-105"
           onClick={() => {
             matchCancelHandler();
           }}

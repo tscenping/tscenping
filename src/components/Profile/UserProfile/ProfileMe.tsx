@@ -107,7 +107,7 @@ export default function ProfileMe(props: MyProfileProps) {
             alt="profileImg"
             width={svgWidth}
             height={svgHeight}
-            className="rounded-full object-cover w-[70px] h-[70px]"
+            className="rounded-full object-cover w-[54px] h-[54px] md:w-[62px] md:h-[62px] lg:w-[70px] lg:h-[70px]"
           />
           <img
             src={imgEditBtn}
