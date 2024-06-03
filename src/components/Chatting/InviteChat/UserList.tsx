@@ -41,7 +41,7 @@ const UserList = (props: UserListProps): JSX.Element => {
         <img
           src={props.avatar ? props.avatar : defaultProfile}
           alt="UserImage"
-          className="w-10 mr-3 rounded-full"
+          className="w-10 mr-3 rounded-full aspect-square object-cover"
         />
         <span className="text-base">{props.nickname}</span>
       </label>

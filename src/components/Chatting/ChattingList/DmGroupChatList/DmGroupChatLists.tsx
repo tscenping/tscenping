@@ -54,6 +54,7 @@ const DmGroupChatLists = (props: InChattingListsProps): JSX.Element => {
                         key={el.channelId}
                         channelId={el.channelId}
                         channelName={el.name}
+                        channelUserCount={el.userCount}
                         channelType="PRIVATE"
                       />
                     )

@@ -50,6 +50,7 @@ export default function Kick({ props }: Props) {
         );
         const querySnapshot = await getDocs(q);
         const result = (await getUserCount(db)) - 1;
+        console.log(result);
         querySnapshot.forEach(async (doc) => {
           const docRef = doc.ref;
           await updateDoc(docRef, {
