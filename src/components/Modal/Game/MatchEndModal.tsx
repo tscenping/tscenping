@@ -72,7 +72,7 @@ export default function MatchEndModal() {
                     : matchEndData.rivalAvatar
                 }
                 alt="rivalImg"
-                className={`rounded-full h-10 w-10 ${
+                className={`rounded-full h-10 w-10 object-cover ${
                   matchEndData.rivalScore > matchEndData.myScore
                     ? winnerInnerStyle
                     : loserInnerStyle

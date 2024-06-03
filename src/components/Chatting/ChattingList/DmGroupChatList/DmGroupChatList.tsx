@@ -9,6 +9,7 @@ interface InChattingListProps {
   channelId: number;
   channelName: string;
   channelType: ChatType;
+  channelUserCount?: number;
 }
 
 const DmGroupChatList = (props: InChattingListProps): JSX.Element => {
@@ -80,7 +81,7 @@ const DmGroupChatList = (props: InChattingListProps): JSX.Element => {
     <li className={inChattingListStyle} onClick={enterChatApiHandler}>
       <span>{props.channelName}</span>
       {props.channelType === "PRIVATE" && (
-        <span className="ml-1.5 text-[#939393]">3</span>
+        <span className="ml-1.5 text-[#939393]">{props.channelUserCount}</span>
       )}
     </li>
   );

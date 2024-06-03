@@ -32,14 +32,7 @@ export default function RecentMatch() {
     return response.data;
   };
 
-  const {
-    data,
-    // isLoading,
-    // isError,
-    fetchNextPage,
-    // isFetchingNextPage,
-    hasNextPage,
-  } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["matchData", { nickname }],
     queryFn: ({ pageParam }) => fetchPage(pageParam),
     initialPageParam: 1,

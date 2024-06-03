@@ -5,6 +5,14 @@ import { useModalState } from "store/modal";
 import { ChatPasswordErrorTypes } from "types/ChatTypes";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { ChatUsersInfoTypes } from "types/ChatTypes";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+} from "firebase/firestore/lite";
+import firebaseSetting from "func/settingFirebase";
 
 const PasswordChatJoin = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
@@ -14,6 +22,22 @@ const PasswordChatJoin = (): JSX.Element => {
   const { inChatInfo, setInChatInfo } = useChat();
   const instance = useAxios();
   const queryClient = useQueryClient();
+  const { db } = firebaseSetting();
+
+  async function fetchDataUser(userCount: number) {
+    const userCollectionRef = collection(db, "chat");
+    const q = query(
+      userCollectionRef,
+      where("channelId", "==", inChatInfo.readyToChat)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      const docRef = doc.ref;
+      await updateDoc(docRef, {
+        userCount: userCount,
+      });
+    });
+  }
 
   const passwordApiHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,6 +62,7 @@ const PasswordChatJoin = (): JSX.Element => {
             ...el,
           })
         );
+        fetchDataUser(response.data.channelUsers.length);
         setModalName(null);
         setInChatInfo({
           ...inChatInfo,

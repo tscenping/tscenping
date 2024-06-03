@@ -6,6 +6,7 @@ import { DropDownProps } from "types/DropDownTypes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { dropDownStyle } from "../Normal/NormalDropDown";
 import { useSearchUser } from "store/friend";
+import { useChat } from "store/chat";
 
 interface Props {
   props: DropDownProps;
@@ -18,6 +19,8 @@ export default function Friend({ props }: Props) {
   const { setEditUserRelation } = useSearchUser();
   const addFriendIcon = useDorpDownIcon({ types: "A_FRIEND" });
   const deleteFriendIcon = useDorpDownIcon({ types: "D_FRIEND" });
+  const { inChatInfo, setInChatInfo } = useChat();
+
   const friendString = props.isBlocked
     ? "친구 추가"
     : props.isFriend
@@ -25,6 +28,17 @@ export default function Friend({ props }: Props) {
     : "친구 추가";
 
   const queryClient = useQueryClient();
+
+  const editChatUserInfo = (v: boolean) => {
+    const editChatUsersInfo = inChatInfo.chatUsers.map((el) => {
+      if (el.nickname === props.nickname) {
+        return { ...el, isBlocked: v };
+      } else {
+        return el;
+      }
+    });
+    setInChatInfo({ ...inChatInfo, chatUsers: editChatUsersInfo });
+  };
 
   const friendApiHandler = async () => {
     if (props.isFriend) {
@@ -47,6 +61,7 @@ export default function Friend({ props }: Props) {
           friendId: props.id,
         });
         if (response.status === 201) {
+          if (inChatInfo.chatUsers) editChatUserInfo(false);
           setEditUserRelation("ADDFRIEND");
           setModalName(null);
         }

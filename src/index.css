@@ -42,6 +42,11 @@
   src: url("/src/fonts/LeagueSpartan/LeagueSpartan-Bold.ttf");
 }
 
+@font-face {
+  font-family: "League-SpartanMedium";
+  src: url("/src/fonts/LeagueSpartan/LeagueSpartan-Medium.ttf");
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

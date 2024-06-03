@@ -13,7 +13,8 @@ interface RecentMatchContentProps {
 
 const svgWidth = 24;
 const svgHeight = 24;
-const contentStyle = "w-1/4 flex items-center justify-center";
+const contentStyle =
+  "w-1/4 flex items-center justify-center font-[League-SpartanMedium]";
 
 export default function RecentMatchContent({
   leftname,
@@ -68,21 +69,19 @@ export default function RecentMatchContent({
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="object-cover w-auto rounded-[40%] h-9/10 aspect-square"
+        className="object-cover w-auto rounded-full h-9/10 aspect-square"
       />
       <p className={`${contentStyle}`}>{truncateText(leftname, 8)}</p>
-      {/* <p className="w-1/6"></p> */}
-      <p className={`${contentStyle}`}>
+      <p className={`${contentStyle} font-[League-SpartanBold]`}>
         {leftscore} : {rightscore}
       </p>
-      {/* <p className="w-1/6"></p> */}
       <p className={`${contentStyle}`}>{truncateText(rightname, 8)}</p>
       <img
         src={rightavatar === null ? defailtImg : rightavatar}
         alt="profile img"
         width={svgWidth}
         height={svgHeight}
-        className="object-cover w-auto rounded-[40%] h-9/10 aspect-square"
+        className="ml-2 object-cover w-auto rounded-full h-9/10 aspect-square"
       />
     </li>
   );
