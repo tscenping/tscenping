@@ -1,4 +1,4 @@
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../components/Util/Container";
 import GameFrame from "../components/Game/GameFrame";
 import Score from "../components/Game/Score";
@@ -32,6 +32,9 @@ export default function Game() {
   };
 
   useEffect(() => {
+    if (matchData === undefined) {
+      navigate("/");
+    }
     setGameInviteState({
       invitationId: -1,
       invitingUserNickname: "",
