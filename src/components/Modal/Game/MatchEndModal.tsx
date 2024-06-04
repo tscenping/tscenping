@@ -17,8 +17,8 @@ export default function MatchEndModal() {
     <>
       <ModalHeader title="게임종료" />
       {matchEndData !== null && (
-        <section className="flex items-center mb-8 justify-evenly">
-          <div className="flex flex-col items-center gap-2">
+        <section className="flex items-center justify-around w-full mb-8">
+          <div className="flex flex-col items-center gap-2 w-[30%]">
             <section
               className={`${
                 matchEndData.myScore > matchEndData.rivalScore
@@ -40,7 +40,7 @@ export default function MatchEndModal() {
               {myData.nickname}
             </p>
           </div>
-          <div className="flex items-center justify-center gap-3 text-3xl aspect-auto font-[League-Spartan] self-start mt-2">
+          <div className="flex w-[20%] items-center justify-center gap-3 text-3xl aspect-auto font-[League-Spartan] self-start mt-2">
             <h2
               className={`${
                 matchEndData.isWin ? "text-[#6DFCAF]" : ""
@@ -48,7 +48,7 @@ export default function MatchEndModal() {
             >
               {matchEndData.myScore}
             </h2>
-            <p>:</p>
+            <p className="">:</p>
             <h2
               className={`${
                 !matchEndData.isWin ? "text-[#6DFCAF]" : ""
@@ -57,7 +57,7 @@ export default function MatchEndModal() {
               {matchEndData.rivalScore}
             </h2>
           </div>
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2 w-[30%]">
             <section
               className={`${
                 matchEndData.rivalScore > matchEndData.myScore

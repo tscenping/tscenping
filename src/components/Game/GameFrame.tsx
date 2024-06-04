@@ -29,6 +29,7 @@ export default function GameFrame({ props }: { props: MatchDataType }) {
   const [canvasHeight, setCanvasHeight] = useState(0);
   let racketWidth = canvasWidth * 0.25;
   let racketHeight = canvasHeight * 0.025;
+  let count = 3;
   const ball = {
     x: canvasWidth / 2,
     y: canvasHeight / 2,
@@ -104,6 +105,7 @@ export default function GameFrame({ props }: { props: MatchDataType }) {
       y + racketHeight,
       radius
     );
+
     ctx.lineTo(x + radius, y + racketHeight);
     ctx.arcTo(x, y + racketHeight, x, y + racketHeight - radius, radius);
     ctx.lineTo(x, y + radius);
@@ -111,6 +113,9 @@ export default function GameFrame({ props }: { props: MatchDataType }) {
     ctx.closePath();
     ctx.fillStyle = color;
     ctx.fill();
+    ctx.font = "32px Arial Black ";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText(`${count ? count : ""}`, canvasWidth / 2, canvasHeight / 2);
   };
 
   const keyUpEventHandler = (e: KeyboardEvent) => {
@@ -185,6 +190,13 @@ export default function GameFrame({ props }: { props: MatchDataType }) {
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
+    const intervalId = setInterval(() => {
+      count--;
+      if (count === 0)
+          clearInterval(intervalId);
+    }, 1000);
+
+
     function loop() {
       requestAnimationFrame(loop);
       if (ctx) {
@@ -223,6 +235,7 @@ export default function GameFrame({ props }: { props: MatchDataType }) {
     document.addEventListener("keydown", keyDownEventHandler);
     document.addEventListener("keyup", keyUpEventHandler);
     return () => {
+      clearInterval(intervalId);
       cancelAnimationFrame(animationId);
       gameSocket.off("matchStatus", matchStatusHandler);
       document.removeEventListener("keydown", keyDownEventHandler);
